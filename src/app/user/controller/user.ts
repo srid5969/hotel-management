@@ -1,5 +1,5 @@
 import {HttpStatus, inject} from "@leapjs/common";
-import {Body, Controller, Get, Param, Patch, Post, Req, Res, UseBefore} from "@leapjs/router";
+import {Body, Controller, Delete, Get, Param, Patch, Post, Req, Res, UseBefore} from "@leapjs/router";
 import {User} from "app/user/model/user";
 import validate from "common/middleware/validator";
 import {Response} from "express";
@@ -14,7 +14,11 @@ export class UserController {
 		const data = await this.userService.updateUserDetails(id, req);
 		return data.code ? res.status(data.code).json(data) : res.status(HttpStatus.ACCEPTED).send(data);
 	}
-	
+	@Delete("/:id")
+	public async removeUser(@Param("id") id: string, @Res() res: Response) {
+		const data = await this.userService.deleteUser(id);
+		return data.code ? res.status(data.code).json(data) : res.status(HttpStatus.ACCEPTED).send(data);
+	}
 
 	@Get("/users")
 	public async listAllUsers(@Res() res: Response) {
