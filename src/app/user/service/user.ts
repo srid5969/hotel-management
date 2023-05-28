@@ -38,7 +38,9 @@ export class UserService {
 
 	public async updateUserDetails(_id: string, data: User) {
 		try {
-			const updateUser = await UserModel.findOneUpdate({_id}, data);
+			const updateUser = await UserModel.findOneAndUpdate({_id}, data, {
+				new: true
+			});
 
 			return {
 				code: 200,

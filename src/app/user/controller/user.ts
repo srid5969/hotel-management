@@ -11,6 +11,8 @@ export class UserController {
 	@inject(() => UserService) userService!: UserService;
 	@Patch("/:id")
 	public async editUser(@Param("id") id: string, @Body() req: any, @Res() res: Response) {
+		console.log(id,req);
+		
 		const data = await this.userService.updateUserDetails(id, req);
 		return data.code ? res.status(data.code).json(data) : res.status(HttpStatus.ACCEPTED).send(data);
 	}
