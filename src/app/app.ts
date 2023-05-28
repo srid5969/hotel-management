@@ -2,8 +2,6 @@ import { acFilterAttributes } from "@leapjs/access-control";
 import { Logger } from "@leapjs/common";
 import { LeapApplication } from "@leapjs/core";
 import { ExpressAdapter } from "@leapjs/router";
-import { ResumeAiController } from "app/resume/controller/resumeIAI";
-import { OrderController } from "app/transactions/controller/orders";
 import { UserController } from "app/user/controller/user";
 import ErrorHandler from "common/Handle-Error/error-handler";
 import { AuthMiddleware } from "common/middleware/access";
@@ -35,7 +33,7 @@ export default async function bootstrap(
 			origin: configuration.corsWhitelistedDomains,
 			credentials: true
 		},
-		controllers: [AccessTokenGeneratorForRefreshToken, UserController,OrderController,ResumeAiController],
+		controllers: [AccessTokenGeneratorForRefreshToken, UserController],
 		beforeMiddlewares: [
 			helmet(),
 			json(acFilterAttributes),
