@@ -22,7 +22,7 @@ class User {
 	public phone!: number;
 
 	@prop({required: true, default: Roles.Employee})
-	@Expose({groups: ["admin"]})
+	@Expose({groups: ["Admin"]})
 	@IsEnum(Roles, {groups: ["create", "update"], message: INVALID_NAME})
 	public role!: string;
 

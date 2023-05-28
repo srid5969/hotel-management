@@ -1,6 +1,6 @@
 import {HttpStatus, inject, injectable} from "@leapjs/common";
 import {OTPService} from "app/otp/service/otp";
-import {UserModel} from "app/user/model/user";
+import {User, UserModel} from "app/user/model/user";
 import {ResponseReturnType} from "common/response/responseTypes";
 import {UserSessionService} from "common/userSession/service/userSession";
 import {ObjectId} from "mongodb";
@@ -16,11 +16,43 @@ export class UserService {
 		return Promise.resolve(await UserModel.findOne({_id}));
 	}
 
+	public async registerUser(payload: User): Promise<ResponseReturnType> {
+		const saveUser = new UserModel(payload);
+
+		try {
+			const user = await saveUser.save();
+
+			return {
+				code: 200,
+				message: "successfully registered",
+				error: null,
+				data: user,
+				status: true
+			};
+		} catch (error) {
+			return {
+				code: HttpStatus.NOT_ACCEPTABLE,
+				message: "cannot register",
+				error: error,
+				data: null,
+				status: true
+			};
+		}
+	}
+
 	//login
 	public async login(phone: number): Promise<ResponseReturnType> {
 		const user = await UserModel.findOne({phone}, {id: 1});
 
-		if (!user) return await this.registeringMobile(phone);
+		if (!user) {
+			return {
+				code: HttpStatus.NOT_FOUND,
+				status: true,
+				data: null,
+				error: "no user found",
+				message: "user cannot be found"
+			};
+		}
 
 		const data = await this.otpService.generateOTP(phone, user);
 		return {
@@ -60,7 +92,7 @@ export class UserService {
 
 	public async verifyOTP(payload: any): Promise<ResponseReturnType> {
 		const {otp, token} = payload;
-		
+
 		const user: ObjectId | boolean = await this.otpService.verifyOTP(otp, token);
 
 		if (user) {

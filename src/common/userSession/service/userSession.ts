@@ -11,12 +11,12 @@ export class UserSessionService {
 	public async generateAccessToken(userData: any): Promise<string> {
 		const payload: JwtPayload = {
 			user: userData._id || userData.user,
-			exp: 7200000, //ms('2h')
+			// exp: 7200000, //ms('2h')
 			iat: Date.now(),
 			iss: "british-empire",
 			sub: "access_token"
 		};
-		const token = jsonwebtoken.sign(payload, configurations.jwtSecret);
+		const token = jsonwebtoken.sign(payload, configurations.jwtSecret,{expiresIn:7200000});
 		return token;
 	}
 	public async saveToken(payload: any): Promise<any> {
