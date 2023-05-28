@@ -12,6 +12,10 @@ export class UserService {
 	@inject(OTPService)
 	private otpService!: OTPService;
 
+	public async listAllUser() {
+		return Promise.resolve(await UserModel.find({"role": "User"}));
+	}
+
 	public async getUserDetailUsingId(_id: ObjectId): Promise<any> {
 		return Promise.resolve(await UserModel.findOne({_id}));
 	}
@@ -63,32 +67,6 @@ export class UserService {
 			status: true
 		};
 	}
-	public async registeringMobile(phone: number): Promise<ResponseReturnType | any> {
-		try {
-			const saveNumber = await new UserModel({
-				phone,
-				verified: false
-			}).save();
-
-			const token = await this.otpService.generateOTP(phone, saveNumber._id);
-			return {
-				code: 200,
-				existingUser: false,
-				message: "OTP has been successfully send",
-				data: token,
-				error: null,
-				status: true
-			};
-		} catch (error) {
-			return {
-				code: HttpStatus.UNPROCESSABLE_ENTITY,
-				message: "Trouble in paradise",
-				error,
-				data: null,
-				status: false
-			};
-		}
-	}
 
 	public async verifyOTP(payload: any): Promise<ResponseReturnType> {
 		const {otp, token} = payload;
@@ -123,6 +101,4 @@ export class UserService {
 			data: null
 		};
 	}
-
-	public async forgotPassword() {}
 }

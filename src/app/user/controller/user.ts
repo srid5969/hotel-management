@@ -9,6 +9,11 @@ import {roleBasedAccess} from "common/middleware/admin.auth";
 @Controller("/user")
 export class UserController {
 	@inject(() => UserService) userService!: UserService;
+	@Get("/users")
+	public async listAllUsers(@Res() res: Response) {
+		const data = await this.userService.listAllUser();
+		return data.code ? res.status(data.code).json(data) : res.status(HttpStatus.ACCEPTED).send(data);
+	}
 	@Get("/")
 	public async userDetail(@Req() req: any, @Res() res: Response): Promise<Response> {
 		try {
