@@ -13,7 +13,49 @@ export class UserService {
 	private otpService!: OTPService;
 
 	public async listAllUser() {
-		return Promise.resolve(await UserModel.find({"role": "User"}));
+		return Promise.resolve(await UserModel.find({role: "User"}));
+	}
+	public async deleteUser(id: string) {
+		try {
+			const deleteUser = await UserModel.deleteOne({role: "User", _id: id});
+			return {
+				code: 200,
+				message: "successfully removed",
+				error: null,
+				data: deleteUser,
+				status: true
+			};
+		} catch (error) {
+			return {
+				code: HttpStatus.NOT_ACCEPTABLE,
+				message: "cannot remove",
+				error: error,
+				data: null,
+				status: true
+			};
+		}
+	}
+
+	public async updateUserDetails(_id: string, data: User) {
+		try {
+			const updateUser = await UserModel.findOneUpdate({_id}, data);
+
+			return {
+				code: 200,
+				message: "successfully updated",
+				error: null,
+				data: updateUser,
+				status: true
+			};
+		} catch (error) {
+			return {
+				code: HttpStatus.NOT_ACCEPTABLE,
+				message: "cannot update",
+				error: error,
+				data: null,
+				status: true
+			};
+		}
 	}
 
 	public async getUserDetailUsingId(_id: ObjectId): Promise<any> {

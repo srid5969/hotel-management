@@ -1,5 +1,5 @@
 import {HttpStatus, inject} from "@leapjs/common";
-import {Body, Controller, Get, Post, Req, Res, UseBefore} from "@leapjs/router";
+import {Body, Controller, Get, Param, Patch, Post, Req, Res, UseBefore} from "@leapjs/router";
 import {User} from "app/user/model/user";
 import validate from "common/middleware/validator";
 import {Response} from "express";
@@ -9,6 +9,13 @@ import {roleBasedAccess} from "common/middleware/admin.auth";
 @Controller("/user")
 export class UserController {
 	@inject(() => UserService) userService!: UserService;
+	@Patch("/:id")
+	public async editUser(@Param("id") id: string, @Body() req: any, @Res() res: Response) {
+		const data = await this.userService.updateUserDetails(id, req);
+		return data.code ? res.status(data.code).json(data) : res.status(HttpStatus.ACCEPTED).send(data);
+	}
+	
+
 	@Get("/users")
 	public async listAllUsers(@Res() res: Response) {
 		const data = await this.userService.listAllUser();
