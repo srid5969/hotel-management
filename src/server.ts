@@ -13,25 +13,25 @@ function main(): void {
 			return isValid(configuration);
 		})
 		.then(async (): Promise<any> => {
-			Logger.log(`Initializing settings`, "ConfigurationManager");
-			Logger.log(`Connecting to the database`, "LeapApplication");
-			Logger.log(`Starting server on ${configuration.port}`, "LeapApplication");
+			Logger.log(`Initializing settings `, "ConfigurationManager");
+			Logger.log(`Connecting to the database`, configuration.name);
+			Logger.log(`Starting server on ${configuration.port}`, configuration.name);
 			await bootstrap(configuration);
-			Logger.log(`Up and running`, "LeapApplication");
+			Logger.log(`Up and running`, configuration.name);
 		})
 		.catch((error: any): void => {
-			Logger.error(expandObject(error), "", "LeapApplication");
+			Logger.error(expandObject(error), "", configuration.name);
 			process.exit(0);
 		});
 }
 
 process.on("uncaughtException", (error): void => {
-	Logger.error(expandObject(error), "", "LeapApplication");
+	Logger.error(expandObject(error), "", configuration.name);
 	process.exit(1);
 });
 
 process.on("unhandledRejection", (error): void => {
-	Logger.error(expandObject(error), "", "LeapApplication");
+	Logger.error(expandObject(error), "", configuration.name);
 	process.exit(1);
 });
 
