@@ -1,6 +1,6 @@
 # Gem3s
 
-First edit `.env` file first
+First edit `.env` file 
 
 run script
 
