@@ -1,0 +1,10 @@
+/.env
+/package-lock.json
+/stocombined.log
+/storage
+/storagecombined.log
+.idea
+node_modules/
+build/
+package-lock.json
+.env
