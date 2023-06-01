@@ -29,7 +29,7 @@ export class CompanyService {
 	public async addUserToCompany(companyId: string, userId: string) {
 		return await CompanyModel.updateOne({_id: companyId}, {$push: userId});
 	}
-    public async deleteUserToCompany(companyId: string, userId: string) {
+    public async deleteUserFromCompany(companyId: string, userId: string) {
 		return await CompanyModel.updateOne({_id: companyId}, {$pull: userId});
 	}
 
