@@ -1,4 +1,4 @@
-# Gem3s
+# DailyWorks
 
 First edit `.env` file 
 
