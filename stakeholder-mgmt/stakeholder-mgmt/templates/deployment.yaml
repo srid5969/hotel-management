@@ -1,0 +1,188 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stakeholder-mgmt-app
+  namespace: {{.Release.Namespace}}
+  labels:
+    app: stakeholder-mgmt-app
+
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: stakeholder-mgmt-app
+  template:
+    metadata:
+      labels:
+        app: stakeholder-mgmt-app
+    spec:
+      containers:
+        - name: stakeholder-mgmt-app
+          image: {{ .Values.repo }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: Always
+          resources:
+              requests:
+                memory: "100Mi"
+                cpu: "50m"
+              limits:
+                memory: "256Mi"
+                cpu: "100m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: SERVICE_NAME
+              value: 'stakeholder-mgmt-svc'
+            - name: NODE_ENV
+              value: {{ .Values.env | quote }}
+
+            - name: APP_INSIGHTS_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: appinsights-key
+
+            - name: ENV_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: env-key
+
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: pgsql-db-username
+            
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: pgsql-db-password
+
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: pgsql-db-name
+
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: pgsql-db-host
+            
+            - name: STAKEHOLDER_MGMT_AZURE_AD_TENANT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: stakeholder_mgmt_ad_tenant_name
+            
+            - name: STAKEHOLDER_MGMT_AZURE_AD_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: stakeholder_mgmt_ad_client_id
+
+            - name: STAKEHOLDER_MGMT_AZURE_AD_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: stakeholder_mgmt_ad_client_secret
+
+            - name: STAKEHOLDER_MGMT_B2C_TOKEN_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: stakeholder_mgmt_b2c_token_endpoint
+            
+            - name: MAIL_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: mail_key
+
+            - name: EMAIL_FROM
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: email_from
+
+            - name: STORAGE_ACCOUNT_FILE_UPLOAD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: STORAGE_ACCOUNT_FILE_UPLOAD
+            
+            - name: CONNECTION_STRING_FILE_UPLOAD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: CONNECTION_STRING_FILE_UPLOAD
+            
+            - name: KEY_FILE_UPLOAD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: KEY_FILE_UPLOAD
+            
+            - name: USER_PROFILE_CONTAINER_FILE_UPLOAD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: USER_PROFILE_CONTAINER_FILE_UPLOAD
+
+            - name: STAKEHOLDER_PROFILE_CONTAINER_FILE_UPLOAD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: STAKEHOLDER_PROFILE_CONTAINER_FILE_UPLOAD
+            
+            - name: MEETING_ATTACHMENTS_CONTAINER_FILE_UPLOAD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: MEETING_ATTACHMENTS_CONTAINER_FILE_UPLOAD
+                  
+            - name: MANAGER_PORTAL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: MANAGER_PORTAL_URL
+
+            - name: EMAIL_TENANT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: EMAIL_TENANT_ID
+            
+            - name: EMAIL_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: EMAIL_CLIENT_ID
+
+            - name: EMAIL_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: EMAIL_CLIENT_SECRET
+
+            - name: EMAIL_AAD_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: EMAIL_AAD_ENDPOINT
+
+            - name: EMAIL_GRAPH_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: EMAIL_GRAPH_ENDPOINT
+
+            - name: EMAIL_FROM_AD
+              valueFrom:
+                configMapKeyRef:
+                  name: stakeholder-mgmt-config
+                  key: EMAIL_FROM_AD
+      nodeSelector: 
+        stakeholderbackend: stakeholdernodepool

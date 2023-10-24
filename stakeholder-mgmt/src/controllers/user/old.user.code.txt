@@ -1,0 +1,284 @@
+//#region updateUserFCMToken
+  /**
+   * updateUserFCMToken
+   * @description updates the user fcm token
+   * @param req
+   * @param res
+   */
+   public static async updateUserFCMToken(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const taskName = 'UPDATE_USER_FCM_TOKEN';
+    try {
+      logger.info(`${taskName}_REQ`, JSON.stringify(req.body));
+      //check for authorization header
+      const {azureuserid} = req.headers;
+      if (!azureuserid) {
+        logger.info(
+          `${taskName}_AUTHORIZATION_HEADER_USERID_MISSING`,
+          req.headers
+        );
+        const noResult = new BadRequestResponse(
+          res,
+          'Authorization header id missing'
+        );
+        return noResult.send();
+      }
+      //parse req object...
+      const reqObj: UpdateUserFCMTokenReq = {
+        fcmToken: req.body.fcmToken,
+      };
+
+      // Find user from the given user id
+      const dbUser = await UserController.userRepo.findUserByAzureId(
+        azureuserid.toString()
+      );
+      if (!dbUser || dbUser.id === null) {
+        logger.info(`${taskName}_USER_NOT_FOUND`, dbUser);
+        const noResult = new BadRequestResponse(
+          res,
+          'Invalid id. User not found'
+        );
+        return noResult.send();
+      }
+
+      // update user fcm token
+      const result = await UserController.userRepo.updateUserFCMToken(
+        reqObj,
+        dbUser.id
+      );
+      //returns the success response
+      const success = new SuccessResponse(res, 'success', result);
+      return success.send();
+    } catch (err) {
+      logger.error(`${taskName}_ERROR`, err);
+      const response = new InternalErrorResponse(
+        res,
+        constants.errorMessage.unexpectedError
+      );
+      return response.send();
+    }
+  }
+  //#endregion
+
+  public static async getTNC(req: Request, res: Response): Promise<void> {
+    const taskName = 'GET_TERMS_&_CONDITIONS';
+    try {
+      logger.info(`${taskName}_REQ`, JSON.stringify(req.params));
+      const tempTypeCode: string =
+        constants.TemplateTypeCode.EMAIL_CREATE_USER_INVITE;
+      const template = await UserController.templateRepo.getTemplateByType(
+        tempTypeCode
+      );
+      const success = new SuccessResponse(res, 'success', template);
+      return success.send();
+    } catch (err) {
+      logger.error(`${taskName}_ERROR`, err);
+      const response = new InternalErrorResponse(
+        res,
+        constants.errorMessage.unexpectedError
+      );
+      return response.send();
+    }
+  }
+
+  public static async updateUserTnCAccepted(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const taskName = 'UPDATE_USER_TNC_ACCEPTED';
+    try {
+      logger.info(`${taskName}_REQ`, JSON.stringify(req.params));
+      //check for authorization header
+      const {azureuserid} = req.headers;
+      if (!azureuserid) {
+        logger.info(
+          `${taskName}_AUTHORIZATION_HEADER_USERID_MISSING`,
+          req.headers
+        );
+        const noResult = new BadRequestResponse(
+          res,
+          'Authorization header id missing'
+        );
+        return noResult.send();
+      }
+      const loginUserId: number = await UserController.userRepo.getUserDbIdByAzureId(
+        azureuserid.toString()
+      );
+      const reqObj: UpdateTNCAccepted = {
+        accepted: req.body.accepted,
+      };
+      if (!reqObj.accepted) {
+        logger.info(`${taskName}_USER TRYING_TO_REJECT_TNC`, req.headers);
+        const noResult = new BadRequestResponse(res, 'Users cannot reject T&C');
+        return noResult.send();
+      }
+      const result = await UserController.userRepo.updateUserTnCAccepted(
+        reqObj.accepted,
+        loginUserId
+      );
+      const success = new SuccessResponse(res, 'success', result);
+      return success.send();
+    } catch (err) {
+      logger.error(`${taskName}_ERROR`, err);
+      const response = new InternalErrorResponse(
+        res,
+        constants.errorMessage.unexpectedError
+      );
+      return response.send();
+    }
+  }
+
+  public static async searchUsers(req: Request, res: Response): Promise<void> {
+    const taskName = 'SEARCH_USERS';
+    try {
+      logger.info(`${taskName}_REQ`, JSON.stringify(req.params));
+      //check for authorization header
+      const {azureuserid} = req.headers;
+      if (!azureuserid) {
+        logger.info(
+          `${taskName}_AUTHORIZATION_HEADER_USERID_MISSING`,
+          req.headers
+        );
+        const noResult = new BadRequestResponse(
+          res,
+          'Authorization header id missing'
+        );
+        return noResult.send();
+      }
+      //check search query
+      const {searchQuery} = req.query;
+      if (!searchQuery) {
+        logger.info(`${taskName}_SEARCH_QUERY_MISSING`, req.headers);
+        const noResult = new BadRequestResponse(res, 'searchQuery missing');
+        return noResult.send();
+      }
+
+      const result = await UserController.userRepo.searchUser(
+        searchQuery.toString()
+      );
+      const success = new SuccessResponse(res, 'success', result);
+      return success.send();
+    } catch (err) {
+      logger.error(`${taskName}_ERROR`, err);
+      const response = new InternalErrorResponse(
+        res,
+        constants.errorMessage.unexpectedError
+      );
+      return response.send();
+    }
+  }
+
+    private static async getUserObjByAzureId(azId: string) {
+    const dbUser = await UserController.userRepo.findUserByAzureId(azId);
+
+    const resObj = {
+      id: dbUser.id,
+      userName: dbUser.userName,
+      azureId: dbUser.azureId,
+      fullName: dbUser.fullName,
+      entity: dbUser.entity,
+      roleId: dbUser.roleId,
+      isPasswordSet: dbUser.isPasswordSet,
+      isActive: dbUser.isActive,
+      contactNo: dbUser.contactNo,
+      fcmToken: dbUser.fcmToken,
+      designation: dbUser.designation,
+      department: dbUser.department,
+      bio: dbUser.bio,
+      imageURL: dbUser.imageUrl,
+      lastModifiedOn: dbUser.lastModifiedOn,
+      lastModifiedBy: dbUser.lastModifiedBy,
+      enablePushNot: dbUser.enablePushNot,
+      restrictProfile: dbUser.restrictProfile,
+      isSuspended: dbUser.isSuspended,
+      suspendReason: dbUser.suspendReason,
+      suspendedBy: dbUser.suspendedBy,
+      suspendedOn: dbUser.suspendedOn,
+      createdAt: dbUser.createdAt,
+      updatedAt: dbUser.updatedAt,
+      tncAccepted: dbUser.tncAccepted,
+    };
+    return resObj;
+  }
+
+    public static async getUser(req: Request, res: Response): Promise<void> {
+    const taskName = 'GET_USER';
+    try {
+      logger.info(`${taskName}_REQ`, JSON.stringify(req.params));
+
+      //check for authorization header
+      const {azureuserid} = req.headers;
+      if (!azureuserid) {
+        logger.info(
+          `${taskName}_AUTHORIZATION_HEADER_USERID_MISSING`,
+          req.headers
+        );
+        const noResult = new BadRequestResponse(
+          res,
+          'Authorization header id missing'
+        );
+        return noResult.send();
+      }
+
+      const dbUser = await UserController.userRepo.findUserByAzureId(
+        req.params.userId
+      );
+      if (!dbUser || dbUser?.id === null) {
+        logger.info(`${taskName}_USER_NOT_FOUND`, dbUser);
+        const noResult = new BadRequestResponse(
+          res,
+          'Invalid userName. User not found'
+        );
+        return noResult.send();
+      }
+
+      const resObj = await UserController.getUserObjByAzureId(
+        req.params.userId
+      );
+
+      const success = new SuccessResponse(res, 'success', resObj);
+      return success.send();
+    } catch (err) {
+      logger.error(`${taskName}_ERROR`, err);
+      const response = new InternalErrorResponse(
+        res,
+        constants.errorMessage.unexpectedError
+      );
+      return response.send();
+    }
+  }
+
+  private static async getUserObjByAzureId(azId: string) {
+    const dbUser = await UserController.userRepo.findUserByAzureId(azId);
+
+    const resObj = {
+      id: dbUser.id,
+      userName: dbUser.userName,
+      azureId: dbUser.azureId,
+      fullName: dbUser.fullName,
+      entity: dbUser.entity,
+      roleId: dbUser.roleId,
+      isPasswordSet: dbUser.isPasswordSet,
+      isActive: dbUser.isActive,
+      contactNo: dbUser.contactNo,
+      fcmToken: dbUser.fcmToken,
+      designation: dbUser.designation,
+      department: dbUser.department,
+      bio: dbUser.bio,
+      imageURL: dbUser.imageUrl,
+      lastModifiedOn: dbUser.lastModifiedOn,
+      lastModifiedBy: dbUser.lastModifiedBy,
+      enablePushNot: dbUser.enablePushNot,
+      restrictProfile: dbUser.restrictProfile,
+      isSuspended: dbUser.isSuspended,
+      suspendReason: dbUser.suspendReason,
+      suspendedBy: dbUser.suspendedBy,
+      suspendedOn: dbUser.suspendedOn,
+      createdAt: dbUser.createdAt,
+      updatedAt: dbUser.updatedAt,
+      tncAccepted: dbUser.tncAccepted,
+    };
+    return resObj;
+  }

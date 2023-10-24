@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stakeholder-mgmt-svc
+  namespace: {{.Release.Namespace}}
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: 'true'
+  labels:
+    app: stakeholder-mgmt-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: stakeholder-mgmt-app
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
