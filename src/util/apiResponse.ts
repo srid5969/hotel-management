@@ -17,7 +17,7 @@ export enum ResponseStatus {
 
 abstract class ApiResponse {
   constructor(
-    protected res: NextApiResponse,
+    protected res: any,
     protected statusCode: ResponseStatus,
     protected message: string | Record<string, unknown>,
     protected data: unknown | null = null
