@@ -1,5 +1,4 @@
 import { prisma } from "@/config/db";
-import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 
