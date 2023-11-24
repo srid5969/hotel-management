@@ -1,14 +1,24 @@
 import { NextApiRequest } from 'next';
 import { isAuthenticated } from '@/util/auth';
- import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 
- 
+export const config = {
+  // matcher: [
+  //   // '/((?!api/api-health-check/verify|_next/static|_next/image|favicon.ico).*)',
+  //   // '/api/:function*',
+  //   '/api/:function*|((?!api/api-health-check/verify|_next/static|_next/image|favicon.ico).*)',
+
+  //       ]
+}
 export async function middleware(request: NextApiRequest) {
   // Call our authentication function to check the request
+  const url :string=request.url?.replace('http://localhost:3000','')||''
+  const authNotRequuiredUrls=['/api/api-health-check/verify']
+  if(authNotRequuiredUrls.includes(url)) return NextResponse.next()
   let accessToken = request.headers.authorization;
               if (!accessToken) {
-                return NextResponse.json({message:"Token not fount"},{status:404})
+                return NextResponse.json({message:"Token not found"},{status:404})
               }
               if (accessToken?.search('Bearer') !== -1) {
                 accessToken = accessToken.replace('Bearer ', '');
