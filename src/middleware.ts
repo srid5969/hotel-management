@@ -18,7 +18,7 @@ export async function middleware(request: NextApiRequest) {
   if(authNotRequuiredUrls.includes(url)) return NextResponse.next()
   let accessToken = request.headers.authorization;
               if (!accessToken) {
-                return NextResponse.json({message:"Token not found"},{status:404})
+                return NextResponse.json({data:null,message:"Token not found"},{status:404})
               }
               if (accessToken?.search('Bearer') !== -1) {
                 accessToken = accessToken.replace('Bearer ', '');
@@ -27,7 +27,7 @@ export async function middleware(request: NextApiRequest) {
   if (!authenticated) {
     // Respond with JSON indicating an error message
     return Response.json(
-      { success: false, message: 'authentication failed' },
+      { success: false, data:null,message: 'authentication failed' },
       { status: 401 }
     )
   }
