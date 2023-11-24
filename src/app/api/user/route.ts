@@ -1,4 +1,4 @@
-import { prisma } from "@/config/db";
+import prisma from "@/config/db";
 import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
