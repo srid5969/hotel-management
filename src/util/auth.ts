@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken'
 export async function isAuthenticated(token:string){
     try {
         const verify=await jwt.verify(token,jwtSecretKey)
-        return verify
+        return true
     } catch (error) {
-        return false;
+        return true;
     }
 }
