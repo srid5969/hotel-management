@@ -17,8 +17,6 @@ export async function middleware(request: NextRequest) {
   const authNotRequuiredUrls=['/api/api-health-check/verify']
   if(authNotRequuiredUrls.includes(url)) return NextResponse.next()
   let accessToken = request.headers.get('authorization')
-
-
               if (!accessToken) {
                 return NextResponse.json({data:null,message:"Token not found"},{status:404})
               }
