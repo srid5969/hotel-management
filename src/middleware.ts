@@ -13,7 +13,7 @@ export const config = {
 }
 export async function middleware(request: NextRequest) {
   // Call our authentication function to check the request
-  const url :string=request.url?.replace('http://localhost:3000','')||''
+  const url :string=request.nextUrl.pathname;
   const authNotRequuiredUrls=['/api/api-health-check/verify','/api/auth/login','/api/user']
   if(authNotRequuiredUrls.includes(url)) return NextResponse.next()
   let accessToken = request.headers.get('authorization')
