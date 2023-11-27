@@ -31,4 +31,5 @@ export async function middleware(request: NextRequest) {
       { status: 401 }
     )
   }
+  return NextResponse.next()
 }
