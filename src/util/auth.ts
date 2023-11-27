@@ -7,6 +7,6 @@ export async function isAuthenticated(token:string){
         const verify=await jwt.verify(token,jwtSecretKey)
         return true
     } catch (error) {
-        return true;
+        return false;
     }
 }
