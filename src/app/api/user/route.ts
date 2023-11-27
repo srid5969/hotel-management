@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 interface MyData {
     email: string;
     phoneNumber: string;
+    password: string;
   }
   
 export async function GET() {
