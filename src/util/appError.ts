@@ -22,21 +22,21 @@ export abstract class AppError extends Error {
 
   public static handle(err: AppError, res: NextApiResponse): void {
     if (notFound.includes(err.type)) {
-      new NotFoundResponse(res).send();
+      new NotFoundResponse().send();
       return;
     }
 
     if (err.type === ErrorType.BAD_REQUEST) {
-      new BadRequestResponse(res, err.message).send();
+      new BadRequestResponse( err.message).send();
       return;
     }
     if (err.type === ErrorType.PRE_CONDITION_FAILED) {
-      new PreconditionFailedResponse(res, err.message).send();
+      new PreconditionFailedResponse( err.message).send();
       return;
     }
 
     const message = 'Something went wrong.';
-    new InternalErrorResponse(res, message).send();
+    new InternalErrorResponse( message).send();
   }
 }
 

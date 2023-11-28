@@ -14,6 +14,7 @@ export async function middleware(request: NextRequest) {
   const url: string = request.nextUrl.pathname;
   const authNotRequuiredUrls = ['/api/api-health-check/verify', '/api/auth/login', '/api/user'];
   if (authNotRequuiredUrls.includes(url)) return NextResponse.next();
+  if (!url.startsWith('/api')) return NextResponse.next();
   let accessToken = request.headers.get('authorization');
   if (!accessToken) {
     return NextResponse.json({data: null, message: 'Token not found'}, {status: 404});

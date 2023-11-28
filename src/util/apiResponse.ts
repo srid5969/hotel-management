@@ -1,5 +1,6 @@
 import {ServerResponse} from 'http';
 import {NextApiResponse} from 'next';
+import { NextResponse } from 'next/server';
 
 export enum ResponseStatus {
   SUCCESS = 200,
@@ -17,14 +18,13 @@ export enum ResponseStatus {
 
 abstract class ApiResponse {
   constructor(
-    protected res: any,
     protected statusCode: ResponseStatus,
     protected message: string | Record<string, unknown>,
     protected data: unknown | null = null
   ) {}
 
   public send(): any {
-    return this.res.json(
+    return NextResponse.json(
       {
         data: this.data,
         message: this.message,
@@ -35,64 +35,67 @@ abstract class ApiResponse {
 }
 
 export class NotFoundResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message = 'Not Found') {
-    super(res, ResponseStatus.NOT_FOUND, message);
+  constructor( message = 'Not Found') {
+    super( ResponseStatus.NOT_FOUND, message);
   }
 }
 
 export class InternalErrorResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message = 'Unknown error occurred') {
-    super(res, ResponseStatus.INTERNAL_ERROR, message);
+  constructor( message = 'Unknown error occurred') {
+    super( ResponseStatus.INTERNAL_ERROR, message);
   }
 }
 
 export class BadRequestResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string) {
-    super(res, ResponseStatus.BAD_REQUEST, message);
+  constructor( message: string) {
+    super( ResponseStatus.BAD_REQUEST, message);
   }
 }
 
 export class SuccessResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string, data?: unknown) {
-    super(res, ResponseStatus.SUCCESS, message, data);
+  constructor( message: string, data?: unknown) {
+    super( ResponseStatus.SUCCESS, message, data);
   }
 }
 
 export class NoContentResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string) {
-    super(res, ResponseStatus.NO_CONTENT, message);
+  constructor( message: string) {
+    super( ResponseStatus.NO_CONTENT, message);
   }
 }
 
 export class UnauthorizedResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string) {
-    super(res, ResponseStatus.UNAUTHORIZED, message);
+  constructor( message: string) {
+    super( ResponseStatus.UNAUTHORIZED, message);
   }
 }
 
 export class ConflictResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string) {
-    super(res, ResponseStatus.CONFLICT, message);
+  constructor( message: string) {
+    super( ResponseStatus.CONFLICT, message);
   }
 }
+
 export class MethodNotAllowedResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string = 'Method not allowed') {
-    super(res, ResponseStatus.METHOD_NOT_ALLOWED, message);
+  constructor( message: string = 'Method not allowed') {
+    super( ResponseStatus.METHOD_NOT_ALLOWED, message);
   }
 }
 
 export class ForbiddenResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string) {
-    super(res, ResponseStatus.FORBIDDEN, message);
+  constructor( message: string) {
+    super( ResponseStatus.FORBIDDEN, message);
   }
 }
+
 export class PreconditionFailedResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string) {
-    super(res, ResponseStatus.PRECONDITION_FAILED, message);
+  constructor( message: string) {
+    super( ResponseStatus.PRECONDITION_FAILED, message);
   }
 }
+
 export class ExpiredResponse extends ApiResponse {
-  constructor(res: NextApiResponse, message: string) {
-    super(res, ResponseStatus.GONE, message);
+  constructor( message: string) {
+    super( ResponseStatus.GONE, message);
   }
 }
