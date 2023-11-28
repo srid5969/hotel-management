@@ -1,5 +1,5 @@
-import { InternalErrorResponse, SuccessResponse } from '@/util/apiResponse';
-import { NextResponse } from 'next/server';
+import {InternalErrorResponse, SuccessResponse} from '@/util/apiResponse';
+import {NextResponse} from 'next/server';
 
 export async function GET() {
   const taskName = 'HEALTH-CHECK';

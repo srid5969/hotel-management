@@ -1,5 +1,5 @@
-import { ServerResponse } from 'http';
-import { NextApiResponse } from 'next';
+import {ServerResponse} from 'http';
+import {NextApiResponse} from 'next';
 
 export enum ResponseStatus {
   SUCCESS = 200,
@@ -29,7 +29,7 @@ abstract class ApiResponse {
         data: this.data,
         message: this.message,
       },
-      { status: this.statusCode }
+      {status: this.statusCode}
     );
   }
 }

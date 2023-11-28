@@ -1,10 +1,5 @@
-import { NextApiResponse } from 'next';
-import {
-  BadRequestResponse,
-  InternalErrorResponse,
-  NotFoundResponse,
-  PreconditionFailedResponse,
-} from './apiResponse';
+import {NextApiResponse} from 'next';
+import {BadRequestResponse, InternalErrorResponse, NotFoundResponse, PreconditionFailedResponse} from './apiResponse';
 
 enum ErrorType {
   INTERNAL = 'InternalError',
