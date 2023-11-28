@@ -12,9 +12,11 @@ interface MyData {
 export async function GET() {
   const allUsers = await prisma.user.findMany({
     select: {
+      id: true,
       email: true,
       phoneNumber: true,
       posts: true,
+      primaryAddress: true,
     },
   });
 

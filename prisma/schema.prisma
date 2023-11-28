@@ -9,11 +9,17 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+type Address {
+  street String
+  city   String
+  zip    String
+}
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   email       String @unique()
   password       String
   phoneNumber String @default("000-000-0000")
+  primaryAddress Address?
   posts Post[]
 }
 model Post {
