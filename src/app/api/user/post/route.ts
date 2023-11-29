@@ -25,6 +25,21 @@ import {NextRequest, NextResponse} from 'next/server';
  *     responses:
  *       200:
  *         description: Successful creation of a user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: any
+ *               example:
+ *                 message: User created successfully
+ *                 data: 
+ *                        id: 12
+ *                        email: example@gmail.com
+ *                        phoneNumber: 1234-123-1234
  *       400:
  *         description: Bad request or invalid input data
  */
