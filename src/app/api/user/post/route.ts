@@ -2,8 +2,13 @@ import prisma from '@/config/db';
 import {NextRequest, NextResponse} from 'next/server';
 /**
  * @swagger
+ * tags:
+ *   - name: User
+ *     description: Operations related to users
  * /api/user:
  *   post:
+ *     tags:
+ *       - User
  *     summary: Create a new user
  *     description: Endpoint to create a new user.
  *     requestBody:
@@ -22,6 +27,12 @@ import {NextRequest, NextResponse} from 'next/server';
  *               password:
  *                 type: string
  *                 default: Test@123
+ *       headers:
+ *         X-Custom-Header:
+ *           description: Custom header description
+ *           schema:
+ *             type: string
+ *           example: CustomHeaderValue123
  *     responses:
  *       200:
  *         description: Successful creation of a user
@@ -33,13 +44,20 @@ import {NextRequest, NextResponse} from 'next/server';
  *                 message:
  *                   type: string
  *                 data:
- *                   type: any
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     email:
+ *                       type: string
+ *                     phoneNumber:
+ *                       type: string
  *               example:
  *                 message: User created successfully
- *                 data: 
- *                        id: 12
- *                        email: example@gmail.com
- *                        phoneNumber: 1234-123-1234
+ *                 data:
+ *                   id: 12
+ *                   email: example@gmail.com
+ *                   phoneNumber: 1234-123-1234
  *       400:
  *         description: Bad request or invalid input data
  */

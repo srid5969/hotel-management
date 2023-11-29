@@ -17,23 +17,10 @@ export const getApiDocs = async () => {
             type: "http",
             scheme: "bearer",
             bearerFormat: "JWT",
-          },
-          OAuth2: {
-            type: "oauth2",
-            flows: {
-              authorizationCode: {
-                authorizationUrl: "https://example.com/oauth/authorize",
-                tokenUrl: "https://example.com/oauth/token",
-                scopes: {
-                  read: "Grants read access",
-                  write: "Grants write access",
-                },
-              },
-            },
-          },
+          }
         },
       },
-      security: [],
+      security: [{ BearerAuth: [] }], // Apply BearerAuth scheme to all endpoints
     },
   })
   return spec
