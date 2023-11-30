@@ -8,10 +8,10 @@ export async function GET() {
     //returns the success response
     // return NextResponse.json({ message: 'GET request handled successfully' }, { status: 400 });
 
-    return new SuccessResponse( 'success', 'api(s) is working...').send();
+    return new SuccessResponse('success', 'api(s) is working...').send();
   } catch (err) {
     console.error(`${taskName}_ERROR`, err);
-    const response = new InternalErrorResponse( 'An unexpected error has occurred');
+    const response = new InternalErrorResponse('An unexpected error has occurred');
     response.send();
   }
 }

@@ -10,11 +10,10 @@ export const config = {
   //       ]
 };
 export async function middleware(request: NextRequest) {
-  
   // Call our authentication function to check the request
   const url: string = request.nextUrl.pathname;
   console.log(url);
-  
+
   const authNotRequuiredUrls = ['/api/api-health-check/verify', '/api/auth/login', '/api/user', '/api-doc'];
   if (authNotRequuiredUrls.includes(url)) return NextResponse.next();
   if (!url.startsWith('/api')) return NextResponse.next();
