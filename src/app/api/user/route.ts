@@ -1,8 +1,10 @@
 import prisma from '@/config/db';
 import {NextRequest, NextResponse} from 'next/server';
 import bcrypt from 'bcrypt';
-import {InternalErrorResponse} from '@/util/apiResponse';
+import {InternalErrorResponse, PreconditionFailedResponse} from '@/util/apiResponse';
 import {PrismaClientKnownRequestError} from '@prisma/client/runtime/library';
+import { userRegistration } from './post/validator';
+import { ZodError } from 'zod';
 
 interface MyData {
   email: string;
@@ -89,11 +91,14 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body: MyData = await request.json(); // This get's the raw body as a string
-    body.password = await bcrypt.hash(body.password, 10);
-    const user = await prisma.user.create({data: body});
+    const data=await userRegistration.parseAsync(body)
+    data.password = await bcrypt.hash(data.password, 10);
+    const user = await prisma.user.create({data: data});
 
     return NextResponse.json({data: user, message: 'Success'});
   } catch (error) {
+    console.log(error);
+    if (error instanceof ZodError ) return new PreconditionFailedResponse( error.errors[0]?.message || 'Unexpected error').send();
     if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') return new InternalErrorResponse('Error at ' + error?.meta?.target).send();
     return new InternalErrorResponse('There is a unique constraint violation, a new user cannot be created with this email').send();
   }
