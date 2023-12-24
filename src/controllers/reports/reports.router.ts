@@ -4,4 +4,4 @@ import {ReportsController} from './reports.controller';
 
 export const ReportsRouter = express.Router();
 
-ReportsRouter.get('/:id', asyncWrapper(ReportsController.hotelReports));
+ReportsRouter.get('/hotels/:id', asyncWrapper(ReportsController.hotelReports));
