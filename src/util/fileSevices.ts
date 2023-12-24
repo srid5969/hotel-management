@@ -1,25 +1,31 @@
 import * as ExcelJS from 'exceljs';
 import PDFDocument from 'pdfkit';
-
+interface DataObject {
+  [key: string]: string;
+}
 export class FileBufferServices {
-  public async generateBufferForExcelContent(): Promise<Buffer | ArrayBuffer> {
+  public async generateBufferForExcelContent(
+    data: DataObject[] | any
+  ): Promise<Buffer> {
     try {
-      // Create an Excel workbook
       const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('Sheet 1');
-      worksheet.columns = [
-        {header: 'ID', key: 'id', width: 10},
-        {header: 'Name', key: 'name', width: 20},
-        {header: 'Email', key: 'email', width: 30},
-      ];
+      const worksheet = workbook.addWorksheet('Sheet1');
 
-      // Add sample data to the worksheet
-      worksheet.addRow({id: 1, name: 'John Doe', email: 'john@example.com'});
-      worksheet.addRow({id: 2, name: 'Jane Smith', email: 'jane@example.com'});
+      // Extracting keys from the first object in the array to use as column names
+      const columns = Object.keys(data[0]);
 
-      // Return the Excel buffer
-      const excelBuffer = await workbook.xlsx.writeBuffer();
-      return excelBuffer;
+      // Setting the first row as column headers
+      worksheet.addRow(columns);
+
+      // Adding data rows
+      data.forEach((item: DataObject) => {
+        const row: string[] = [];
+        columns.forEach(column => {
+          row.push(item[column]);
+        });
+        worksheet.addRow(row);
+      });
+      return (await workbook.xlsx.writeBuffer()) as Buffer;
     } catch (error) {
       throw new Error('Error generating Excel buffer: ' + error.message);
     }
