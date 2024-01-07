@@ -1,10 +1,10 @@
-import { Optional } from "sequelize";
+import { Optional } from 'sequelize';
 
 export class User{
-    id?:string
-    firstName:String;
-    email:String;
-    mobile:String;
+    id?:string;
+    firstName:string;
+    email:string;
+    mobile:string;
     middleName: string | null;
     lastName: string | null;
     displayName: string | null;

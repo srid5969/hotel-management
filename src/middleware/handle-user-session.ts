@@ -11,14 +11,13 @@ type ExpressMiddleware = (
   next?: NextFunction
 ) => Promise<unknown>;
 
-export const handleUserSession = (asyncRouteHandler: ExpressMiddleware) => {
+export const handleUserSession = (_asyncRouteHandler: ExpressMiddleware) => {
   return async (
     req: Request | any,
     res: Response,
     next: NextFunction
   ): Promise<unknown> => {
-    const taskName = 'HANDLE_USER_SESSION';
-    console.info(`${taskName}`, req.headers.azureuserid || req.id);
+    // const taskName = 'HANDLE_USER_SESSION';
     try {
       const url: string = req.originalUrl;
 

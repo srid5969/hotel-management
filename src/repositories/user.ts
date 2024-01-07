@@ -1,4 +1,4 @@
-import {BaseError, Optional} from 'sequelize';
+import {BaseError} from 'sequelize';
 import {UserModel} from './../models/user';
 import {
   UserCreationAttributes,
