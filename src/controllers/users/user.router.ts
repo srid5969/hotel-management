@@ -4,8 +4,8 @@ import { asyncWrapper } from './../../middleware/async-wrapper';
 
 export const UsersRouter = express.Router();
 
-UsersRouter.get('/', asyncWrapper(UsersController.addUser));
+UsersRouter.post('/', asyncWrapper(UsersController.addUser));
 UsersRouter.get('/', asyncWrapper(UsersController.getAllUsers));
 UsersRouter.get('/:id', asyncWrapper(UsersController.getUserById));
-UsersRouter.get('/:id', asyncWrapper(UsersController.deleteUserById));
-UsersRouter.get('/:id', asyncWrapper(UsersController.updateUserById));
+UsersRouter.delete('/:id', asyncWrapper(UsersController.deleteUserById));
+UsersRouter.put('/:id', asyncWrapper(UsersController.updateUserById));

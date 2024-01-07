@@ -10,7 +10,7 @@ export class UserRepository {
   public async registerUser(user: UserCreationAttributes) {
     try {
       const saveUser = await UserModel.create(user);
-      return saveUser; // return saved user to client
+      return saveUser.toJSON(); // return saved user to client
     } catch (error) {
       if (error instanceof BaseError) throw new InternalError(error.message);
       throw new InternalError('Unexpected error');
@@ -28,7 +28,7 @@ export class UserRepository {
   public async updateUserById(id: string, data: UserEditAttributes) {
     try {
       const [affectedCount] = await UserModel.update(data, {where: {id: id}});
-      if (affectedCount! > 0) throw new NotFoundError('User not found');
+      if (affectedCount== 0) throw new NotFoundError('User not found');
       const user = await this.getUserById(id);
       return user; // return saved user to client
     } catch (error) {

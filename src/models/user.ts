@@ -65,5 +65,6 @@ export const UserModel = sequelize.define(
     createdAt: true,
     updatedAt: true,
     deletedAt: true,
+    paranoid:true
   }
 );
