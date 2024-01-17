@@ -1,16 +1,19 @@
 import { DataTypes } from 'sequelize';
-import sequelize from './../config/sequelize';
+import sequelize from '../config/sequelize';
 
 export const UserModel = sequelize.define(
-  'user',
+  'UserModel',
   {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      autoIncrement:true,
       primaryKey: true,
     },
-    email: {
+    user_name: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    e_mail: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
@@ -20,43 +23,51 @@ export const UserModel = sequelize.define(
       allowNull: true,
     },
 
-    firstName: {
+    first_name: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
 
-    middleName: {
+    last_name: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
 
-    lastName: {
+    emp_id: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
 
-    displayName: {
+    department: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
 
-    gender: {
+    hotel_name: {
         type: DataTypes.STRING(255),
         allowNull: true,
     },
 
-    dob: {
+    group_name: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
 
-    profilePicture: {
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    twoFactorAuthentication: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
 
-    bio: {
+    user_status: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    isactive: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
   },
@@ -65,6 +76,7 @@ export const UserModel = sequelize.define(
     createdAt: true,
     updatedAt: true,
     deletedAt: true,
-    paranoid:true
+    paranoid:true,
+    tableName:'Users'
   }
 );

@@ -9,10 +9,10 @@ export const appConfig = {
 };
 
 export const dbConfig: Options = {
-  username: process.env.DB_USERNAME || '<username>',
-  password: process.env.DB_PASSWORD || '<password>',
-  database: process.env.DB_NAME || '<test>',
-  host: process.env.DB_HOST || '<localhost>',
+  username: process.env.DB_USERNAME || 'SA',
+  password: process.env.DB_PASSWORD || 'Admin@123',
+  database: process.env.DB_NAME || 'ITC',
+  host: process.env.DB_HOST || 'localhost',
   pool: {max: 60},
   dialect: 'mssql',
 };

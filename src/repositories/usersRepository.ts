@@ -1,10 +1,10 @@
 import {BaseError} from 'sequelize';
-import {UserModel} from './../models/user';
+import {UserModel} from '../models/user.model';
 import {
   UserCreationAttributes,
   UserEditAttributes,
-} from './../business_objects/user';
-import {InternalError, NotFoundError} from './../util/app-error';
+} from '../business_objects/user';
+import {InternalError, NotFoundError} from '../util/app-error';
 
 export class UserRepository {
   public async registerUser(user: UserCreationAttributes) {

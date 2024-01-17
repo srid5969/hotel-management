@@ -1,13 +1,13 @@
 import {Request, Response} from 'express';
 import {InternalErrorResponse, SuccessResponse} from './../../util/apiResponse';
 import {AppError} from './../../util/app-error';
-import {UserRepository} from '../../repositories/usersRepository';
+import {HotelRepository} from '../../repositories/hotelRepository';
 
-export class UsersController {
-  private static userService: UserRepository = new UserRepository();
-  public static async getAllUsers(req: Request, res: Response) {
+export class HotelsController {
+  private static HotelService: HotelRepository = new HotelRepository();
+  public static async getAllHotels(req: Request, res: Response) {
     try {
-      const data = await UsersController.userService.getAllUsers(
+      const data = await HotelsController.HotelService.getAllHotels(
         req.query.limit as any,
         req.query.offset as any
       );
@@ -17,27 +17,27 @@ export class UsersController {
       return new InternalErrorResponse(res);
     }
   }
-  public static async getUserById(req: Request, res: Response) {
+  public static async getHotelById(req: Request, res: Response) {
     try {
-      const data = await UsersController.userService.getUserById(req.params.id);
+      const data = await HotelsController.HotelService.getHotelById(req.params.id);
       return new SuccessResponse(res, 'OK', data).send();
     } catch (error) {
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res);
     }
   }
-  public static async deleteUserById(req: Request, res: Response) {
+  public static async deleteHotelById(req: Request, res: Response) {
     try {
-      const data =await UsersController.userService.deleteUserById(req.params.id);
+      const data =await HotelsController.HotelService.deleteHotelById(req.params.id);
       return new SuccessResponse(res, 'OK', data).send();
     } catch (error) {
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res);
     }
   }
-  public static async updateUserById(req: Request, res: Response) {
+  public static async updateHotelById(req: Request, res: Response) {
     try {
-      const data =await UsersController.userService.updateUserById(
+      const data =await HotelsController.HotelService.updateHotelById(
         req.params.id,
         req.body
       );
@@ -47,9 +47,9 @@ export class UsersController {
       return new InternalErrorResponse(res);
     }
   }
-  public static async addUser(req: Request, res: Response) {
+  public static async addHotel(req: Request, res: Response) {
     try {
-      const data =await UsersController.userService.registerUser(req.body);
+      const data =await HotelsController.HotelService.registerHotel(req.body);
       return new SuccessResponse(res, 'OK', data).send();
     } catch (error) {
       if (error instanceof AppError) return AppError.handle(error, res);
