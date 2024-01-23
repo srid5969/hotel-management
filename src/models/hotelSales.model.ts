@@ -1,21 +1,17 @@
-import {DataTypes} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from './../config/sequelize';
-import { HotelModel } from './hotel.model';
 
 export const HotelSales = sequelize.define(
   'HotelSales',
   {
     id: {
-      type: DataTypes.UUIDV4,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       primaryKey: true,
     },
     hotel: {
-      type: DataTypes.INTEGER,
-      references:{
-        key:'id',
-        model:HotelModel
-      },
+      type: DataTypes.STRING,
       allowNull: false,
     },
     date: {
