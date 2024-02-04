@@ -1,8 +1,8 @@
 import {Request, Response} from 'express';
 import {read as readXlsx, utils as xlsxUtils} from 'xlsx';
-import {SuccessResponse} from '../../util/apiResponse';
-import {AppError} from '../../util/app-error';
 import {RevenueRepository} from '../../repositories/revenueRepository';
+import {SuccessResponse} from '../../util/apiResponse';
+import {AppError, PreconditionFailedError} from '../../util/app-error';
 import {getValueOrGetDefaultValue} from '../../util/commonService';
 export class RevenueController {
   static revenueRepository = new RevenueRepository();
@@ -110,5 +110,151 @@ export class RevenueController {
 
       AppError.handle(error, res);
     }
+  }
+  public static async importBusinessSourceIncomeController(
+    req: Request,
+    res: Response
+  ) {
+    try {
+      const buffer = req.file.buffer;
+      const workbook = readXlsx(buffer, {type: 'buffer'});
+      const sheetName = workbook.SheetNames[0];
+      const date: number = new Date(
+        req.file.originalname.replace(
+          /MIS B Business Source as on (\d{2}) (\w{3}) (\d{4}).xlsx/,
+          '$3 $2 $1'
+        )
+      ).setUTCHours(0, 0, 0, 0);
+      let sheetData: {
+        [key in string]: string | number | null;
+      }[] = xlsxUtils.sheet_to_json(workbook.Sheets[sheetName], {
+        header: 'A',
+      });
+      sheetData.shift();
+      let total: {
+        [key in string]: string | number;
+      } = sheetData.find(data => data.A == 'Total =====>');
+      if (!total) throw new PreconditionFailedError('Total Not Found Error');
+      total = {
+        mod_occ: getValueOrGetDefaultValue(total.B),
+        mod_pax: getValueOrGetDefaultValue(total.D),
+        mod_rate: getValueOrGetDefaultValue(total.F),
+        mod_arr: getValueOrGetDefaultValue(total.G),
+        mod_arp: getValueOrGetDefaultValue(total.H),
+        yod_occ: getValueOrGetDefaultValue(total.I),
+        yod_pax: getValueOrGetDefaultValue(total.K),
+        yod_rate: getValueOrGetDefaultValue(total.M),
+        yod_arr: getValueOrGetDefaultValue(total.N),
+        yod_arp: getValueOrGetDefaultValue(total.O),
+      };
+      const regex = /^_+$/;
+      sheetData = sheetData.filter(
+        (data, index) =>
+          index > 2 &&
+          data.A !== 'Total =====>' &&
+          data.A !== 'Business Source' &&
+          data.A &&
+          !regex.test(data.A.toString())
+      );
+      sheetData = await Promise.all(
+        sheetData.map(data => ({
+          source: data.A,
+          mod_occ: getValueOrGetDefaultValue(data.B),
+          mod_occPercent: getValueOrGetDefaultValue(data.C),
+          mod_pax: getValueOrGetDefaultValue(data.D),
+          mod_paxPercent: getValueOrGetDefaultValue(data.E),
+          mod_rate: getValueOrGetDefaultValue(data.F),
+          mod_arr: getValueOrGetDefaultValue(data.G),
+          mod_arp: getValueOrGetDefaultValue(data.H),
+          yod_occ: getValueOrGetDefaultValue(data.I),
+          yod_occPercent: getValueOrGetDefaultValue(data.J),
+          yod_pax: getValueOrGetDefaultValue(data.K),
+          yod_paxPercent: getValueOrGetDefaultValue(data.L),
+          yod_rate: getValueOrGetDefaultValue(data.M),
+          yod_arr: getValueOrGetDefaultValue(data.N),
+          yod_arp: getValueOrGetDefaultValue(data.O),
+        }))
+      );
+      return new SuccessResponse(res, 'Success', {
+        date: date,
+        data: sheetData,
+        total,
+      }).send();
+    } catch (error) {}
+  }
+
+  public static async importMarketSegmentController(
+    req: Request,
+    res: Response
+  ) {
+    try {
+      const buffer = req.file.buffer;
+      const workbook = readXlsx(buffer, {type: 'buffer'});
+      const sheetName = workbook.SheetNames[0];
+      const date: number = new Date(
+        req.file.originalname
+          .replace('  ', ' ') //if 2 space exist convert to single space
+          .replace(
+            /MIS B Market Segment as on (\d{2}) (\w{3}) (\d{4}).xlsx/,
+            '$3 $2 $1'
+          )
+      ).setUTCHours(0, 0, 0, 0);
+      let sheetData: {
+        [key in string]: string | number | null;
+      }[] = xlsxUtils.sheet_to_json(workbook.Sheets[sheetName], {
+        header: 'A',
+      });
+      sheetData.shift();
+      let total: {
+        [key in string]: string | number;
+      } = sheetData.find(data => data.A == 'Total =====>');
+      if (!total) throw new PreconditionFailedError('Total Not Found Error');
+      total = {
+        mod_occ: getValueOrGetDefaultValue(total.B),
+        mod_pax: getValueOrGetDefaultValue(total.D),
+        mod_rate: getValueOrGetDefaultValue(total.F),
+        mod_arr: getValueOrGetDefaultValue(total.G),
+        mod_arp: getValueOrGetDefaultValue(total.H),
+        yod_occ: getValueOrGetDefaultValue(total.I),
+        yod_pax: getValueOrGetDefaultValue(total.K),
+        yod_rate: getValueOrGetDefaultValue(total.M),
+        yod_arr: getValueOrGetDefaultValue(total.N),
+        yod_arp: getValueOrGetDefaultValue(total.O),
+      };
+      const regex = /^_+$/;
+      sheetData = sheetData.filter(
+        (data, index) =>
+          index > 2 &&
+          data.A !== 'Total =====>' &&
+          data.A !== 'Market Segment' &&
+          data.A &&
+          !regex.test(data.A.toString())
+      );
+      sheetData = await Promise.all(
+        sheetData.map(data => ({
+          source: data.A,
+          mod_occ: getValueOrGetDefaultValue(data.B),
+          mod_occPercent: getValueOrGetDefaultValue(data.C),
+          mod_pax: getValueOrGetDefaultValue(data.D),
+          mod_paxPercent: getValueOrGetDefaultValue(data.E),
+          mod_rate: getValueOrGetDefaultValue(data.F),
+          mod_arr: getValueOrGetDefaultValue(data.G),
+          mod_arp: getValueOrGetDefaultValue(data.H),
+          yod_occ: getValueOrGetDefaultValue(data.I),
+          yod_occPercent: getValueOrGetDefaultValue(data.J),
+          yod_pax: getValueOrGetDefaultValue(data.K),
+          yod_paxPercent: getValueOrGetDefaultValue(data.L),
+          yod_rate: getValueOrGetDefaultValue(data.M),
+          yod_arr: getValueOrGetDefaultValue(data.N),
+          yod_arp: getValueOrGetDefaultValue(data.O),
+        }))
+      );
+      return new SuccessResponse(res, 'Success', {
+        sheetName: req.file.originalname,
+        date: date,
+        data: sheetData,
+        total,
+      }).send();
+    } catch (error) {}
   }
 }

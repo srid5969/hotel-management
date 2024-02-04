@@ -1,1 +1,1 @@
-export * from './holtels.router'
+export * from './holtels.router';
