@@ -4,8 +4,10 @@ import {RevenueRepository} from '../../repositories/revenueRepository';
 import {SuccessResponse} from '../../util/apiResponse';
 import {AppError, PreconditionFailedError} from '../../util/app-error';
 import {getValueOrGetDefaultValue} from '../../util/commonService';
+import {StatisticsRepository} from '../../repositories/statisticsRepository';
 export class RevenueController {
   static revenueRepository = new RevenueRepository();
+  static statisticsRepository = new StatisticsRepository();
   public static async importHistoryAndForecastOfHotel(
     req: Request,
     res: Response
@@ -175,12 +177,19 @@ export class RevenueController {
           yod_arp: getValueOrGetDefaultValue(data.O),
         }))
       );
+      await RevenueController.statisticsRepository.bulkImportStatistics(
+        'Business Source',
+        date,
+        sheetData
+      );
       return new SuccessResponse(res, 'Success', {
         date: date,
         data: sheetData,
         total,
       }).send();
-    } catch (error) {}
+    } catch (error) {
+      AppError.handle(error, res);
+    }
   }
 
   public static async importMarketSegmentController(
@@ -249,12 +258,19 @@ export class RevenueController {
           yod_arp: getValueOrGetDefaultValue(data.O),
         }))
       );
+
+      await RevenueController.statisticsRepository.bulkImportStatistics(
+        'Market Segment',
+        date,
+        sheetData
+      );
       return new SuccessResponse(res, 'Success', {
-        sheetName: req.file.originalname,
         date: date,
         data: sheetData,
         total,
       }).send();
-    } catch (error) {}
+    } catch (error) {
+      AppError.handle(error, res);
+    }
   }
 }
