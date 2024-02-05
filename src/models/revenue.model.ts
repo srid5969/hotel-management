@@ -19,43 +19,43 @@ export const Revenues = sequelize.define(
       type: DataTypes.DATEONLY,
     },
     fitRnt: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     grpRnt: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     totalOcc: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     avl: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     oos: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     occPercent: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     avgRate: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     roomRev: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     fnbRev: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     otherRev: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       defaultValue: 0.0,
     },
     noPerson: {

@@ -48,42 +48,42 @@ export const HotelSalesDetails = sequelize.define(
       allowNull: false,
     },
     fod: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     liq: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     sfd: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     smk: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     oth: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     salesAmount: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     cgt: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     sgt: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
@@ -93,18 +93,18 @@ export const HotelSalesDetails = sequelize.define(
       defaultValue: 0,
     },
     disc: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
 
     netAmount: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
     setAmount: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0.0,
     },
