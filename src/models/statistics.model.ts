@@ -11,7 +11,7 @@ export const Statistics = sequelize.define(
       primaryKey: true,
     },
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     type: {

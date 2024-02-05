@@ -16,7 +16,7 @@ export const Revenues = sequelize.define(
       type: DataTypes.ENUM('History', 'ForeCast'),
     },
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
     },
     fitRnt: {
       type: DataTypes.DECIMAL,

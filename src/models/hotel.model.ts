@@ -44,14 +44,14 @@ export const HotelModel = sequelize.define(
         allowNull: true,
       },
       aggrement_date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: true,
       },
       flagging_date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: true,
       },aggrement_validity: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: true,
       },
       segment: {
