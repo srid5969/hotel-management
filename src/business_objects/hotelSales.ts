@@ -68,5 +68,5 @@ export interface DailySalesReport {
   setAmount: number;
   setMode: string;
   user: string;
-  date:any
+  date: any;
 }

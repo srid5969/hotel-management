@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+import {DataTypes} from 'sequelize';
 import sequelize from '../config/sequelize';
 
 export const UserModel = sequelize.define(
@@ -6,7 +6,7 @@ export const UserModel = sequelize.define(
   {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement:true,
+      autoIncrement: true,
       primaryKey: true,
     },
     user_name: {
@@ -44,8 +44,8 @@ export const UserModel = sequelize.define(
     },
 
     hotel_name: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
 
     group_name: {
@@ -76,7 +76,7 @@ export const UserModel = sequelize.define(
     createdAt: true,
     updatedAt: true,
     deletedAt: true,
-    paranoid:true,
-    tableName:'Users'
+    paranoid: true,
+    tableName: 'Users',
   }
 );

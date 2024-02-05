@@ -1,6 +1,6 @@
 import express from 'express';
-import { UsersController } from './user.controller';
-import { asyncWrapper } from './../../middleware/async-wrapper';
+import {UsersController} from './user.controller';
+import {asyncWrapper} from './../../middleware/async-wrapper';
 
 export const UsersRouter = express.Router();
 

@@ -7,13 +7,12 @@ export const HotelSalesDetails = sequelize.define(
   'HotelSalesDetails',
   {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
     },
     hotel: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: HotelSales,
         key: 'id',

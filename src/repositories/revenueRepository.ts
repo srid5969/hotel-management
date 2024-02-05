@@ -35,8 +35,8 @@ export class RevenueRepository {
     try {
       await Promise.all(
         data.forecast.map(async revenue => {
-            console.log(revenue);
-            
+          console.log(revenue);
+
           await Revenues.create(
             {
               ...revenue,

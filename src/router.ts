@@ -1,8 +1,8 @@
 import express from 'express';
 import {ApiHealthCheckRouter} from './controllers/api-health-check';
-import { UsersRouter } from './controllers/users';
-import { HotelsRouter } from './controllers/hotels';
-import { RevenueRouter } from './controllers/revenue';
+import {UsersRouter} from './controllers/users';
+import {HotelsRouter} from './controllers/hotels';
+import {RevenueRouter} from './controllers/revenue';
 
 export const AppRouter = express.Router();
 

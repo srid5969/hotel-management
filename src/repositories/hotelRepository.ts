@@ -1,13 +1,12 @@
-import { BaseError } from 'sequelize';
-import { InternalError, NotFoundError } from '../util/app-error';
-import { HotelModel } from './../models/hotel.model';
+import {BaseError} from 'sequelize';
+import {InternalError, NotFoundError} from '../util/app-error';
+import {HotelModel} from './../models/hotel.model';
 
 export class HotelRepository {
   public async registerHotel(hotel: any) {
     try {
-        
-      const saveHoltel = await HotelModel.create(hotel);
-      return saveHoltel.toJSON(); // return saved Holtel to client
+      const saveHotel = await HotelModel.create(hotel);
+      return saveHotel.toJSON(); // return saved Hotel to client
     } catch (error) {
       if (error instanceof BaseError) throw new InternalError(error.message);
       throw new InternalError('Unexpected error');
@@ -25,7 +24,7 @@ export class HotelRepository {
   public async updateHotelById(id: string, data: any) {
     try {
       const [affectedCount] = await HotelModel.update(data, {where: {id: id}});
-      if (affectedCount== 0) throw new NotFoundError('Hotel not found');
+      if (affectedCount == 0) throw new NotFoundError('Hotel not found');
       const Hotel = await this.getHotelById(id);
       return Hotel; // return saved Hotel to client
     } catch (error) {
@@ -46,8 +45,8 @@ export class HotelRepository {
   }
   public async getAllHotels(limit: number = 20, offset: number = 0) {
     try {
-      const holtels = await HotelModel.findAll({limit, offset});
-      return holtels; // return saved Hotel to client
+      const hotel = await HotelModel.findAll({limit, offset});
+      return hotel; // return saved Hotel to client
     } catch (error) {
       if (error instanceof BaseError) throw new InternalError(error.message); // sequelize base error
       throw new InternalError('Unexpected error');

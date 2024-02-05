@@ -28,7 +28,7 @@ export class UserRepository {
   public async updateUserById(id: string, data: UserEditAttributes) {
     try {
       const [affectedCount] = await UserModel.update(data, {where: {id: id}});
-      if (affectedCount== 0) throw new NotFoundError('User not found');
+      if (affectedCount == 0) throw new NotFoundError('User not found');
       const user = await this.getUserById(id);
       return user; // return saved user to client
     } catch (error) {

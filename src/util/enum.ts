@@ -3,5 +3,5 @@ export enum MealType {
   Lunch = 'Lunch',
   Dinner = 'Dinner',
   General = 'General',
-  Snack='Evening Snacks'
+  Snack = 'Evening Snacks',
 }

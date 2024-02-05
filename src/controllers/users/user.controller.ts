@@ -28,7 +28,9 @@ export class UsersController {
   }
   public static async deleteUserById(req: Request, res: Response) {
     try {
-      const data =await UsersController.userService.deleteUserById(req.params.id);
+      const data = await UsersController.userService.deleteUserById(
+        req.params.id
+      );
       return new SuccessResponse(res, 'OK', data).send();
     } catch (error) {
       if (error instanceof AppError) return AppError.handle(error, res);
@@ -37,7 +39,7 @@ export class UsersController {
   }
   public static async updateUserById(req: Request, res: Response) {
     try {
-      const data =await UsersController.userService.updateUserById(
+      const data = await UsersController.userService.updateUserById(
         req.params.id,
         req.body
       );
@@ -49,7 +51,7 @@ export class UsersController {
   }
   public static async addUser(req: Request, res: Response) {
     try {
-      const data =await UsersController.userService.registerUser(req.body);
+      const data = await UsersController.userService.registerUser(req.body);
       return new SuccessResponse(res, 'OK', data).send();
     } catch (error) {
       if (error instanceof AppError) return AppError.handle(error, res);
