@@ -9,6 +9,18 @@ export const Statistics = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    hotel: {
+      type: DataTypes.STRING,
+    },
+    hotelId: {
+      type: DataTypes.STRING,
+    },
+    username: {
+      type: DataTypes.STRING,
+    },
+    userId: {
+      type: DataTypes.STRING,
+    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false,

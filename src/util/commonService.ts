@@ -12,10 +12,12 @@ export const getValueOrGetDefaultValue = (
 };
 
 export const verifyUploadDateIsEqualsToFileDate = async (
-  fileDate: number,
+  fileDate: number | any,
   selectedDate: string
 ) => {
+  fileDate = moment(selectedDate);
   const parsedExpectedDate = moment(selectedDate);
+
   const isEqual = parsedExpectedDate.isSame(moment(fileDate), 'day');
   if (isEqual) return await Promise.resolve(true);
   throw new PreconditionFailedError(
@@ -45,7 +47,6 @@ export const verifyFileNameAsExpected = (
   }
 };
 export const validateObj = (expectedObj: string[], receivedObj: object) => {
-
   const receivedValues = Object.values(receivedObj);
 
   // Check if lengths of arrays are equal

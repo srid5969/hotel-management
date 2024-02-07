@@ -2,18 +2,42 @@ import {AppError, InternalError} from '../util/app-error';
 import {Statistics} from '../models/statistics.model';
 import sequelize from './../config/sequelize';
 export class StatisticsRepository {
-  public async bulkImportStatistics(type: string, date: number, data: any[]) {
+  public async bulkImportStatistics(
+    type: string,
+    username: string,
+    userId: string,
+    hotel: string,
+    hotelId: string,
+    date: number,
+    data: any[]
+  ) {
     const t = await sequelize.transaction();
     try {
       await Promise.all(
         data.map(async record => {
+          record.username = username;
+          record.userId = userId;
+          record.hotel = hotel;
+          record.hotelId = hotelId;
           const ifAlreadyExits = await Statistics.findOne({
-            where: {type: type, date: date, source: record.source},
+            where: {
+              type: type,
+              date: date,
+              source: record.source,
+              hotelId,
+              hotel,
+            },
             transaction: t,
           });
           if (ifAlreadyExits)
             await Statistics.update(record, {
-              where: {type: type, date: date, source: record.source},
+              where: {
+                type: type,
+                date: date,
+                source: record.source,
+                hotelId,
+                hotel,
+              },
               transaction: t,
             });
           else
