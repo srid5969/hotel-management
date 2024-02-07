@@ -3,8 +3,15 @@ import {read as readXlsx, utils as xlsxUtils} from 'xlsx';
 import {RevenueRepository} from '../../repositories/revenueRepository';
 import {SuccessResponse} from '../../util/apiResponse';
 import {AppError, PreconditionFailedError} from '../../util/app-error';
-import {getValueOrGetDefaultValue} from '../../util/commonService';
+import {
+  getValueOrGetDefaultValue,
+  validateObj,
+  verifyFileNameAsExpected,
+  verifyUploadDateIsEqualsToFileDate,
+} from '../../util/commonService';
 import {StatisticsRepository} from '../../repositories/statisticsRepository';
+import {IReportReqBody} from '../../business_objects/report';
+import {fileNameRegex} from '../../util/constants';
 export class RevenueController {
   static revenueRepository = new RevenueRepository();
   static statisticsRepository = new StatisticsRepository();
@@ -16,6 +23,11 @@ export class RevenueController {
       const buffer = req.file.buffer;
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
+      console.log(req.file.originalname);
+      verifyFileNameAsExpected(
+        fileNameRegex.historyAndForecast,
+        req.file.originalname
+      );
       type RevenueImportObject = {
         Date: string;
         'FIT Rnt': number;
@@ -52,12 +64,36 @@ export class RevenueController {
           ],
         }
       );
-      const hotel = sheetData[0].Date.replace('HOTEL NAME - ', '').trim();
+      validateObj(
+        [
+          'Date',
+          'FIT Rnt',
+          'GRP Rnt',
+          'Total Occ',
+          'Rms/Avl.',
+          'OOO/OOS',
+          'OCC%',
+          'Avg Rate',
+          'Room Rev',
+          'FNB Rev',
+          'Other Rev',
+          'Total Rev',
+          'No.of Person',
+        ],
+        sheetData[2]
+      );
+      const {username, userId, hotel, hotelId, date}: any = req.body;
+      if (!(username && userId && hotel && hotelId && date))
+        throw new PreconditionFailedError('Payload missing required data');
+      // const hotel = sheetData[0].Date.replace('HOTEL NAME - ', '').trim();
       sheetData = sheetData.slice(3);
-      const parsedArr: {history: any[]; forecast: any[]; hotel: string} = {
+      const parsedArr: {history: any[]; forecast: any[]; hotel: string;hotelId: string;username: string;userId: string;} = {
         hotel,
         history: [],
         forecast: [],
+        hotelId,
+        userId,
+        username
       };
       let currentValue: any = null;
       const regex = /^_+$/;
@@ -108,25 +144,28 @@ export class RevenueController {
       );
       return new SuccessResponse(res, 'Success', parsedArr).send();
     } catch (error) {
-      console.log(error);
-
       AppError.handle(error, res);
     }
   }
   public static async importBusinessSourceIncomeController(
-    req: Request,
+    req: Request<null, null, IReportReqBody>,
     res: Response
   ) {
     try {
+      const body = req.body;
+      if (!req.file) throw new PreconditionFailedError('File not found');
       const buffer = req.file.buffer;
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
+      verifyFileNameAsExpected(
+        fileNameRegex.businessSource,
+        req.file.originalname
+      );
       const date: number = new Date(
-        req.file.originalname.replace(
-          /MIS B Business Source as on (\d{2}) (\w{3}) (\d{4}).xlsx/,
-          '$3 $2 $1'
-        )
+        req.file.originalname.replace(fileNameRegex.businessSource, '$3 $2 $1')
       ).setUTCHours(0, 0, 0, 0);
+      await verifyUploadDateIsEqualsToFileDate(date, body.uploadDate);
+
       let sheetData: {
         [key in string]: string | number | null;
       }[] = xlsxUtils.sheet_to_json(workbook.Sheets[sheetName], {
@@ -193,13 +232,18 @@ export class RevenueController {
   }
 
   public static async importMarketSegmentController(
-    req: Request,
+    req: Request<null, null, IReportReqBody>,
     res: Response
   ) {
     try {
+      const body = req.body;
       const buffer = req.file.buffer;
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
+      verifyFileNameAsExpected(
+        fileNameRegex.marketSegment,
+        req.file.originalname
+      );
       const date: number = new Date(
         req.file.originalname
           .replace('  ', ' ') //if 2 space exist convert to single space
@@ -208,6 +252,7 @@ export class RevenueController {
             '$3 $2 $1'
           )
       ).setUTCHours(0, 0, 0, 0);
+      await verifyUploadDateIsEqualsToFileDate(date, body.uploadDate);
       let sheetData: {
         [key in string]: string | number | null;
       }[] = xlsxUtils.sheet_to_json(workbook.Sheets[sheetName], {

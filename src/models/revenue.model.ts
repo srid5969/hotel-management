@@ -12,6 +12,15 @@ export const Revenues = sequelize.define(
     hotel: {
       type: DataTypes.STRING,
     },
+    hotelId: {
+      type: DataTypes.STRING,
+    },
+    username: {
+      type: DataTypes.STRING,
+    },
+    userId: {
+      type: DataTypes.STRING,
+    },
     type: {
       type: DataTypes.ENUM('History', 'ForeCast'),
     },

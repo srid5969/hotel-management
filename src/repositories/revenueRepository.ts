@@ -30,17 +30,30 @@ export class RevenueRepository {
       noPerson: number;
     }[];
     hotel: string;
+    hotelId: string;
+    username: string;
+    userId: string;
   }) {
     const t = await sequelize.transaction();
     try {
       await Promise.all(
         data.forecast.map(async revenue => {
           console.log(revenue);
-
+          await Revenues.destroy({
+            where: {
+              hotelId: data.hotelId,
+              date: revenue.date,
+              type: 'ForeCast',
+            },
+            transaction: t,
+          });
           await Revenues.create(
             {
               ...revenue,
               hotel: data.hotel,
+              username: data.username,
+              userId: data.userId,
+              hotelId: data.hotelId,
               type: 'ForeCast',
             },
             {transaction: t}
@@ -49,9 +62,20 @@ export class RevenueRepository {
       );
       await Promise.all(
         data.history.map(async revenue => {
+          await Revenues.destroy({
+            where: {
+              hotelId: data.hotelId,
+              date: revenue.date,
+              type: 'History',
+            },
+            transaction: t,
+          });
           await Revenues.create({
             ...revenue,
             hotel: data.hotel,
+            username: data.username,
+            userId: data.userId,
+            hotelId: data.hotelId,
             type: 'History',
           }),
             {transaction: t};
@@ -62,7 +86,7 @@ export class RevenueRepository {
       await t.rollback();
       if (error instanceof AppError) throw error;
       console.log(error);
-      
+
       throw new InternalError('Unexpected Error ');
     }
   }
