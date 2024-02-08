@@ -24,8 +24,13 @@ export const Revenues = sequelize.define(
     type: {
       type: DataTypes.ENUM('History', 'ForeCast'),
     },
+    reportDate: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
     date: {
       type: DataTypes.DATEONLY,
+      allowNull: false,
     },
     fitRnt: {
       type: DataTypes.FLOAT,

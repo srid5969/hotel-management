@@ -21,6 +21,10 @@ export const Statistics = sequelize.define(
     userId: {
       type: DataTypes.STRING,
     },
+    reportDate: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false,

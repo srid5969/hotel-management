@@ -33,12 +33,12 @@ export class RevenueRepository {
     hotelId: string;
     username: string;
     userId: string;
+    reportDate: string | Date;
   }) {
     const t = await sequelize.transaction();
     try {
       await Promise.all(
         data.forecast.map(async revenue => {
-          console.log(revenue);
           await Revenues.destroy({
             where: {
               hotelId: data.hotelId,
@@ -50,6 +50,7 @@ export class RevenueRepository {
           await Revenues.create(
             {
               ...revenue,
+              reportDate: data.reportDate,
               hotel: data.hotel,
               username: data.username,
               userId: data.userId,
@@ -72,6 +73,7 @@ export class RevenueRepository {
           });
           await Revenues.create({
             ...revenue,
+            reportDate: data.reportDate,
             hotel: data.hotel,
             username: data.username,
             userId: data.userId,
@@ -85,8 +87,6 @@ export class RevenueRepository {
     } catch (error) {
       await t.rollback();
       if (error instanceof AppError) throw error;
-      console.log(error);
-
       throw new InternalError('Unexpected Error ');
     }
   }

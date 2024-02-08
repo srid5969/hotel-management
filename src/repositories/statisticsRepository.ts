@@ -19,6 +19,7 @@ export class StatisticsRepository {
           record.userId = userId;
           record.hotel = hotel;
           record.hotelId = hotelId;
+          record.reportDate = date;
           const ifAlreadyExits = await Statistics.findOne({
             where: {
               type: type,

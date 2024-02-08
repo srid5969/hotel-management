@@ -94,6 +94,7 @@ export class RevenueController {
         hotelId: string;
         username: string;
         userId: string;
+        reportDate: string;
       } = {
         hotel,
         history: [],
@@ -101,6 +102,7 @@ export class RevenueController {
         hotelId,
         userId,
         username,
+        reportDate: date,
       };
       let currentValue: any = null;
       const regex = /^_+$/;
