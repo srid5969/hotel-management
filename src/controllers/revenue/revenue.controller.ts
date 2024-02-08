@@ -173,10 +173,10 @@ export class RevenueController {
       //   fileNameRegex.businessSource,
       //   req.file.originalname
       // );
-      const fileDate: number = new Date(
-        req.file.originalname.replace(fileNameRegex.businessSource, '$3 $2 $1')
-      ).setUTCHours(0, 0, 0, 0);
-      await verifyUploadDateIsEqualsToFileDate(fileDate, date);
+      // const fileDate: number = new Date(
+      //   req.file.originalname.replace(fileNameRegex.businessSource, '$3 $2 $1')
+      // ).setUTCHours(0, 0, 0, 0);
+      // await verifyUploadDateIsEqualsToFileDate(fileDate, date);
 
       let sheetData: {
         [key in string]: string | number | null;
@@ -261,7 +261,7 @@ export class RevenueController {
         userId,
         hotel,
         hotelId,
-        fileDate,
+        date,
         sheetData
       );
       return new SuccessResponse(res, 'Success', {
@@ -289,10 +289,10 @@ export class RevenueController {
       //   fileNameRegex.marketSegment,
       //   req.file.originalname
       // );
-      const fileDate: number = new Date(
-        req.file.originalname.replace(fileNameRegex.marketSegment, '$3 $2 $1')
-      ).setUTCHours(0, 0, 0, 0);
-      await verifyUploadDateIsEqualsToFileDate(fileDate, date);
+      // const fileDate: number = new Date(
+      //   req.file.originalname.replace(fileNameRegex.marketSegment, '$3 $2 $1')
+      // ).setUTCHours(0, 0, 0, 0);
+      // await verifyUploadDateIsEqualsToFileDate(fileDate, date);
       let sheetData: {
         [key in string]: string | number | null;
       }[] = xlsxUtils.sheet_to_json(workbook.Sheets[sheetName], {
