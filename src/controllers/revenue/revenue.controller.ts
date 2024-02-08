@@ -1,17 +1,16 @@
-import {Request, Response} from 'express';
-import {read as readXlsx, utils as xlsxUtils} from 'xlsx';
-import {RevenueRepository} from '../../repositories/revenueRepository';
-import {SuccessResponse} from '../../util/apiResponse';
-import {AppError, PreconditionFailedError} from '../../util/app-error';
+import { Request, Response } from 'express';
+import { read as readXlsx, utils as xlsxUtils } from 'xlsx';
+import { IReportReqBody } from '../../business_objects/report';
+import { RevenueRepository } from '../../repositories/revenueRepository';
+import { StatisticsRepository } from '../../repositories/statisticsRepository';
+import { SuccessResponse } from '../../util/apiResponse';
+import { AppError, PreconditionFailedError } from '../../util/app-error';
 import {
   getValueOrGetDefaultValue,
   validateObj,
-  verifyFileNameAsExpected,
-  verifyUploadDateIsEqualsToFileDate,
+  verifyUploadDateIsEqualsToFileDate
 } from '../../util/commonService';
-import {StatisticsRepository} from '../../repositories/statisticsRepository';
-import {IReportReqBody} from '../../business_objects/report';
-import {fileNameRegex} from '../../util/constants';
+import { fileNameRegex } from '../../util/constants';
 export class RevenueController {
   static revenueRepository = new RevenueRepository();
   static statisticsRepository = new StatisticsRepository();
@@ -24,10 +23,10 @@ export class RevenueController {
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
       console.log(req.file.originalname);
-      verifyFileNameAsExpected(
-        fileNameRegex.historyAndForecast,
-        req.file.originalname
-      );
+      // verifyFileNameAsExpected(
+      //   fileNameRegex.historyAndForecast,
+      //   req.file.originalname
+      // );
       type RevenueImportObject = {
         Date: string;
         'FIT Rnt': number;
@@ -170,10 +169,10 @@ export class RevenueController {
       const sheetName = workbook.SheetNames[0];
       console.log(req.file.originalname);
 
-      verifyFileNameAsExpected(
-        fileNameRegex.businessSource,
-        req.file.originalname
-      );
+      // verifyFileNameAsExpected(
+      //   fileNameRegex.businessSource,
+      //   req.file.originalname
+      // );
       const fileDate: number = new Date(
         req.file.originalname.replace(fileNameRegex.businessSource, '$3 $2 $1')
       ).setUTCHours(0, 0, 0, 0);
@@ -286,10 +285,10 @@ export class RevenueController {
       const sheetName = workbook.SheetNames[0];
       console.log(req.file.originalname);
 
-      verifyFileNameAsExpected(
-        fileNameRegex.marketSegment,
-        req.file.originalname
-      );
+      // verifyFileNameAsExpected(
+      //   fileNameRegex.marketSegment,
+      //   req.file.originalname
+      // );
       const fileDate: number = new Date(
         req.file.originalname.replace(fileNameRegex.marketSegment, '$3 $2 $1')
       ).setUTCHours(0, 0, 0, 0);

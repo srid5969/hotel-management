@@ -57,7 +57,10 @@ export const validateObj = (expectedObj: string[], receivedObj: object) => {
   // Check if each element in receivedValues is equal to corresponding element in expectedObj
   for (let i = 0; i < expectedObj.length; i++) {
     if (receivedValues[i] !== expectedObj[i]) {
-      throw new PreconditionFailedError('Expected Object is not present');
+      // If not equal, throw an error indicating where the mismatch occurred
+      throw new PreconditionFailedError(
+        `Mismatch found at index ${i}. Expected: ${expectedObj[i]}, Received: ${receivedValues[i]}`
+      );
     }
   }
 };
