@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {PreconditionFailedError} from './app-error';
+import { PreconditionFailedError } from './app-error';
 
 export const getValueOrGetDefaultValue = (
   param: string | number | null
@@ -64,3 +64,68 @@ export const validateObj = (expectedObj: string[], receivedObj: object) => {
     }
   }
 };
+
+export function parseSessionInfo(data: any) {
+  return {
+    foodCov: getValueOrGetDefaultValue(data['B']),
+    foodAmd: getValueOrGetDefaultValue(data['C']),
+    foodAvg: getValueOrGetDefaultValue(data['D']),
+
+    liqCov: getValueOrGetDefaultValue(data['E']),
+    liqAmd: getValueOrGetDefaultValue(data['F']),
+    liqAvg: getValueOrGetDefaultValue(data['G']),
+
+    softDrinkCov: getValueOrGetDefaultValue(data['H']),
+    softDrinkAmd: getValueOrGetDefaultValue(data['I']),
+    softDrinkAvg: getValueOrGetDefaultValue(data['J']),
+
+    tobaccoCov: getValueOrGetDefaultValue(data['K']),
+    tobaccoAmd: getValueOrGetDefaultValue(data['L']),
+    tobaccoAvg: getValueOrGetDefaultValue(data['M']),
+
+    othersCov: getValueOrGetDefaultValue(data['N']),
+    othersAmd: getValueOrGetDefaultValue(data['O']),
+    othersAvg: getValueOrGetDefaultValue(data['P']),
+
+    totalCov: getValueOrGetDefaultValue(data['Q']),
+    totalAmd: getValueOrGetDefaultValue(data['R']),
+    totalAvg: getValueOrGetDefaultValue(data['S']),
+  };
+}
+
+export function takeOneSession(data: any[]) {
+  const hotel = data[0].A;
+  if (hotel == 'Session Total') return;
+  data.shift();
+  const session = data[1].A;
+  data.shift();
+  const result: any = {};
+  for (let i = 0; i < data.length; i++) {
+    if (data[i]['A'] === 'Resident') {
+      result.resident = parseSessionInfo(data[i]);
+      data.shift();
+      continue;
+    } else if (data[i]['A'] === 'Non Resident') {
+      result.non_resident = parseSessionInfo(data[i]);
+      data.shift();
+      continue;
+    } else if (data[i]['A'] === 'Session Total') {
+      result.sessionTotal = parseSessionInfo(data[i]);
+      data.shift();
+      continue;
+    } else {
+      result.outletTotal = parseSessionInfo(data[i]);
+      data.shift();
+      break;
+    }
+
+  }
+  return {
+    hotel,
+    session,
+    resident: result.resident,
+    non_resident: result.non_resident,
+    sessionTotal: result.sessionTotal,
+    outletTotal: result.outletTotal,
+  };
+}

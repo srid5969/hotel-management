@@ -7,10 +7,8 @@ import { SuccessResponse } from '../../util/apiResponse';
 import { AppError, PreconditionFailedError } from '../../util/app-error';
 import {
   getValueOrGetDefaultValue,
-  validateObj,
-  verifyUploadDateIsEqualsToFileDate
+  validateObj
 } from '../../util/commonService';
-import { fileNameRegex } from '../../util/constants';
 export class RevenueController {
   static revenueRepository = new RevenueRepository();
   static statisticsRepository = new StatisticsRepository();
