@@ -68,3 +68,13 @@ RevenueRouter.get(
   '/f&b-revenue-outlet',
   asyncWrapper(RevenueGetController.F_and_B_revenue)
 );
+
+RevenueRouter.get(
+  '/f&b-revenue-banquet',
+  asyncWrapper(RevenueGetController.F_and_B_revenue)
+);
+
+RevenueRouter.get(
+  '/f&b-total-revenue',
+  asyncWrapper(RevenueGetController.F_and_B_revenue)
+);
