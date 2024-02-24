@@ -1,5 +1,7 @@
+import { Response } from 'express';
+import * as htmlPdf from 'html-pdf';
 import moment from 'moment';
-import {PreconditionFailedError} from './app-error';
+import { PreconditionFailedError } from './app-error';
 
 export const getValueOrGetDefaultValue = (
   param: string | number | null
@@ -65,4 +67,32 @@ export const validateObj = (expectedObj: string[], receivedObj: object) => {
   }
 };
 
+export async function generatePdf(html: string): Promise<Buffer> {
+  return new Promise<Buffer>((resolve, reject) => {
+    const options: htmlPdf.CreateOptions = {
+      format: 'A4',
+    };
 
+    htmlPdf.create(html, options).toBuffer((err, buffer) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(buffer);
+      }
+    });
+  });
+}
+
+export const GeneratePdfUsingHTMLAndSendInResponse = async (
+  res: Response,
+  htmlContent: string,
+  fileName = ''
+) => {
+  const pdfBuffer = await generatePdf(htmlContent);
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader(
+    'Content-Disposition',
+    'attachment; filename="' + fileName + '.pdf"'
+  );
+  res.send(pdfBuffer);
+};
