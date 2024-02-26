@@ -1,3 +1,5 @@
+import { GeneratePdfUsingHTMLAndSendInResponse } from './../../util/commonService';
+import {cityWiseHTMLTemplate} from './../../util/html-template/city-wise-revenue.pdf-html-template';
 import {SuccessResponse} from './../../util/apiResponse';
 import {Request, Response} from 'express';
 
@@ -346,34 +348,8 @@ export class RevenueGetController {
   }
 
   static async getCityWiseRevenue(req: Request, res: Response) {
-    new SuccessResponse(res, 'success', {
-      lastYear: {
-        hotel: '',
-        city: '',
-        roomNightsAvailable: 1,
-        roomNightsSold: 1,
-        occupancy: null,
-        arr: null,
-        revPAR: null,
-        roomRevenue: null,
-        fAndBRevenue: 0,
-        otherRevenue: 0,
-        totalRevenue: 0,
-      },
-      currentYear: {
-        hotel: '',
-        city: '',
-        roomNightsAvailable: 1,
-        roomNightsSold: 1,
-        occupancy: null,
-        arr: null,
-        revPAR: null,
-        roomRevenue: null,
-        fAndBRevenue: 0,
-        otherRevenue: 0,
-        totalRevenue: 0,
-      },
-    }).send();
+    const html = cityWiseHTMLTemplate();
+    GeneratePdfUsingHTMLAndSendInResponse(res,html,'city-wise-revenue-report')
   }
 
   static async getHotelRoomRevenue(req: Request, res: Response) {
