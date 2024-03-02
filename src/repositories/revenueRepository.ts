@@ -101,7 +101,6 @@ export class RevenueRepository {
     month: string
   ): Promise<RevenueData[]> {
     const currentYear = getYear(new Date());
-    console.log('in repo');
     const data = await sequelize.query(
       reportSqlQueries.getOverAllRevenuePerHotelByMonth(month, hotel, [
         currentYear - 2,
@@ -110,7 +109,6 @@ export class RevenueRepository {
       ]),
       {type: QueryTypes.SELECT}
     );
-    console.log('got result');
     return data as RevenueData[];
   }
 }

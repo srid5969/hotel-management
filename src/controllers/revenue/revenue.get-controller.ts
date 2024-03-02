@@ -146,8 +146,6 @@ export class RevenueGetController {
       const currentYearData = data.find(t => t.year == currentYear);
       const preYearData = data.find(t => t.year == currentYear - 1);
       const preTwoYearData = data.find(t => t.year == currentYear - 2);
-      console.log('about to generate pdf');
-
       GeneratePdfUsingHTMLAndSendInResponse(
         res,
         await overAllRevenueHtmlTemplate({
@@ -204,8 +202,6 @@ export class RevenueGetController {
         'overall-revenue-per-hotel-mtd'
       );
     } catch (error) {
-      console.log(error);
-
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res).send();
     }

@@ -50,8 +50,6 @@ export class StatisticsRepository {
       );
       await t.commit();
     } catch (error) {
-      console.log(error);
-
       await t.rollback();
       if (error instanceof AppError) throw error;
       throw new InternalError('Unexpected Error');

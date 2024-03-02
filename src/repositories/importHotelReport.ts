@@ -33,8 +33,6 @@ export class ImportHotelReportReportFromExsl {
       await t.commit();
       return data;
     } catch (error) {
-      console.log(error);
-
       await t.rollback();
       if (error instanceof BaseError) throw new InternalError(error.message); // sequelize base error
       throw new InternalError('Unexpected error');
@@ -70,8 +68,6 @@ export class ImportHotelReportReportFromExsl {
       await t.commit();
       return data;
     } catch (error) {
-      console.log(error);
-
       await t.rollback();
       if (error instanceof BaseError) throw new InternalError(error.message); // sequelize base error
       throw new InternalError('Unexpected error');

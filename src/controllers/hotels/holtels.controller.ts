@@ -87,18 +87,15 @@ export class HotelsController {
       for (let i = 0; i < jsonData.length; i++) {
         const element = jsonData[i];
         const values = Object.values(element);
-        // console.log(values);
 
         if (values.length == 1 && regex.test(String(values[0]))) {
           //remove ______
           continue;
         } else if (values.length == 1) {
           hotel = values[0];
-          // console.log(hotel);
 
           continue;
         } else if (values[0] != 'Res. Total' && values[0] != 'Grnd. Total') {
-          // console.log(hotel);
 
           const arr = String(values[0]).split('/');
           const date = new Date(`${arr[2]}-${arr[1]}-${arr[0]}`).setUTCHours(
@@ -126,17 +123,14 @@ export class HotelsController {
             console.log(hotel, values);
           }
         } else {
-          // console.log(values);
         }
 
-        // console.log(Object.values(element));
         // data.push(Object.values(element));
       }
       const result =
         await HotelsController.importHotelServices.importMonthlyReport(data);
       return new SuccessResponse(res, 'OK', result).send();
     } catch (error) {
-      console.log('error', error);
 
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res).send();
@@ -150,23 +144,12 @@ export class HotelsController {
       const buffer = req.file.buffer;
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
-      console.log(req.file.originalname);
-      console.log(
-        req.file.originalname.replace(
-          /Daily Sales Report as on (\d{2})\/(\w{3})\/(\d{4}).xlsx/,
-          '$3 $2 $1'
-        )
-      );
-
       const date = new Date(
         req.file.originalname.replace(
           /Daily Sales Reports as on (\d{2}) (\w{3}) (\d{4}).xlsx/,
           '$3 $2 $1'
         )
       ).setUTCHours(0, 0, 0, 0);
-
-      console.log(date, req.file.originalname);
-
       const jsonData: DailySalesDataFromExcel[] = xlsxUtils.sheet_to_json(
         workbook.Sheets[sheetName],
         {
@@ -251,18 +234,14 @@ export class HotelsController {
       // for (let i = 0; i < jsonData.length; i++) {
       //   const element = jsonData[i];
       //   const values = Object.values(element);
-      //   // console.log(values);
 
       //   if (values.length == 1 && regex.test(String(values[0]))) {
       //     //remove ______
       //     continue;
       //   } else if (values.length == 1) {
       //     hotel = values[0];
-      //     // console.log(hotel);
-
       //     continue;
       //   } else if (values[0] != 'Res. Total' && values[0] != 'Grnd. Total') {
-      //     // console.log(hotel);
 
       //     const arr = String(values[0]).split('/');
       //     const date = new Date(`${arr[2]}-${arr[1]}-${arr[0]}`);
@@ -282,21 +261,16 @@ export class HotelsController {
       //       };
       //       data.push(hotelReportByDate);
       //     } else {
-      //       console.log(hotel, values);
       //     }
       //   } else {
-      //     // console.log(values);
       //   }
 
-      //   // console.log(Object.values(element));
       //   // data.push(Object.values(element));
       // }
       const result =
         await HotelsController.importHotelServices.importDailyReport(data);
       return new SuccessResponse(res, 'OK', result).send();
     } catch (error) {
-      console.log('error', error);
-
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res).send();
     }

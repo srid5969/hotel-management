@@ -58,8 +58,6 @@ export const handleUserSession = (_asyncRouteHandler: ExpressMiddleware) => {
 
               //code...
             } catch (error) {
-              console.log(error);
-
               const response = new InternalErrorResponse(res, 'Server error');
               return response.send();
             }

@@ -55,8 +55,6 @@ export class CoverAnalysisReportRepository {
         })
       );
     } catch (error) {
-        console.log(error);
-        
       if (error instanceof AppError) throw error;
       throw new InternalError(error.message ?? 'Unexpected Error Ocurred');
     }

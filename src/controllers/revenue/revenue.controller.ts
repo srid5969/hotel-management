@@ -20,7 +20,6 @@ export class RevenueController {
       const buffer = req.file.buffer;
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
-      console.log(req.file.originalname);
       // verifyFileNameAsExpected(
       //   fileNameRegex.historyAndForecast,
       //   req.file.originalname
@@ -165,8 +164,6 @@ export class RevenueController {
       const buffer = req.file.buffer;
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
-      console.log(req.file.originalname);
-
       // verifyFileNameAsExpected(
       //   fileNameRegex.businessSource,
       //   req.file.originalname
@@ -281,7 +278,6 @@ export class RevenueController {
       const buffer = req.file.buffer;
       const workbook = readXlsx(buffer, {type: 'buffer'});
       const sheetName = workbook.SheetNames[0];
-      console.log(req.file.originalname);
 
       // verifyFileNameAsExpected(
       //   fileNameRegex.marketSegment,

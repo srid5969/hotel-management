@@ -77,8 +77,6 @@ export class AnalysisReportController {
       );
       return new SuccessResponse(res, 'success', extractedData).send();
     } catch (error) {
-      console.log(error);
-
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res).send();
     }
