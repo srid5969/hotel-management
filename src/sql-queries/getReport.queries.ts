@@ -24,7 +24,6 @@ export const reportSqlQueries = {
         `;
   },
   getOverAllRevenuePerHotelByYear(
-    month: string,
     hotel: string,
     years: number[]
   ) {
@@ -41,8 +40,8 @@ export const reportSqlQueries = {
         report.roomRev +  report.fnbRev+ report.otherRev as totalRevenue,
         DATEPART(YEAR, report.date) as year,
         DATEPART(MONTH, report.date) as month
-        from Revenues as report where DATEPART(MONTH, report.date) = ${month} 
-        and report.hotelId='${hotel}' 
+        from Revenues as report where
+        report.hotelId='${hotel}' 
         and report.type='History'
         and DATEPART(YEAR, report.date) in (${years.join(',')})
         `;

@@ -7,7 +7,7 @@ import {GeneratePdfUsingHTMLAndSendInResponse} from './../../util/commonService'
 import {cityWiseHTMLTemplate} from './../../util/html-template/city-wise-revenue.pdf-html-template';
 import {
   RevenueData,
-  overAllRevenueHtmlTemplate,
+  overAllRevenueForYTDHtmlTemplate,overAllRevenueHtmlForMTDTemplate
 } from './../../util/html-template/over-all-revenue.template-html';
 
 export class RevenueGetController {
@@ -137,10 +137,9 @@ export class RevenueGetController {
           req.query.hotel as string,
           req.query.month as string
         );
-      const date = new Date(2022, Number(req.query.month) - 1); // Subtract 1 from month to adjust to zero-based index
-      const monthName = format(date, 'MMMM');
-
       const currentYear = getYear(new Date());
+      const date = new Date(currentYear, Number(req.query.month) - 1); // Subtract 1 from month to adjust to zero-based index
+      const monthName = format(date, 'MMMM');
 
       //convert to html
       const currentYearData = data.find(t => t.year == currentYear);
@@ -148,7 +147,7 @@ export class RevenueGetController {
       const preTwoYearData = data.find(t => t.year == currentYear - 2);
       GeneratePdfUsingHTMLAndSendInResponse(
         res,
-        await overAllRevenueHtmlTemplate({
+        await overAllRevenueHtmlForMTDTemplate({
           year: currentYear,
           month: monthName,
           currentYear: currentYearData,
@@ -207,7 +206,77 @@ export class RevenueGetController {
     }
   }
   static async getOverallRevenuePerHotelYTD(req: Request, res: Response) {
-    new SuccessResponse(res, 'success', this.staticData).send();
+    try {
+      const data: RevenueData[] =
+        await RevenueGetController.revenueService.getOverAllRevenueOfHotelByYear(
+          req.query.hotel as string
+        );
+      const currentYear = getYear(new Date());
+
+      //convert to html
+      const currentYearData = data.find(t => t.year == currentYear);
+      const preYearData = data.find(t => t.year == currentYear - 1);
+      const preTwoYearData = data.find(t => t.year == currentYear - 2);
+      GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        await overAllRevenueForYTDHtmlTemplate({
+          year: currentYear,
+          currentYear: currentYearData,
+          oneYearB4Now: preYearData,
+          twoYearB4Now: preTwoYearData,
+          variance: {
+            availableRooms:
+              Number(currentYearData?.availableRooms || 0) -
+              Number(preTwoYearData?.availableRooms || 0),
+            notAvailableRooms:
+              Number(currentYearData?.notAvailableRooms || 0) -
+              Number(preTwoYearData?.notAvailableRooms || 0),
+            occupancyPercentage:
+              Number(currentYearData?.occupancyPercentage || 0) -
+              Number(preTwoYearData?.occupancyPercentage || 0),
+            roomRevenue:
+              Number(currentYearData?.roomRevenue || 0) -
+              Number(preTwoYearData?.roomRevenue || 0),
+            foodAndBeverageRevenue:
+              Number(currentYearData?.foodAndBeverageRevenue || 0) -
+              Number(preTwoYearData?.foodAndBeverageRevenue || 0),
+            otherRevenue:
+              Number(currentYearData?.otherRevenue || 0) -
+              Number(preTwoYearData?.otherRevenue || 0),
+            roomsSold:
+              Number(currentYearData?.roomsSold || 0) -
+              Number(preTwoYearData?.roomsSold || 0),
+            roomsSoldPerDay:
+              Number(currentYearData?.roomsSoldPerDay || 0) -
+              Number(preTwoYearData?.roomsSoldPerDay || 0),
+            totalRevenue:
+              Number(currentYearData?.totalRevenue || 0) -
+              Number(preTwoYearData?.totalRevenue || 0),
+            apc:
+              Number(currentYearData?.apc || 0) -
+              Number(preTwoYearData?.apc || 0), //n/a
+            noOfCovers:
+              Number(currentYearData?.noOfCovers || 0) -
+              Number(preTwoYearData?.noOfCovers || 0), //n/a
+            noOfCoversPerDay:
+              Number(currentYearData?.noOfCoversPerDay || 0) -
+              Number(preTwoYearData?.noOfCoversPerDay || 0), //n/a
+            arr:
+              Number(currentYearData?.arr || 0) -
+              Number(preTwoYearData?.arr || 0), //n/a
+            revPar:
+              Number(currentYearData?.revPar || 0) -
+              Number(preTwoYearData?.revPar || 0), //n/a
+          },
+        }),
+        'overall-revenue-per-hotel-mtd'
+      );
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof AppError) return AppError.handle(error, res);
+      return new InternalErrorResponse(res).send();
+    }
   }
   static async getTotalRevenueUnitWise(req: Request, res: Response) {
     new SuccessResponse(res, 'success', {

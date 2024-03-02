@@ -111,4 +111,18 @@ export class RevenueRepository {
     );
     return data as RevenueData[];
   }
+  public async getOverAllRevenueOfHotelByYear(
+    hotel: string
+  ): Promise<RevenueData[]> {
+    const currentYear = getYear(new Date());
+    const data = await sequelize.query(
+      reportSqlQueries.getOverAllRevenuePerHotelByYear(hotel, [
+        currentYear - 2,
+        currentYear - 1,
+        currentYear,
+      ]),
+      {type: QueryTypes.SELECT}
+    );
+    return data as RevenueData[];
+  }
 }
