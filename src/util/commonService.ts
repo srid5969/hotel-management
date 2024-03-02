@@ -1,6 +1,7 @@
 import {Response} from 'express';
 import * as htmlPdf from 'html-pdf';
 import moment from 'moment';
+import {Stream} from 'stream';
 import {PreconditionFailedError} from './app-error';
 
 export const getValueOrGetDefaultValue = (
@@ -67,34 +68,28 @@ export const validateObj = (expectedObj: string[], receivedObj: object) => {
   }
 };
 
-export async function generatePdf(html: string): Promise<Buffer> {
-  return new Promise<Buffer>((resolve, reject) => {
-    const options: htmlPdf.CreateOptions = {
-      format: 'A4',
-    };
-
-    htmlPdf.create(html, options).toBuffer((err, buffer) => {
-      if (err) {
-        console.log(err);
-
-        reject(err);
-      } else {
-        resolve(buffer);
-      }
-    });
+export async function generatePdf(html: string, res: Response) {
+  const options: htmlPdf.CreateOptions = {
+    format: 'A4',
+  };
+  htmlPdf.create(html, options).toStream((err, stream: Stream) => {
+    if (err) {
+      throw err;
+    } else {
+      stream.pipe(res);
+    }
   });
 }
 
-export const GeneratePdfUsingHTMLAndSendInResponse = async (
+export const GeneratePdfUsingHTMLAndSendInResponse = (
   res: Response,
   htmlContent: string,
   fileName = ''
 ) => {
-  const pdfBuffer = await generatePdf(htmlContent);
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader(
     'Content-Disposition',
     'attachment; filename="' + fileName + '.pdf"'
   );
-  res.send(pdfBuffer);
+  generatePdf(htmlContent, res);
 };
