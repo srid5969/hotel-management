@@ -3,7 +3,10 @@ import {Request, Response} from 'express';
 import {RevenueRepository} from '../../repositories/revenueRepository';
 import {InternalErrorResponse, SuccessResponse} from './../../util/apiResponse';
 import {AppError} from './../../util/app-error';
-import {GeneratePdfUsingHTMLAndSendInResponse} from './../../util/commonService';
+import {
+  GeneratePdfUsingHTMLAndSendInResponse,
+  getValueOrGetDefaultValue,
+} from './../../util/commonService';
 import {cityWiseHTMLTemplate} from './../../util/html-template/city-wise-revenue.pdf-html-template';
 import {
   RevenueData,
@@ -137,7 +140,6 @@ export class RevenueGetController {
           req.query.hotel as string,
           req.query.month as string
         );
-      console.log('geot result in controller');
       const currentYear = getYear(new Date());
 
       //convert to html
@@ -146,12 +148,56 @@ export class RevenueGetController {
       const preTwoYearData = data.find(t => t.year == currentYear - 2);
       console.log('about to generate pdf');
 
-      await GeneratePdfUsingHTMLAndSendInResponse(
+      GeneratePdfUsingHTMLAndSendInResponse(
         res,
         await overAllRevenueHtmlTemplate({
           currentYear: currentYearData,
           oneYearB4Now: preYearData,
           twoYearB4Now: preTwoYearData,
+          variance: {
+            availableRooms:
+              Number(currentYearData?.availableRooms || 0) -
+              Number(preTwoYearData?.availableRooms || 0),
+            notAvailableRooms:
+              Number(currentYearData?.notAvailableRooms || 0) -
+              Number(preTwoYearData?.notAvailableRooms || 0),
+            occupancyPercentage:
+              Number(currentYearData?.occupancyPercentage || 0) -
+              Number(preTwoYearData?.occupancyPercentage || 0),
+            roomRevenue:
+              Number(currentYearData?.roomRevenue || 0) -
+              Number(preTwoYearData?.roomRevenue || 0),
+            foodAndBeverageRevenue:
+              Number(currentYearData?.foodAndBeverageRevenue || 0) -
+              Number(preTwoYearData?.foodAndBeverageRevenue || 0),
+            otherRevenue:
+              Number(currentYearData?.otherRevenue || 0) -
+              Number(preTwoYearData?.otherRevenue || 0),
+            roomsSold:
+              Number(currentYearData?.roomsSold || 0) -
+              Number(preTwoYearData?.roomsSold || 0),
+            roomsSoldPerDay:
+              Number(currentYearData?.roomsSoldPerDay || 0) -
+              Number(preTwoYearData?.roomsSoldPerDay || 0),
+            totalRevenue:
+              Number(currentYearData?.totalRevenue || 0) -
+              Number(preTwoYearData?.totalRevenue || 0),
+            apc:
+              Number(currentYearData?.apc || 0) -
+              Number(preTwoYearData?.apc || 0), //n/a
+            noOfCovers:
+              Number(currentYearData?.noOfCovers || 0) -
+              Number(preTwoYearData?.noOfCovers || 0), //n/a
+            noOfCoversPerDay:
+              Number(currentYearData?.noOfCoversPerDay || 0) -
+              Number(preTwoYearData?.noOfCoversPerDay || 0), //n/a
+            arr:
+              Number(currentYearData?.arr || 0) -
+              Number(preTwoYearData?.arr || 0), //n/a
+            revPar:
+              Number(currentYearData?.revPar || 0) -
+              Number(preTwoYearData?.revPar || 0), //n/a
+          },
         }),
         'overall-revenue-per-hotel-mtd'
       );
