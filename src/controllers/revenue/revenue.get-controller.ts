@@ -1,10 +1,18 @@
-import { GeneratePdfUsingHTMLAndSendInResponse } from './../../util/commonService';
-import {cityWiseHTMLTemplate} from './../../util/html-template/city-wise-revenue.pdf-html-template';
-import {SuccessResponse} from './../../util/apiResponse';
+import {getYear} from 'date-fns';
 import {Request, Response} from 'express';
+import {RevenueRepository} from '../../repositories/revenueRepository';
+import {InternalErrorResponse, SuccessResponse} from './../../util/apiResponse';
+import {AppError} from './../../util/app-error';
+import {GeneratePdfUsingHTMLAndSendInResponse} from './../../util/commonService';
+import {cityWiseHTMLTemplate} from './../../util/html-template/city-wise-revenue.pdf-html-template';
+import {
+  RevenueData,
+  overAllRevenueHtmlTemplate,
+} from './../../util/html-template/over-all-revenue.template-html';
 
 export class RevenueGetController {
-  static staticData = {
+  public static readonly revenueService = new RevenueRepository();
+  public static readonly staticData = {
     byYear: [
       {
         year: '2021-22',
@@ -119,8 +127,38 @@ export class RevenueGetController {
       totalRevenue: 2,
     },
   };
-  static async getOverallRevenuePerHotelMTD(req: Request, res: Response) {
-    new SuccessResponse(res, 'success', this.staticData).send();
+  public static async getOverallRevenuePerHotelMTD(
+    req: Request,
+    res: Response
+  ) {
+    try {
+      const data: RevenueData[] =
+        await RevenueGetController.revenueService.getOverAllRevenueOfHotelByMonth(
+          req.query.hotel as string,
+          req.query.month as string
+        );
+      console.log('geot result in controller');
+      const currentYear = getYear(new Date());
+
+      //convert to html
+      const currentYearData = data.find(t => t.year == currentYear);
+      const preYearData = data.find(t => t.year == currentYear - 1);
+      const preTwoYearData = data.find(t => t.year == currentYear - 2);
+      console.log('about to generate pdf');
+
+      await GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        await overAllRevenueHtmlTemplate({
+          currentYear: currentYearData,
+          oneYearB4Now: preYearData,
+          twoYearB4Now: preTwoYearData,
+        }),
+        'overall-revenue-per-hotel-mtd'
+      );
+    } catch (error) {
+      if (error instanceof AppError) return AppError.handle(error, res);
+      return new InternalErrorResponse(res);
+    }
   }
   static async getOverallRevenuePerHotelYTD(req: Request, res: Response) {
     new SuccessResponse(res, 'success', this.staticData).send();
@@ -349,7 +387,11 @@ export class RevenueGetController {
 
   static async getCityWiseRevenue(req: Request, res: Response) {
     const html = cityWiseHTMLTemplate();
-    GeneratePdfUsingHTMLAndSendInResponse(res,html,'city-wise-revenue-report')
+    GeneratePdfUsingHTMLAndSendInResponse(
+      res,
+      html,
+      'city-wise-revenue-report'
+    );
   }
 
   static async getHotelRoomRevenue(req: Request, res: Response) {

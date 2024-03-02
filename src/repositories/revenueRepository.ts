@@ -1,6 +1,11 @@
-import {AppError, InternalError} from '../util/app-error';
+import {getYear} from 'date-fns';
 import {Revenues} from '../models/revenue.model';
+import {AppError, InternalError} from '../util/app-error';
 import sequelize from './../config/sequelize';
+import {reportSqlQueries} from './../sql-queries/getReport.queries';
+import {RevenueData} from './../util/html-template/over-all-revenue.template-html';
+
+import {QueryTypes} from 'sequelize';
 export class RevenueRepository {
   public async importHistoryAndForecastRevenueData(data: {
     forecast: {
@@ -89,5 +94,23 @@ export class RevenueRepository {
       if (error instanceof AppError) throw error;
       throw new InternalError('Unexpected Error ');
     }
+  }
+
+  public async getOverAllRevenueOfHotelByMonth(
+    hotel: string,
+    month: string
+  ): Promise<RevenueData[]> {
+    const currentYear = getYear(new Date());
+    console.log('in repo');
+    const data = await sequelize.query(
+      reportSqlQueries.getOverAllRevenuePerHotelByMonth(month, hotel, [
+        currentYear - 2,
+        currentYear - 1,
+        currentYear,
+      ]),
+      {type: QueryTypes.SELECT}
+    );
+    console.log('got result');
+    return data as RevenueData[];
   }
 }

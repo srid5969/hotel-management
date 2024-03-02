@@ -211,4 +211,4 @@ export const cityWiseHTMLTemplate=()=>`<table style="border: none;width:783.0pt;
 
 
 
-`
+`;
