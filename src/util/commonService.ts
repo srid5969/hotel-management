@@ -1,7 +1,7 @@
-import { Response } from 'express';
+import {Response} from 'express';
 import * as htmlPdf from 'html-pdf';
 import moment from 'moment';
-import { PreconditionFailedError } from './app-error';
+import {PreconditionFailedError} from './app-error';
 
 export const getValueOrGetDefaultValue = (
   param: string | number | null
@@ -75,6 +75,8 @@ export async function generatePdf(html: string): Promise<Buffer> {
 
     htmlPdf.create(html, options).toBuffer((err, buffer) => {
       if (err) {
+        console.log(err);
+
         reject(err);
       } else {
         resolve(buffer);

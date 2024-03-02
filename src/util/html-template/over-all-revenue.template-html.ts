@@ -13,7 +13,7 @@ interface OverAllReport {
   oneYearB4Now: RevenueData;
   twoYearB4Now: RevenueData;
 }
-export const overAllRevenueHtmlTemplate = async(data: OverAllReport) => {
+export const overAllRevenueHtmlTemplate = async (data: OverAllReport) => {
   return `
     <table style="border: none;width:610.0pt;border-collapse:collapse;">
     <tbody>
@@ -54,10 +54,10 @@ export const overAllRevenueHtmlTemplate = async(data: OverAllReport) => {
             <td style="width:163.0pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><strong><span style="font-size:19px;color:black;">Rooms Nights Available</span></strong></p>
             </td>
-            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now.availableRooms}</span><br></td>
-            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now.availableRooms}</span><br></td>
+            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now?.availableRooms ?? ''}</span><br></td>
+            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now?.availableRooms ?? ''}</span><br></td>
             <td style="width:85.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
-            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br><span>${data.currentYear.availableRooms}</span></td>
+            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br><span>${data.currentYear?.availableRooms ?? ''}</span></td>
             <td style="width:69.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
             <td style="width:66.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
         </tr>
@@ -98,10 +98,10 @@ export const overAllRevenueHtmlTemplate = async(data: OverAllReport) => {
             <td style="width:163.0pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><strong><span style="font-size:19px;color:black;">Occupancy %</span></strong></p>
             </td>
-            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now.occupancyPercentage}</span><br></td>
-            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now.occupancyPercentage}</span><br></td>
+            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now?.occupancyPercentage ?? ''}</span><br></td>
+            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now?.occupancyPercentage ?? ''}</span><br></td>
             <td style="width:85.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
-            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear.occupancyPercentage}</span><br></td>
+            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear?.occupancyPercentage ?? ''}</span><br></td>
             <td style="width:69.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
             <td style="width:66.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
         </tr>
@@ -131,10 +131,10 @@ export const overAllRevenueHtmlTemplate = async(data: OverAllReport) => {
             <td style="width:163.0pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><strong><span style="font-size:19px;color:black;">Room Revenue&nbsp;</span></strong></p>
             </td>
-            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now.roomRevenue}</span><br></td>
-            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now.roomRevenue}</span><br></td>
+            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now?.roomRevenue ?? ''}</span><br></td>
+            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now?.roomRevenue ?? ''}</span><br></td>
             <td style="width:85.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
-            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br><span>${data.currentYear.roomRevenue}</span></td>
+            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br><span>${data.currentYear?.roomRevenue ?? ''}</span></td>
             <td style="width:69.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
             <td style="width:66.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
         </tr>
@@ -142,10 +142,10 @@ export const overAllRevenueHtmlTemplate = async(data: OverAllReport) => {
             <td style="width:163.0pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><strong><span style="font-size:19px;color:black;">Food And Beverage Revenue</span></strong></p>
             </td>
-            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now.foodAndBeverageRevenue}</span><br></td>
-            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now.roomRevenue}</span><br></td>
+            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now?.foodAndBeverageRevenue ?? ''}</span><br></td>
+            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now?.roomRevenue ?? ''}</span><br></td>
             <td style="width:85.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
-            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear.roomRevenue}</span><br></td>
+            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear?.roomRevenue ?? ''}</span><br></td>
             <td style="width:69.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
             <td style="width:66.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
         </tr>
@@ -186,10 +186,10 @@ export const overAllRevenueHtmlTemplate = async(data: OverAllReport) => {
             <td style="width:163.0pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><strong><span style="font-size:19px;color:black;">Other Revenue</span></strong></p>
             </td>
-            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now.otherRevenue}</span><br></td>
-            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now.otherRevenue}</span><br></td>
+            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now?.otherRevenue ?? ''}</span><br></td>
+            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now?.otherRevenue ?? ''}</span><br></td>
             <td style="width:85.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
-            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear.otherRevenue}</span><br></td>
+            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear?.otherRevenue ?? ''}</span><br></td>
             <td style="width:69.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
             <td style="width:66.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#F2F2F2;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
         </tr>
@@ -197,10 +197,10 @@ export const overAllRevenueHtmlTemplate = async(data: OverAllReport) => {
             <td style="width: 163pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;background: rgb(196, 189, 151);padding: 0.75pt 0.75pt 0cm;height: 18.4pt;vertical-align: bottom;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">Total Revenue</span></strong></p>
             </td>
-            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now.totalRevenue}</span><br></td>
-            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now.totalRevenue}</span><br></td>
+            <td style="width:67.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.twoYearB4Now?.totalRevenue ?? ''}</span><br></td>
+            <td style="width:76.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.oneYearB4Now?.totalRevenue ?? ''}</span><br></td>
             <td style="width:85.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
-            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear.totalRevenue}</span><br></td>
+            <td style="width:84.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><span>${data.currentYear?.totalRevenue ?? ''}</span><br></td>
             <td style="width:69.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
             <td style="width:66.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:18.4pt;"><br></td>
         </tr>

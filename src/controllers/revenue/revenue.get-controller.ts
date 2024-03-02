@@ -156,8 +156,10 @@ export class RevenueGetController {
         'overall-revenue-per-hotel-mtd'
       );
     } catch (error) {
+      console.log(error);
+
       if (error instanceof AppError) return AppError.handle(error, res);
-      return new InternalErrorResponse(res);
+      return new InternalErrorResponse(res).send();
     }
   }
   static async getOverallRevenuePerHotelYTD(req: Request, res: Response) {
