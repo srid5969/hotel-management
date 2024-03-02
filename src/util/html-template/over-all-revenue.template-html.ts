@@ -9,11 +9,11 @@ export interface RevenueData {
   roomsSoldPerDay: number;
   totalRevenue: number;
   year?: number;
-  apc: any;//n/a
-  noOfCovers: any;//n/a
-  noOfCoversPerDay: any;//n/a
-  arr: any;//n/a
-  revPar: any;//n/a
+  apc: any; //n/a
+  noOfCovers: any; //n/a
+  noOfCoversPerDay: any; //n/a
+  arr: any; //n/a
+  revPar: any; //n/a
   month?: number;
 }
 interface OverAllReport {
@@ -23,6 +23,8 @@ interface OverAllReport {
   variance: RevenueData;
   budget?: RevenueData;
   goly?: RevenueData;
+  month?: string;
+  year?: number;
 }
 export const overAllRevenueHtmlTemplate = async (data: OverAllReport) => {
   return `
@@ -35,7 +37,7 @@ export const overAllRevenueHtmlTemplate = async (data: OverAllReport) => {
         </tr>
         <tr>
             <td colspan="7" style="width:610.0pt;border:solid black 1.0pt;border-top:none;background:#C4BD97;padding:.75pt .75pt 0cm .75pt;height:23.55pt;">
-                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><strong><span style="font-size:19px;color:black;">August, 2023 (Rev in Lakhs)</span></strong></p>
+                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><strong><span style="font-size:19px;color:black;">${data.month}, ${data.year} (Rev in Lakhs)</span></strong></p>
             </td>
         </tr>
         <tr>
@@ -43,16 +45,16 @@ export const overAllRevenueHtmlTemplate = async (data: OverAllReport) => {
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">&nbsp;</span></strong></p>
             </td>
             <td style="width: 67pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(196, 189, 151);padding: 0.75pt 0.75pt 0cm;height: 18.4pt;vertical-align: bottom;">
-                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:bottom;'><strong><span style="font-size:19px;color:black;">2021-22</span></strong></p>
+                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:bottom;'><strong><span style="font-size:19px;color:black;">${data.year - 2 + '-' + (data.year - 1).toString().substring(2, 4)}</span></strong></p>
             </td>
             <td style="width: 76pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(196, 189, 151);padding: 0.75pt 0.75pt 0cm;height: 18.4pt;vertical-align: bottom;">
-                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">2022-23</span></strong></p>
+                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">${data.year - 1 + '-' + data.year.toString().substring(2, 4)}</span></strong></p>
             </td>
             <td style="width: 85pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(196, 189, 151);padding: 0.75pt 0.75pt 0cm;height: 18.4pt;vertical-align: bottom;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">Budget TY</span></strong></p>
             </td>
             <td style="width: 84pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(196, 189, 151);padding: 0.75pt 0.75pt 0cm;height: 18.4pt;vertical-align: bottom;">
-                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">2023-24</span></strong></p>
+                <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">${data.year + '-' + (data.year + 1).toString().substring(2, 4)}</span></strong></p>
             </td>
             <td style="width: 69pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(196, 189, 151);padding: 0.75pt 0.75pt 0cm;height: 18.4pt;vertical-align: bottom;">
                 <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  bottom;'><strong><span style="font-size:19px;color:black;">Variance</span></strong></p>
@@ -270,15 +272,15 @@ export const overAllRevenueHtmlTemplate = async (data: OverAllReport) => {
             </tr>
             <tr>
                 <td colspan="7">
-                    <p><strong><span style="font-size:19px;color:black;">August, 2023 (Rev in Lakhs)</span></strong></p>
+                    <p><strong><span style="font-size:19px;color:black;">${data.month}, ${data.year} (Rev in Lakhs)</span></strong></p>
                 </td>
             </tr>
             <tr>
                 <th style="width: 163pt;">&nbsp;</th>
-                <th style="width: 67pt;">2021-22</th>
-                <th style="width: 76pt;">2022-23</th>
+                <th style="width: 67pt;">${data.year - 2 + '-' + (data.year-1).toString().substring(2, 4)}</th>
+                <th style="width: 76pt;">${data.year - 1 + '-' + data.year.toString().substring(2, 4)}</th>
                 <th style="width: 85pt;">Budget TY</th>
-                <th style="width: 84pt;">2023-24</th>
+                <th style="width: 84pt;">${data.year + '-' + (data.year + 1).toString().substring(2, 4)}</th>
                 <th style="width: 69pt;">Variance</th>
                 <th style="width: 66pt;">GOLY%</th>
             </tr>

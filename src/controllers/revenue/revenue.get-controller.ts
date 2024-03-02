@@ -1,12 +1,9 @@
-import {getYear} from 'date-fns';
+import {format, getYear} from 'date-fns';
 import {Request, Response} from 'express';
 import {RevenueRepository} from '../../repositories/revenueRepository';
 import {InternalErrorResponse, SuccessResponse} from './../../util/apiResponse';
 import {AppError} from './../../util/app-error';
-import {
-  GeneratePdfUsingHTMLAndSendInResponse,
-  getValueOrGetDefaultValue,
-} from './../../util/commonService';
+import {GeneratePdfUsingHTMLAndSendInResponse} from './../../util/commonService';
 import {cityWiseHTMLTemplate} from './../../util/html-template/city-wise-revenue.pdf-html-template';
 import {
   RevenueData,
@@ -140,6 +137,9 @@ export class RevenueGetController {
           req.query.hotel as string,
           req.query.month as string
         );
+      const date = new Date(2022, Number(req.query.month) - 1); // Subtract 1 from month to adjust to zero-based index
+      const monthName = format(date, 'MMMM');
+
       const currentYear = getYear(new Date());
 
       //convert to html
@@ -151,6 +151,8 @@ export class RevenueGetController {
       GeneratePdfUsingHTMLAndSendInResponse(
         res,
         await overAllRevenueHtmlTemplate({
+          year: currentYear,
+          month: monthName,
           currentYear: currentYearData,
           oneYearB4Now: preYearData,
           twoYearB4Now: preTwoYearData,
