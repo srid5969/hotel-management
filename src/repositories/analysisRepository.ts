@@ -24,11 +24,11 @@ export class CoverAnalysisReportRepository {
             reportDate,
             department: data.department,
           });
-        //   await CoverAnalysisReportsModel.create({
-        //     analysis: savedCARMaster.toJSON().id,
-        //     type: 'outlet_total',
-        //     ...data.outletTotal,
-        //   });
+          //   await CoverAnalysisReportsModel.create({
+          //     analysis: savedCARMaster.toJSON().id,
+          //     type: 'outlet_total',
+          //     ...data.outletTotal,
+          //   });
 
           await Promise.all(
             data.report.map(async ses => {

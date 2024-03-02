@@ -1,4 +1,5 @@
-export const cityWiseHTMLTemplate=()=>`<table style="border: none;width:783.0pt;margin-left:-42.55pt;border-collapse:collapse;">
+export const cityWiseHTMLTemplate =
+  () => `<table style="border: none;width:783.0pt;margin-left:-42.55pt;border-collapse:collapse;">
 <tbody>
     <tr>
         <td style="width:39.7pt;border:solid black 1.0pt;background:#44546A;padding:.7pt .7pt 0cm .7pt;height:34.2pt;">

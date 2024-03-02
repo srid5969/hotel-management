@@ -96,7 +96,6 @@ export class HotelsController {
 
           continue;
         } else if (values[0] != 'Res. Total' && values[0] != 'Grnd. Total') {
-
           const arr = String(values[0]).split('/');
           const date = new Date(`${arr[2]}-${arr[1]}-${arr[0]}`).setUTCHours(
             0,
@@ -131,7 +130,6 @@ export class HotelsController {
         await HotelsController.importHotelServices.importMonthlyReport(data);
       return new SuccessResponse(res, 'OK', result).send();
     } catch (error) {
-
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res).send();
     }

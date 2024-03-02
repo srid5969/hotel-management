@@ -26,7 +26,6 @@ interface Session {
   sessionTotal: Total;
 }
 
-
 export interface CoverAnalysisData {
   report: Session[];
   department: string;

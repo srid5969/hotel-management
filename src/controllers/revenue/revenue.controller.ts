@@ -1,14 +1,11 @@
-import { Request, Response } from 'express';
-import { read as readXlsx, utils as xlsxUtils } from 'xlsx';
-import { IReportReqBody } from '../../business_objects/report';
-import { RevenueRepository } from '../../repositories/revenueRepository';
-import { StatisticsRepository } from '../../repositories/statisticsRepository';
-import { SuccessResponse } from '../../util/apiResponse';
-import { AppError, PreconditionFailedError } from '../../util/app-error';
-import {
-  getValueOrGetDefaultValue,
-  validateObj
-} from '../../util/commonService';
+import {Request, Response} from 'express';
+import {read as readXlsx, utils as xlsxUtils} from 'xlsx';
+import {IReportReqBody} from '../../business_objects/report';
+import {RevenueRepository} from '../../repositories/revenueRepository';
+import {StatisticsRepository} from '../../repositories/statisticsRepository';
+import {SuccessResponse} from '../../util/apiResponse';
+import {AppError, PreconditionFailedError} from '../../util/app-error';
+import {getValueOrGetDefaultValue, validateObj} from '../../util/commonService';
 export class RevenueController {
   static revenueRepository = new RevenueRepository();
   static statisticsRepository = new StatisticsRepository();

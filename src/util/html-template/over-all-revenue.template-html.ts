@@ -277,7 +277,7 @@ export const overAllRevenueHtmlTemplate = async (data: OverAllReport) => {
             </tr>
             <tr>
                 <th style="width: 163pt;">&nbsp;</th>
-                <th style="width: 67pt;">${data.year - 2 + '-' + (data.year-1).toString().substring(2, 4)}</th>
+                <th style="width: 67pt;">${data.year - 2 + '-' + (data.year - 1).toString().substring(2, 4)}</th>
                 <th style="width: 76pt;">${data.year - 1 + '-' + data.year.toString().substring(2, 4)}</th>
                 <th style="width: 85pt;">Budget TY</th>
                 <th style="width: 84pt;">${data.year + '-' + (data.year + 1).toString().substring(2, 4)}</th>

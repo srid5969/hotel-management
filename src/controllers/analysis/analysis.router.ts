@@ -1,7 +1,7 @@
 import express from 'express';
 import {asyncWrapper} from './../../middleware/async-wrapper';
 import {upload} from '../../services/multer';
-import { AnalysisReportController } from './analysis.controller';
+import {AnalysisReportController} from './analysis.controller';
 
 export const AnalysisRouter = express.Router();
 
