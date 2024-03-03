@@ -48,6 +48,7 @@ export const reportSqlQueries = {
     DATEPART(YEAR,report.[date]) AS year,
     report.[type] as [type],
     hotel.hotel_name as hotelName,
+    hotel.id as hotelId,
     report.roomRev as roomRevenue,
     report.otherRev as otherRevenue,
     report.fnbRev as fnbRev,

@@ -128,6 +128,16 @@ export class RevenueRepository {
     return data as RevenueData[];
   }
   public async getUnitWiseReport(cityId: string) {
+    interface Result {
+      year: number;
+      type: 'ForeCast' | 'History';
+      hotelName: string;
+      hotelId: string;
+      roomRevenue: number;
+      otherRevenue: number;
+      fnbRev: number;
+      total: number;
+    }
     const currentYear = getYear(new Date());
     const [hotels, tyData, lyData] = await Promise.all([
       HotelModel.findAll({where: {CityID: cityId}}),
@@ -140,19 +150,21 @@ export class RevenueRepository {
         {type: QueryTypes.SELECT}
       ),
     ]);
+    console.log(hotels, tyData, lyData);
+
     return hotels.map(data => {
       const tyHotelRevData: any = tyData.find(
-        (t: any): boolean =>
+        (t: Result): boolean =>
           t.hotelId == data.toJSON().id && t.type == 'History'
       );
-      const lyHotelRevData: any = tyData.find(
-        (t: any): boolean =>
+      const lyHotelRevData: Result | null = lyData.find(
+        (t: Result): boolean =>
           t.hotelId == data.toJSON().id && t.type == 'History'
-      );
-      const tyHotelBudgetData: any = tyData.find(
-        (t: any): boolean =>
+      ) as Result | null;
+      const tyHotelBudgetData: Result | null = tyData.find(
+        (t: Result): boolean =>
           t.hotelId == data.toJSON().id && t.type == 'ForeCast'
-      );
+      ) as Result | null;
       return {
         hotel: data.toJSON().hotel_name,
         FnBRev: {

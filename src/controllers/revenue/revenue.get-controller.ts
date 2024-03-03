@@ -11,6 +11,7 @@ import {
   overAllRevenueForYTDHtmlTemplate,
   overAllRevenueHtmlForMTDTemplate,
 } from './../../util/html-template/over-all-revenue.template-html';
+import {calculateGrandTotal} from './revenue.helper';
 
 export class RevenueGetController {
   public static readonly revenueService = new RevenueRepository();
@@ -285,16 +286,18 @@ export class RevenueGetController {
       const data = await RevenueGetController.revenueService.getUnitWiseReport(
         req.query.city as string
       );
+      console.log(data, 'data');
 
       GeneratePdfUsingHTMLAndSendInResponse(
         res,
-        TotalRevenueUnitWiseHtmlContentTemplate(data, {}),
+        TotalRevenueUnitWiseHtmlContentTemplate(
+          data,
+          calculateGrandTotal(data)
+        ),
         'total-revenue-unit-wise',
         'landscape'
       );
     } catch (error) {
-      console.log(error);
-
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res).send();
     }
