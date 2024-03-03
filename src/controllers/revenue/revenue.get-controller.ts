@@ -1,3 +1,4 @@
+import {SegmentWiseHtmlContentTemplate} from './../../util/html-template/segment-wise-revenue.html-template';
 import {TotalRevenueUnitWiseHtmlContentTemplate} from './../../util/html-template/unit-wise-revenue.html-template';
 import {format, getYear} from 'date-fns';
 import {Request, Response} from 'express';
@@ -11,7 +12,10 @@ import {
   overAllRevenueForYTDHtmlTemplate,
   overAllRevenueHtmlForMTDTemplate,
 } from './../../util/html-template/over-all-revenue.template-html';
-import {calculateGrandTotal} from './revenue.helper';
+import {
+  calculateGrandTotal,
+  calculateGrandTotalForMarketSegment,
+} from './revenue.helper';
 
 export class RevenueGetController {
   public static readonly revenueService = new RevenueRepository();
@@ -306,77 +310,156 @@ export class RevenueGetController {
     req: Request,
     res: Response
   ) {
-    new SuccessResponse(res, 'success', {
-      records: [
-        {
-          segment: 'Retail',
-          roomNightSold: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
+    GeneratePdfUsingHTMLAndSendInResponse(
+      res,
+      SegmentWiseHtmlContentTemplate(
+        [
+          {
+            segment: 'Corporate',
+            roomSold: {
+              ly: 100,
+              budget: 120,
+              ty: 110,
+              var_vs_budget: -10,
+              goly: 90,
+            },
+            roomPerDay: {
+              ly: 50,
+              budget: 60,
+              ty: 55,
+              var_vs_budget: -5,
+              goly: 45,
+            },
+            arr: {
+              ly: 150,
+              budget: 180,
+              ty: 165,
+              var_vs_budget: -15,
+              goly: 135,
+            },
+            totalRevenue: {
+              ly: 250,
+              budget: 300,
+              ty: 275,
+              var_vs_budget: -25,
+              goly: 225,
+              pdi: 20,
+              lyContr: 40,
+              tyContr: 30,
+            },
           },
-          roomNightsSoldPerDay: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
+        ],
+        calculateGrandTotalForMarketSegment([
+          {
+            segment: 'Corporate',
+            roomSold: {
+              ly: 100,
+              budget: 120,
+              ty: 110,
+              var_vs_budget: -10,
+              goly: 90,
+            },
+            roomPerDay: {
+              ly: 50,
+              budget: 60,
+              ty: 55,
+              var_vs_budget: -5,
+              goly: 45,
+            },
+            arr: {
+              ly: 150,
+              budget: 180,
+              ty: 165,
+              var_vs_budget: -15,
+              goly: 135,
+            },
+            totalRevenue: {
+              ly: 250,
+              budget: 300,
+              ty: 275,
+              var_vs_budget: -25,
+              goly: 225,
+              pdi: 20,
+              lyContr: 40,
+              tyContr: 30,
+            },
           },
-          arr: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          totalRev: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-            pdi: 0,
-            contriPercentLY: 0,
-            contriPercentTY: 0,
-          },
-        },
-      ],
-      grandTotal: {
-        roomNightSold: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        roomNightsSoldPerDay: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        arr: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        totalRev: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-          pdi: 0,
-          contriPercentLY: 0,
-          contriPercentTY: 0,
-        },
-      },
-    }).send();
+        ])
+      ),
+      'segment-wise-revenue',
+      'landscape'
+    );
+    // new SuccessResponse(res, 'success', {
+    //   records: [
+    //     {
+    //       segment: 'Retail',
+    //       roomNightSold: {
+    //         ly: 0,
+    //         budget: 0,
+    //         ty: 0,
+    //         var_vs_budget: 0,
+    //         goly: 0,
+    //       },
+    //       roomNightsSoldPerDay: {
+    //         ly: 0,
+    //         budget: 0,
+    //         ty: 0,
+    //         var_vs_budget: 0,
+    //         goly: 0,
+    //       },
+    //       arr: {
+    //         ly: 0,
+    //         budget: 0,
+    //         ty: 0,
+    //         var_vs_budget: 0,
+    //         goly: 0,
+    //       },
+    //       totalRev: {
+    //         ly: 0,
+    //         budget: 0,
+    //         ty: 0,
+    //         var_vs_budget: 0,
+    //         goly: 0,
+    //         pdi: 0,
+    //         contriPercentLY: 0,
+    //         contriPercentTY: 0,
+    //       },
+    //     },
+    //   ],
+    //   grandTotal: {
+    //     roomNightSold: {
+    //       ly: 0,
+    //       budget: 0,
+    //       ty: 0,
+    //       var_vs_budget: 0,
+    //       goly: 0,
+    //     },
+    //     roomNightsSoldPerDay: {
+    //       ly: 0,
+    //       budget: 0,
+    //       ty: 0,
+    //       var_vs_budget: 0,
+    //       goly: 0,
+    //     },
+    //     arr: {
+    //       ly: 0,
+    //       budget: 0,
+    //       ty: 0,
+    //       var_vs_budget: 0,
+    //       goly: 0,
+    //     },
+    //     totalRev: {
+    //       ly: 0,
+    //       budget: 0,
+    //       ty: 0,
+    //       var_vs_budget: 0,
+    //       goly: 0,
+    //       pdi: 0,
+    //       contriPercentLY: 0,
+    //       contriPercentTY: 0,
+    //     },
+    //   },
+    // }).send();
   }
   static async getSourceWiseRevenueConsolidatedLevel(
     req: Request,
