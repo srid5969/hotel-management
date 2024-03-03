@@ -1,3 +1,4 @@
+import {MarketSegmentResult} from './../util/html-template/segment-wise-revenue.html-template';
 import {HotelModel} from './../models/hotel.model';
 import {getYear} from 'date-fns';
 import {Revenues} from '../models/revenue.model';
@@ -209,5 +210,12 @@ export class RevenueRepository {
         totalRev: UnitWiseRevenueSubDocument;
       };
     });
+  }
+  public async getSegmentWiseReport(hotel: string) {
+    const data = await sequelize.query(
+      reportSqlQueries.getSegmentWiseReport(hotel),
+      {type: QueryTypes.SELECT,nest:true}
+    );
+    return data as MarketSegmentResult[];
   }
 }
