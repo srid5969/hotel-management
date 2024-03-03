@@ -18,16 +18,35 @@ export const HotelModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-
-    country: {
+    CountryID: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    CountryName: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    state: {
+    StateID: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    StateName: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    city: {
+    CityID: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    CityName: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    HotelGroupId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    HotelGroupName: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
@@ -44,18 +63,22 @@ export const HotelModel = sequelize.define(
       allowNull: true,
     },
     aggrement_date: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     flagging_date: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     aggrement_validity: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     segment: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    sub_segment: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
@@ -64,8 +87,6 @@ export const HotelModel = sequelize.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-    deletedAt: true,
-    paranoid: true,
     tableName: 'hotel_master',
   }
 );

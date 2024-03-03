@@ -23,10 +23,7 @@ export const reportSqlQueries = {
         and DATEPART(YEAR, report.date) in (${years.join(',')})
         `;
   },
-  getOverAllRevenuePerHotelByYear(
-    hotel: string,
-    years: number[]
-  ) {
+  getOverAllRevenuePerHotelByYear(hotel: string, years: number[]) {
     return `
         select 
         report.avl as availableRooms,
@@ -45,5 +42,19 @@ export const reportSqlQueries = {
         and report.type='History'
         and DATEPART(YEAR, report.date) in (${years.join(',')})
         `;
+  },
+  unitWiseReportGetQuery(city: string, year: number) {
+    return `select 
+    DATEPART(YEAR,report.[date]) AS year,
+    report.[type] as [type],
+    hotel.hotel_name as hotelName,
+    report.roomRev as roomRevenue,
+    report.otherRev as otherRevenue,
+    report.fnbRev as fnbRev,
+    report.roomRev+report.otherRev+report.fnbRev as total
+   from Revenues as report
+   left join hotel_master as hotel on hotel.id=report.hotelId
+   where hotel.CityID='${city}' and DATEPART(YEAR,report.[date])='${year}'
+   `;
   },
 };

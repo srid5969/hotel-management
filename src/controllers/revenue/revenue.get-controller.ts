@@ -1,3 +1,4 @@
+import {TotalRevenueUnitWiseHtmlContentTemplate} from './../../util/html-template/unit-wise-revenue.html-template';
 import {format, getYear} from 'date-fns';
 import {Request, Response} from 'express';
 import {RevenueRepository} from '../../repositories/revenueRepository';
@@ -7,7 +8,8 @@ import {GeneratePdfUsingHTMLAndSendInResponse} from './../../util/commonService'
 import {cityWiseHTMLTemplate} from './../../util/html-template/city-wise-revenue.pdf-html-template';
 import {
   RevenueData,
-  overAllRevenueForYTDHtmlTemplate,overAllRevenueHtmlForMTDTemplate
+  overAllRevenueForYTDHtmlTemplate,
+  overAllRevenueHtmlForMTDTemplate,
 } from './../../util/html-template/over-all-revenue.template-html';
 
 export class RevenueGetController {
@@ -269,7 +271,7 @@ export class RevenueGetController {
               Number(preTwoYearData?.revPar || 0), //n/a
           },
         }),
-        'overall-revenue-per-hotel-mtd'
+        'overall-revenue-per-hotel-ytd'
       );
     } catch (error) {
       console.log(error);
@@ -279,73 +281,23 @@ export class RevenueGetController {
     }
   }
   static async getTotalRevenueUnitWise(req: Request, res: Response) {
-    new SuccessResponse(res, 'success', {
-      records: [
-        {
-          hotel: 'Hotel 1',
-          roomRevenue: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          'f-and-b-revenue': {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          otherRevenue: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          totalRevenue: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-            pdi: 0,
-          },
-        },
-      ],
-      grandTotal: {
-        roomRevenue: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        'f-and-b-revenue': {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        otherRevenue: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        totalRevenue: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-          pdi: 0,
-        },
-      },
-    }).send();
+    try {
+      const data = await RevenueGetController.revenueService.getUnitWiseReport(
+        req.query.city as string
+      );
+
+      GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        TotalRevenueUnitWiseHtmlContentTemplate(data, {}),
+        'total-revenue-unit-wise',
+        'landscape'
+      );
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof AppError) return AppError.handle(error, res);
+      return new InternalErrorResponse(res).send();
+    }
   }
   static async getSegmentWiseRevenueConsolidatedLevel(
     req: Request,
