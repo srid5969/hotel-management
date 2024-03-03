@@ -68,9 +68,14 @@ export const validateObj = (expectedObj: string[], receivedObj: object) => {
   }
 };
 
-export async function generatePdf(html: string, res: Response) {
+export async function generatePdf(
+  html: string,
+  res: Response,
+  orientation: 'portrait' | 'landscape' = 'portrait'
+) {
   const options: htmlPdf.CreateOptions = {
     format: 'A4',
+    orientation: orientation,
   };
   htmlPdf.create(html, options).toStream((err, stream: Stream) => {
     if (err) {
@@ -84,12 +89,14 @@ export async function generatePdf(html: string, res: Response) {
 export const GeneratePdfUsingHTMLAndSendInResponse = (
   res: Response,
   htmlContent: string,
-  fileName = ''
+  fileName = '',
+  orientation: 'portrait' | 'landscape' = 'portrait'
 ) => {
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader(
     'Content-Disposition',
     'attachment; filename="' + fileName + '.pdf"'
   );
-  generatePdf(htmlContent, res);
+  //res.set('Content-Disposition', 'inline');
+  generatePdf(htmlContent, res, orientation);
 };
