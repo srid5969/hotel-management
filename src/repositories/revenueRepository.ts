@@ -1,14 +1,15 @@
-import {MarketSegmentResult} from './../util/html-template/segment-wise-revenue.html-template';
-import {HotelModel} from './../models/hotel.model';
-import {getYear} from 'date-fns';
-import {Revenues} from '../models/revenue.model';
-import {AppError, InternalError} from '../util/app-error';
+import { getYear } from 'date-fns';
+import { Revenues } from '../models/revenue.model';
+import { AppError, InternalError } from '../util/app-error';
 import sequelize from './../config/sequelize';
-import {reportSqlQueries} from './../sql-queries/getReport.queries';
-import {RevenueData} from './../util/html-template/over-all-revenue.template-html';
+import { HotelModel } from './../models/hotel.model';
+import { reportSqlQueries } from './../sql-queries/getReport.queries';
+import { RevenueData } from './../util/html-template/over-all-revenue.template-html';
+import { MarketSegmentResult } from './../util/html-template/segment-wise-revenue.html-template';
 
-import {QueryTypes} from 'sequelize';
-import {UnitWiseRevenueSubDocument} from './../util/html-template/unit-wise-revenue.html-template';
+import { QueryTypes } from 'sequelize';
+import { SourceWiseRevenueResult } from '../util/html-template/source-wise-revenue.html-template';
+import { UnitWiseRevenueSubDocument } from './../util/html-template/unit-wise-revenue.html-template';
 export class RevenueRepository {
   public async importHistoryAndForecastRevenueData(data: {
     forecast: {
@@ -217,5 +218,12 @@ export class RevenueRepository {
       {type: QueryTypes.SELECT,nest:true}
     );
     return data as MarketSegmentResult[];
+  }
+  public async getSourceWiseReport(hotel: string) {
+    const data = await sequelize.query(
+      reportSqlQueries.getSourceWiseReport(hotel),
+      {type: QueryTypes.SELECT,nest:true}
+    );
+    return data as SourceWiseRevenueResult[];
   }
 }

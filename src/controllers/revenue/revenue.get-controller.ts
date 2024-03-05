@@ -1,3 +1,4 @@
+import {SourceWiseRevenueHtmlTemplate} from './../../util/html-template/source-wise-revenue.html-template';
 import {SegmentWiseHtmlContentTemplate} from './../../util/html-template/segment-wise-revenue.html-template';
 import {TotalRevenueUnitWiseHtmlContentTemplate} from './../../util/html-template/unit-wise-revenue.html-template';
 import {format, getYear} from 'date-fns';
@@ -15,6 +16,7 @@ import {
 import {
   calculateGrandTotal,
   calculateGrandTotalForMarketSegment,
+  calculateGrandTotalForSourceRevenue,
 } from './revenue.helper';
 
 export class RevenueGetController {
@@ -327,77 +329,18 @@ export class RevenueGetController {
     req: Request,
     res: Response
   ) {
-    new SuccessResponse(res, 'success', {
-      records: [
-        {
-          source: 'UNIT Reservation',
-          roomNightSold: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          roomNightsSoldPerDay: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          arr: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          totalRev: {
-            ly: 0,
-            budget: 0,
-            ty: 0,
-            var_vs_budget: 0,
-            goly: 0,
-            pdi: 0,
-            contriPercentLY: 0,
-            contriPercentTY: 0,
-          },
-        },
-      ],
-      grandTotal: {
-        roomNightSold: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        roomNightsSoldPerDay: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        arr: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        totalRev: {
-          ly: 0,
-          budget: 0,
-          ty: 0,
-          var_vs_budget: 0,
-          goly: 0,
-          pdi: 0,
-          contriPercentLY: 0,
-          contriPercentTY: 0,
-        },
-      },
-    }).send();
+    const data = await RevenueGetController.revenueService.getSourceWiseReport(
+      req.query.hotel as string
+    );
+    GeneratePdfUsingHTMLAndSendInResponse(
+      res,
+      SourceWiseRevenueHtmlTemplate(
+        data,
+        calculateGrandTotalForSourceRevenue(data)
+      ),
+      'source-wise-revenue',
+      'landscape'
+    );
   }
 
   static async getCityWiseRevenue(req: Request, res: Response) {

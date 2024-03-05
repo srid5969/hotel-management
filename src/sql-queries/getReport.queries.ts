@@ -89,4 +89,35 @@ export const reportSqlQueries = {
     where marketSegment.[type]='Market Segment'
     and marketSegment.hotelId='${hotel}'`;
   },
+  getSourceWiseReport(hotel: string) {
+    return `select
+    source_rev.source as "source",
+
+    source_rev.[yod_occ] as "roomSold.ty",
+    source_rev.[yod_rate] as "roomSold.budget",
+    source_rev.yod_arp as "roomSold.ly",
+    source_rev.yod_arp-source_rev.mod_arp as "roomSold.var_vs_budget",
+    source_rev.yod_paxPercent as "roomSold.goly",
+
+    source_rev.mod_arr as "roomPerDay.ty",
+    source_rev.[yod_rate] as "roomPerDay.budget",
+    source_rev.yod_arp as "roomPerDay.ly",
+    source_rev.yod_arp-source_rev.mod_arp as "roomPerDay.var_vs_budget",
+    source_rev.yod_paxPercent as "roomPerDay.goly",
+
+    source_rev.yod_arr as "arr.ty",
+    source_rev.[yod_rate] as "arr.budget",
+    source_rev.yod_arp as "arr.ly",
+    source_rev.yod_arp-source_rev.mod_arp as "arr.var_vs_budget",
+    source_rev.yod_paxPercent as "arr.goly",
+
+    source_rev.[yod_occ]+source_rev.mod_arr+source_rev.yod_arr as "totalRevenue.ty",
+    source_rev.[yod_rate]+source_rev.[yod_rate]+source_rev.[yod_rate] as "totalRevenue.budget",
+    source_rev.yod_arp+source_rev.yod_arp+source_rev.yod_arp as "totalRevenue.ly",
+    source_rev.yod_arp-source_rev.mod_arp+source_rev.yod_arp-source_rev.mod_arp+source_rev.yod_arp-source_rev.mod_arp as "totalRevenue.var_vs_budget",
+    source_rev.yod_paxPercent+source_rev.yod_paxPercent+source_rev.yod_paxPercent as "totalRevenue.goly"
+    from [Statistics] as source_rev
+    where source_rev.[type]='Business Source'
+    and source_rev.hotelId='${hotel}'`;
+  },
 };

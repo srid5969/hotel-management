@@ -1,3 +1,4 @@
+import {SourceWiseRevenueResult} from '../../util/html-template/source-wise-revenue.html-template';
 import {MarketSegmentResult} from './../../util/html-template/segment-wise-revenue.html-template';
 export function calculateGrandTotal(data: any[]): any {
   const grandTotal: any = {
@@ -83,6 +84,53 @@ export function calculateGrandTotalForMarketSegment(
     grandTotal.totalRevenue.pdi += item.totalRevenue.pdi;
     grandTotal.totalRevenue.lyContr += item.totalRevenue.lyContr;
     grandTotal.totalRevenue.tyContr += item.totalRevenue.tyContr;
+  });
+
+  return grandTotal;
+}
+export function calculateGrandTotalForSourceRevenue(
+  data: SourceWiseRevenueResult[]
+): Omit<SourceWiseRevenueResult, 'source'> {
+  const grandTotal: Omit<SourceWiseRevenueResult, 'source'> = {
+    arr: {ly: 0, budget: 0, ty: 0, var_vs_budget: 0, goly: 0},
+    roomPerDay: {ly: 0, budget: 0, ty: 0, var_vs_budget: 0, goly: 0},
+    roomSold: {ly: 0, budget: 0, ty: 0, var_vs_budget: 0, goly: 0},
+    totalRevenue: {
+      ly: 0,
+      budget: 0,
+      ty: 0,
+      var_vs_budget: 0,
+      goly: 0,
+      pdi: 0,
+    },
+  };
+
+  // Iterate over each object in the array
+  data.forEach(item => {
+    grandTotal.roomSold.ly += item.roomSold.ly;
+    grandTotal.roomSold.budget += item.roomSold.budget;
+    grandTotal.roomSold.ty += item.roomSold.ty;
+    grandTotal.roomSold.var_vs_budget += item.roomSold.var_vs_budget;
+    grandTotal.roomSold.goly += item.roomSold.goly;
+
+    grandTotal.roomPerDay.ly += item.roomPerDay.ly;
+    grandTotal.roomPerDay.budget += item.roomPerDay.budget;
+    grandTotal.roomPerDay.ty += item.roomPerDay.ty;
+    grandTotal.roomPerDay.var_vs_budget += item.roomPerDay.var_vs_budget;
+    grandTotal.roomPerDay.goly += item.roomPerDay.goly;
+
+    grandTotal.arr.ly += item.arr.ly;
+    grandTotal.arr.budget += item.arr.budget;
+    grandTotal.arr.ty += item.arr.ty;
+    grandTotal.arr.var_vs_budget += item.arr.var_vs_budget;
+    grandTotal.arr.goly += item.arr.goly;
+
+    grandTotal.totalRevenue.ly += item.totalRevenue.ly;
+    grandTotal.totalRevenue.budget += item.totalRevenue.budget;
+    grandTotal.totalRevenue.ty += item.totalRevenue.ty;
+    grandTotal.totalRevenue.var_vs_budget += item.totalRevenue.var_vs_budget;
+    grandTotal.totalRevenue.goly += item.totalRevenue.goly;
+    grandTotal.totalRevenue.pdi += item.totalRevenue.pdi;
   });
 
   return grandTotal;
