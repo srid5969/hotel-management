@@ -120,4 +120,22 @@ export const reportSqlQueries = {
     where source_rev.[type]='Business Source'
     and source_rev.hotelId='${hotel}'`;
   },
+  getCityWiseReport(cityID: string) {
+    return `
+    select hotel.hotel_name as hotel ,
+    hotel.CityName as city,
+    revenue.avl-revenue.avl as roomsAvl,
+    revenue.avl-revenue.totalOcc as roomsSold,
+    revenue.totalOcc as occ,
+    revenue.avgRate as arr,
+    revenue.occPercent/revenue.avgRate as revPar,
+    revenue.fnbRev as fnbRev,
+    revenue.otherRev as otherRev,
+    revenue.roomRev as roomRev,
+    revenue.roomRev+revenue.fnbRev as totalRevenue
+    from hotel_master as hotel
+    inner join [Revenues] as revenue on revenue.hotelId=hotel.id
+    where hotel.CityID='${cityID}'
+    `;
+  },
 };

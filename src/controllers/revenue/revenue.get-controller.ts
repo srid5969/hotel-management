@@ -344,12 +344,22 @@ export class RevenueGetController {
   }
 
   static async getCityWiseRevenue(req: Request, res: Response) {
-    const html = cityWiseHTMLTemplate();
-    GeneratePdfUsingHTMLAndSendInResponse(
-      res,
-      html,
-      'city-wise-revenue-report'
-    );
+    try {
+      const data =
+        await RevenueGetController.revenueService.getCityWiseRevenueReport(
+          req.query.city as string
+        );
+      const html = cityWiseHTMLTemplate(data);
+      GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        html,
+        'city-wise-revenue-report'
+      );
+    } catch (error) {
+      console.log(error);
+      
+      return new InternalErrorResponse(res).send();
+    }
   }
 
   static async getHotelRoomRevenue(req: Request, res: Response) {
