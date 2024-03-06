@@ -138,4 +138,49 @@ export const reportSqlQueries = {
     where hotel.CityID='${cityID}'
     `;
   },
+  getRevenuesOfHotelsByHotelIds(hotelIds:string) {
+    return `select hotel.hotel_name as hotel ,
+    revenue.avl as noOfRooms,
+    revenue.avl-revenue.occPercent as "roomsAvailable.ly",
+    revenue.fitRnt as "roomsAvailable.budget",
+    revenue.roomRev as "roomsAvailable.ty",
+    revenue.roomRev as "roomsAvailable.var_vs_budget",
+    revenue.occPercent as "roomsAvailable.goly",
+
+    revenue.avl-revenue.occPercent as "roomSold.ly",
+    revenue.fitRnt as "roomSold.budget",
+    revenue.roomRev as "roomSold.ty",
+    revenue.roomRev as "roomSold.var_vs_budget",
+    revenue.occPercent as "roomSold.goly",
+
+    revenue.avl-revenue.occPercent as "occupancy.ly",
+    revenue.fitRnt as "occupancy.budget",
+    revenue.roomRev as "occupancy.ty",
+    revenue.roomRev as "occupancy.var_vs_budget",
+    revenue.occPercent as "occupancy.goly",
+
+    revenue.avl-revenue.occPercent as "arr.ly",
+    revenue.fitRnt as "arr.budget",
+    revenue.roomRev as "arr.ty",
+    revenue.roomRev as "arr.var_vs_budget",
+    revenue.occPercent as "arr.goly",
+
+    revenue.avl-revenue.occPercent as "revPar.ly",
+    revenue.fitRnt as "revPar.budget",
+    revenue.roomRev as "revPar.ty",
+    revenue.roomRev as "revPar.var_vs_budget",
+    revenue.occPercent as "revPar.goly",
+
+    revenue.avl-revenue.occPercent+revenue.avl-revenue.occPercent+revenue.avl-revenue.occPercent+revenue.avl-revenue.occPercent+revenue.avl-revenue.occPercent as "totalRev.ly",
+    revenue.fitRnt+revenue.fitRnt+revenue.fitRnt+revenue.fitRnt+revenue.fitRnt as "totalRev.budget",
+    revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev as "totalRev.ty",
+    revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev as "totalRev.var_vs_budget",
+    revenue.occPercent+revenue.occPercent+revenue.occPercent+revenue.occPercent+revenue.occPercent as "totalRev.goly",
+    revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev as "totalRev.pdi",
+    revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev as "totalRev.foreign",
+    revenue.occPercent+revenue.occPercent+revenue.occPercent+revenue.occPercent+revenue.occPercent as "totalRev.domestic"
+from hotel_master as hotel
+    inner join [Revenues] as revenue on revenue.hotelId=hotel.id
+    where hotel.id in (${hotelIds})`;
+  },
 };

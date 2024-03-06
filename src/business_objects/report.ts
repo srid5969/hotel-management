@@ -19,3 +19,25 @@ export interface CityWiseRevenueReportResponseDTO {
   roomRev: number;
   totalRevenue: number;
 }
+interface Metrics {
+  ly: number;
+  budget: number;
+  ty: number;
+  var_vs_budget: number;
+  goly: number;
+}
+interface TotalRevenueMetrics extends Metrics {
+  foreign: number;
+  pdi: number;
+  domestic: number;
+}
+export interface HotelRevenueData {
+  hotel: string;
+  noOfRooms: number;
+  roomsAvailable: Metrics;
+  roomSold: Metrics;
+  occupancy: Metrics;
+  arr: Metrics;
+  revPar: Metrics;
+  totalRev: TotalRevenueMetrics;
+}

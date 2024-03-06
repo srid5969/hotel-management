@@ -1,4 +1,4 @@
-import { CityWiseRevenueReportResponseDTO } from './../business_objects/report';
+import { CityWiseRevenueReportResponseDTO, HotelRevenueData } from './../business_objects/report';
 import { getYear } from 'date-fns';
 import { Revenues } from '../models/revenue.model';
 import { AppError, InternalError } from '../util/app-error';
@@ -233,5 +233,12 @@ export class RevenueRepository {
       {type: QueryTypes.SELECT,nest:true}
     );
     return data as CityWiseRevenueReportResponseDTO[];
+  }
+  public async getHotelRoomsAllRevenue(hotelId: string) {
+    const data = await sequelize.query(
+      reportSqlQueries.getRevenuesOfHotelsByHotelIds(hotelId),
+      {type: QueryTypes.SELECT,nest:true}
+    );
+    return data as HotelRevenueData[];
   }
 }

@@ -1,3 +1,4 @@
+import {HotelRevenueData} from './../../business_objects/report';
 import {SourceWiseRevenueResult} from '../../util/html-template/source-wise-revenue.html-template';
 import {MarketSegmentResult} from './../../util/html-template/segment-wise-revenue.html-template';
 export function calculateGrandTotal(data: any[]): any {
@@ -134,4 +135,69 @@ export function calculateGrandTotalForSourceRevenue(
   });
 
   return grandTotal;
+}
+export function CalculateRoomsRevenueGrandTotal(
+  data: HotelRevenueData[]
+): Omit<HotelRevenueData, 'hotel'> {
+  const result: Omit<HotelRevenueData, 'hotel'> = {
+    arr: {budget: 0, goly: 0, ly: 0, ty: 0, var_vs_budget: 0},
+    occupancy: {budget: 0, goly: 0, ly: 0, ty: 0, var_vs_budget: 0},
+    revPar: {budget: 0, goly: 0, ly: 0, ty: 0, var_vs_budget: 0},
+    roomsAvailable: {budget: 0, goly: 0, ly: 0, ty: 0, var_vs_budget: 0},
+    roomSold: {budget: 0, goly: 0, ly: 0, ty: 0, var_vs_budget: 0},
+    noOfRooms: 0,
+    totalRev: {
+      budget: 0,
+      goly: 0,
+      ly: 0,
+      ty: 0,
+      var_vs_budget: 0,
+      domestic: 0,
+      foreign: 0,
+      pdi: 0,
+    },
+  };
+  data.forEach(item => {
+    result.noOfRooms += item.noOfRooms;
+
+    result.arr.ly += item.arr.ly;
+    result.arr.ty += item.arr.ty;
+    result.arr.budget += item.arr.budget;
+    result.arr.var_vs_budget += item.arr.var_vs_budget;
+    result.arr.goly += item.arr.goly;
+
+    result.occupancy.ly += item.occupancy.ly;
+    result.occupancy.ty += item.occupancy.ty;
+    result.occupancy.budget += item.occupancy.budget;
+    result.occupancy.var_vs_budget += item.occupancy.var_vs_budget;
+    result.occupancy.goly += item.occupancy.goly;
+
+    result.revPar.ly += item.revPar.ly;
+    result.revPar.ty += item.revPar.ty;
+    result.revPar.budget += item.revPar.budget;
+    result.revPar.var_vs_budget += item.revPar.var_vs_budget;
+    result.revPar.goly += item.revPar.goly;
+
+    result.roomsAvailable.ly += item.roomsAvailable.ly;
+    result.roomsAvailable.ty += item.roomsAvailable.ty;
+    result.roomsAvailable.budget += item.roomsAvailable.budget;
+    result.roomsAvailable.var_vs_budget += item.roomsAvailable.var_vs_budget;
+    result.roomsAvailable.goly += item.roomsAvailable.goly;
+
+    result.roomSold.ly += item.roomSold.ly;
+    result.roomSold.ty += item.roomSold.ty;
+    result.roomSold.budget += item.roomSold.budget;
+    result.roomSold.var_vs_budget += item.roomSold.var_vs_budget;
+    result.roomSold.goly += item.roomSold.goly;
+
+    result.totalRev.ly += item.totalRev.ly;
+    result.totalRev.ty += item.totalRev.ty;
+    result.totalRev.budget += item.totalRev.budget;
+    result.totalRev.var_vs_budget += item.totalRev.var_vs_budget;
+    result.totalRev.goly += item.totalRev.goly;
+    result.totalRev.pdi += item.totalRev.pdi;
+    result.totalRev.domestic += item.totalRev.domestic;
+    result.totalRev.foreign += item.totalRev.foreign;
+  });
+  return result;
 }

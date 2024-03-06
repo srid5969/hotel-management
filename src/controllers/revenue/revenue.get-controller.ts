@@ -1,3 +1,4 @@
+import {RoomRevenueHtmlTemplate} from './../../util/html-template/room-revenue.html-template';
 import {SourceWiseRevenueHtmlTemplate} from './../../util/html-template/source-wise-revenue.html-template';
 import {SegmentWiseHtmlContentTemplate} from './../../util/html-template/segment-wise-revenue.html-template';
 import {TotalRevenueUnitWiseHtmlContentTemplate} from './../../util/html-template/unit-wise-revenue.html-template';
@@ -14,10 +15,12 @@ import {
   overAllRevenueHtmlForMTDTemplate,
 } from './../../util/html-template/over-all-revenue.template-html';
 import {
+  CalculateRoomsRevenueGrandTotal,
   calculateGrandTotal,
   calculateGrandTotalForMarketSegment,
   calculateGrandTotalForSourceRevenue,
 } from './revenue.helper';
+import QueryString from 'qs';
 
 export class RevenueGetController {
   public static readonly revenueService = new RevenueRepository();
@@ -356,114 +359,31 @@ export class RevenueGetController {
         'city-wise-revenue-report'
       );
     } catch (error) {
-      console.log(error);
-      
       return new InternalErrorResponse(res).send();
     }
   }
 
   static async getHotelRoomRevenue(req: Request, res: Response) {
-    new SuccessResponse(res, 'success', {
-      revenues: [
-        {
-          hotel: 'Hotel 1',
-          noOfRooms: 0,
-          roomNightAvailable: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          roomNightSold: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          occupancyPercent: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          arr: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          revPar: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: 0,
-            goly: 0,
-          },
-          totalRev: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: 0,
-            goly: 0,
-            pdi: 0,
-            foreign: 0,
-            domestic: 0,
-          },
-        },
-      ],
-      grandTotal: {
-        noOfRooms: 0,
-        roomNightAvailable: {
-          ly: null,
-          budget: null,
-          ty: null,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        roomNightSold: {
-          ly: null,
-          budget: null,
-          ty: null,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        occupancyPercent: {
-          ly: null,
-          budget: null,
-          ty: null,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        arr: {
-          ly: null,
-          budget: null,
-          ty: null,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        revPar: {
-          ly: null,
-          budget: null,
-          ty: null,
-          var_vs_budget: 0,
-          goly: 0,
-        },
-        totalRev: {
-          ly: null,
-          budget: null,
-          ty: null,
-          var_vs_budget: 0,
-          goly: 0,
-          pdi: 0,
-          foreign: 0,
-          domestic: 0,
-        },
-      },
-    }).send();
+    try {
+      const data =
+        await RevenueGetController.revenueService.getHotelRoomsAllRevenue(
+          req.query.hotel as string
+        );
+      const html = RoomRevenueHtmlTemplate(
+        data,
+        CalculateRoomsRevenueGrandTotal(data)
+      );
+      GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        html,
+        'hotel-wise-room-report',
+        'landscape'
+      );
+    } catch (error) {
+      console.log(error);
+
+      return new InternalErrorResponse(res).send();
+    }
   }
 
   static async getRoomRevenueByRoomType(req: Request, res: Response) {

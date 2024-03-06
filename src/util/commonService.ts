@@ -97,6 +97,6 @@ export const GeneratePdfUsingHTMLAndSendInResponse = (
     'Content-Disposition',
     'attachment; filename="' + fileName + '.pdf"'
   );
-  //res.set('Content-Disposition', 'inline');
+  res.set('Content-Disposition', 'inline');
   generatePdf(htmlContent, res, orientation);
 };
