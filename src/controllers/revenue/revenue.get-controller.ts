@@ -369,6 +369,8 @@ export class RevenueGetController {
         await RevenueGetController.revenueService.getHotelRoomsAllRevenue(
           req.query.hotel as string
         );
+        console.log(data);
+        
       const html = RoomRevenueHtmlTemplate(
         data,
         CalculateRoomsRevenueGrandTotal(data)

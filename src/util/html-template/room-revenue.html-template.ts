@@ -10,53 +10,53 @@ export const RoomRevenueHtmlTemplate = (
             <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.hotel}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-        <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.noOfRooms}</span></p>
+        <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.noOfRooms || 0}</span></p>
     </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.ly}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.ly || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.budget}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.budget || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.ty}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.ty || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.var_vs_budget}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.var_vs_budget || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.goly}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomsAvailable.goly || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.ly}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.ly || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.budget};</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.budget || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.ty}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.ty || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.var_vs_budget}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.var_vs_budget || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.goly}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.roomSold.goly || 0}</span></p>
         </td>
 
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.ly}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.ly || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.budget}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.budget || 0}</span></p>
         </td>
         <td style="width:41.0pt;border:none;border-bottom:dotted black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.ty}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.ty || 0}</span></p>
         </td>
         <td style="width:41.0pt;border:none;border-bottom:dotted black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.var_vs_budget}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.var_vs_budget || 0}</span></p>
         </td>
         <td style="width:41.0pt;border-top:none;border-left:none;border-bottom:  dotted black 1.0pt;border-right:solid black 1.0pt;padding:.75pt .75pt 0cm .75pt;height:15.95pt;">
-            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.goly}</span></p>
+            <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.occupancy.goly || 0}</span></p>
         </td>
     </tr>`;
     })
@@ -69,58 +69,58 @@ export const RoomRevenueHtmlTemplate = (
               <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;vertical-align:  middle;'><span style='font-family:"Arial",sans-serif;color:black;'>${revenue.hotel}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.ly}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.ly || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.budget}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.budget || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.ty}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.ty || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.var_vs_budget}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.var_vs_budget || 0}</span></p>
           </td>
           <td style="width:37.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.goly}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.arr.goly || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.ly}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.ly || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.budget}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.budget || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.ty}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.ty || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.var_vs_budget}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.var_vs_budget || 0}</span></p>
           </td>
           <td style="width:37.0pt;border-top:none;border-left:none;border-bottom:  solid black 1.0pt;border-right:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.goly}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.revPar.goly || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.ly}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.ly || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.budget}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.budget || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.ty}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.ty || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.ty-revenue.totalRev.budget}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.var_vs_budget||0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.goly}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.goly || 0}</span></p>
           </td>
           <td style="width:35.0pt;border:none;border-bottom:solid black 1.0pt;padding:.7pt .7pt 0cm .7pt;height:  24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.pdi}</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.pdi || 0}</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;background:#C6E0B4;padding:.7pt .7pt 0cm .7pt;height:24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.foreign}%</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.foreign || 0}%</span></p>
           </td>
           <td style="width:37.0pt;border:none;border-bottom:solid black 1.0pt;background:#C6E0B4;padding:.7pt .7pt 0cm .7pt;height:24.55pt;">
-              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.domestic}%</span></p>
+              <p style='margin-top:0cm;margin-right:0cm;margin-bottom:0cm;margin-left:0cm;line-height:normal;font-size:15px;font-family:"Calibri",sans-serif;text-align:center;vertical-align:middle;'><span style='font-family:  "Arial",sans-serif;color:black;'>${revenue.totalRev.domestic || 0}%</span></p>
           </td>
       </tr>`;
     })

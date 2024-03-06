@@ -235,8 +235,10 @@ export class RevenueRepository {
     return data as CityWiseRevenueReportResponseDTO[];
   }
   public async getHotelRoomsAllRevenue(hotelId: string) {
+    const currentYear = getYear(new Date());
+
     const data = await sequelize.query(
-      reportSqlQueries.getRevenuesOfHotelsByHotelIds(hotelId),
+      reportSqlQueries.getRevenuesOfHotelsByHotelIds(hotelId,currentYear,currentYear-1),
       {type: QueryTypes.SELECT,nest:true}
     );
     return data as HotelRevenueData[];
