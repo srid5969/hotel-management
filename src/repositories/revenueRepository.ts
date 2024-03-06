@@ -1,16 +1,20 @@
-import { CityWiseRevenueReportResponseDTO, HotelRevenueData } from './../business_objects/report';
-import { getYear } from 'date-fns';
-import { Revenues } from '../models/revenue.model';
-import { AppError, InternalError } from '../util/app-error';
+import {
+  CityWiseRevenueReportResponseDTO,
+  FnBRevenueResultSingleObjectDTO,
+  HotelRevenueData,
+} from './../business_objects/report';
+import {getYear} from 'date-fns';
+import {Revenues} from '../models/revenue.model';
+import {AppError, InternalError} from '../util/app-error';
 import sequelize from './../config/sequelize';
-import { HotelModel } from './../models/hotel.model';
-import { reportSqlQueries } from './../sql-queries/getReport.queries';
-import { RevenueData } from './../util/html-template/over-all-revenue.template-html';
-import { MarketSegmentResult } from './../util/html-template/segment-wise-revenue.html-template';
+import {HotelModel} from './../models/hotel.model';
+import {reportSqlQueries} from './../sql-queries/getReport.queries';
+import {RevenueData} from './../util/html-template/over-all-revenue.template-html';
+import {MarketSegmentResult} from './../util/html-template/segment-wise-revenue.html-template';
 
-import { QueryTypes } from 'sequelize';
-import { SourceWiseRevenueResult } from '../util/html-template/source-wise-revenue.html-template';
-import { UnitWiseRevenueSubDocument } from './../util/html-template/unit-wise-revenue.html-template';
+import {QueryTypes} from 'sequelize';
+import {SourceWiseRevenueResult} from '../util/html-template/source-wise-revenue.html-template';
+import {UnitWiseRevenueSubDocument} from './../util/html-template/unit-wise-revenue.html-template';
 export class RevenueRepository {
   public async importHistoryAndForecastRevenueData(data: {
     forecast: {
@@ -216,21 +220,21 @@ export class RevenueRepository {
   public async getSegmentWiseReport(hotel: string) {
     const data = await sequelize.query(
       reportSqlQueries.getSegmentWiseReport(hotel),
-      {type: QueryTypes.SELECT,nest:true}
+      {type: QueryTypes.SELECT, nest: true}
     );
     return data as MarketSegmentResult[];
   }
   public async getSourceWiseReport(hotel: string) {
     const data = await sequelize.query(
       reportSqlQueries.getSourceWiseReport(hotel),
-      {type: QueryTypes.SELECT,nest:true}
+      {type: QueryTypes.SELECT, nest: true}
     );
     return data as SourceWiseRevenueResult[];
   }
   public async getCityWiseRevenueReport(city: string) {
     const data = await sequelize.query(
       reportSqlQueries.getCityWiseReport(city),
-      {type: QueryTypes.SELECT,nest:true}
+      {type: QueryTypes.SELECT, nest: true}
     );
     return data as CityWiseRevenueReportResponseDTO[];
   }
@@ -238,9 +242,33 @@ export class RevenueRepository {
     const currentYear = getYear(new Date());
 
     const data = await sequelize.query(
-      reportSqlQueries.getRevenuesOfHotelsByHotelIds(hotelId,currentYear,currentYear-1),
-      {type: QueryTypes.SELECT,nest:true}
+      reportSqlQueries.getRevenuesOfHotelsByHotelIds(
+        hotelId,
+        currentYear,
+        currentYear - 1
+      ),
+      {type: QueryTypes.SELECT, nest: true}
     );
     return data as HotelRevenueData[];
+  }
+  public async getFnBRevenue(hotelId: string) {
+    const currentYear = getYear(new Date());
+    console.log(
+      reportSqlQueries.getFnBRevenuesReport(
+        hotelId,
+        currentYear,
+        currentYear - 1
+      )
+    );
+
+    const data = await sequelize.query(
+      reportSqlQueries.getFnBRevenuesReport(
+        hotelId,
+        currentYear,
+        currentYear - 1
+      ),
+      {type: QueryTypes.SELECT, nest: true}
+    );
+    return data as FnBRevenueResultSingleObjectDTO[];
   }
 }

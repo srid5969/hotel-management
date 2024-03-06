@@ -41,3 +41,14 @@ export interface HotelRevenueData {
   revPar: Metrics;
   totalRev: TotalRevenueMetrics;
 }
+interface FnBTotalRevenueResultSingleObjectDTO extends Metrics {
+  resident: number;
+  pdi: number;
+  non_resident: number;
+}
+export interface FnBRevenueResultSingleObjectDTO {
+  hotel: string;
+  coversSold: Metrics;
+  avgRevPerCover: Metrics;
+  totalRev: FnBTotalRevenueResultSingleObjectDTO;
+}

@@ -1,4 +1,7 @@
-import {HotelRevenueData} from './../../business_objects/report';
+import {
+  FnBRevenueResultSingleObjectDTO,
+  HotelRevenueData,
+} from './../../business_objects/report';
 import {SourceWiseRevenueResult} from '../../util/html-template/source-wise-revenue.html-template';
 import {MarketSegmentResult} from './../../util/html-template/segment-wise-revenue.html-template';
 export function calculateGrandTotal(data: any[]): any {
@@ -199,5 +202,48 @@ export function CalculateRoomsRevenueGrandTotal(
     result.totalRev.domestic += item.totalRev.domestic;
     result.totalRev.foreign += item.totalRev.foreign;
   });
+  return result;
+}
+export function CalculateGrandTotalOfFnBRev(
+  data: FnBRevenueResultSingleObjectDTO[]
+): Omit<FnBRevenueResultSingleObjectDTO, 'hotel'> {
+  const result: Omit<FnBRevenueResultSingleObjectDTO, 'hotel'> = {
+    avgRevPerCover: {budget: 0, goly: 0, ly: 0, ty: 0, var_vs_budget: 0},
+    coversSold: {budget: 0, goly: 0, ly: 0, ty: 0, var_vs_budget: 0},
+    totalRev: {
+      budget: 0,
+      goly: 0,
+      ly: 0,
+      ty: 0,
+      var_vs_budget: 0,
+      non_resident: 0,
+      pdi: 0,
+      resident: 0,
+    },
+  };
+  data.forEach(rev=>{
+    result.avgRevPerCover.ly += rev.avgRevPerCover.ly;
+    result.avgRevPerCover.ty += rev.avgRevPerCover.ty;
+    result.avgRevPerCover.budget += rev.avgRevPerCover.budget;
+    result.avgRevPerCover.var_vs_budget += rev.avgRevPerCover.var_vs_budget;
+    result.avgRevPerCover.goly += rev.avgRevPerCover.goly;
+
+
+    result.coversSold.ly += rev.coversSold.ly;
+    result.coversSold.ty += rev.coversSold.ty;
+    result.coversSold.budget += rev.coversSold.budget;
+    result.coversSold.var_vs_budget += rev.coversSold.var_vs_budget;
+    result.coversSold.goly += rev.coversSold.goly;
+
+    result.totalRev.ly += rev.totalRev.ly;
+    result.totalRev.ty += rev.totalRev.ty;
+    result.totalRev.budget += rev.totalRev.budget;
+    result.totalRev.var_vs_budget += rev.totalRev.var_vs_budget;
+    result.totalRev.goly += rev.totalRev.goly;
+    result.totalRev.pdi += rev.totalRev.pdi;
+    result.totalRev.resident += rev.totalRev.resident;
+    result.totalRev.non_resident += rev.totalRev.non_resident;
+  })
+
   return result;
 }

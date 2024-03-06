@@ -1,3 +1,4 @@
+import {FnBRevenueHtmlTemplate} from './../../util/html-template/fnbRevenue.html-template';
 import {RoomRevenueHtmlTemplate} from './../../util/html-template/room-revenue.html-template';
 import {SourceWiseRevenueHtmlTemplate} from './../../util/html-template/source-wise-revenue.html-template';
 import {SegmentWiseHtmlContentTemplate} from './../../util/html-template/segment-wise-revenue.html-template';
@@ -15,6 +16,7 @@ import {
   overAllRevenueHtmlForMTDTemplate,
 } from './../../util/html-template/over-all-revenue.template-html';
 import {
+  CalculateGrandTotalOfFnBRev,
   CalculateRoomsRevenueGrandTotal,
   calculateGrandTotal,
   calculateGrandTotalForMarketSegment,
@@ -369,8 +371,8 @@ export class RevenueGetController {
         await RevenueGetController.revenueService.getHotelRoomsAllRevenue(
           req.query.hotel as string
         );
-        console.log(data);
-        
+      console.log(data);
+
       const html = RoomRevenueHtmlTemplate(
         data,
         CalculateRoomsRevenueGrandTotal(data)
@@ -382,8 +384,6 @@ export class RevenueGetController {
         'landscape'
       );
     } catch (error) {
-      console.log(error);
-
       return new InternalErrorResponse(res).send();
     }
   }
@@ -430,58 +430,24 @@ export class RevenueGetController {
   }
 
   static async F_and_B_revenue(req: Request, res: Response) {
-    new SuccessResponse(res, 'success', {
-      records: [
-        {
-          hotel: 'Hotel 1',
-          coverSold: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: null,
-            goly: null,
-          },
-          avgRevPerCover: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: null,
-            goly: null,
-          },
-          total: {
-            ly: null,
-            budget: null,
-            ty: null,
-            var_vs_budget: null,
-            goly: null,
-            resident: null,
-            nonResident: null,
-          },
-        },
-      ],
-      grandTotal: {
-        ly: null,
-        budget: null,
-        ty: null,
-        var_vs_budget: null,
-        goly: null,
-      },
-      avgRevPerCover: {
-        ly: null,
-        budget: null,
-        ty: null,
-        var_vs_budget: null,
-        goly: null,
-      },
-      total: {
-        ly: null,
-        budget: null,
-        ty: null,
-        var_vs_budget: null,
-        goly: null,
-        resident: null,
-        nonResident: null,
-      },
-    }).send();
+    try {
+      const data = await RevenueGetController.revenueService.getFnBRevenue(
+        req.query.hotel as string
+      );
+      const html = FnBRevenueHtmlTemplate(
+        data,
+        CalculateGrandTotalOfFnBRev(data)
+      );
+      GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        html,
+        'fnb-wise-room-report',
+        'landscape'
+      );
+    } catch (error) {
+      console.log(error);
+
+      return new InternalErrorResponse(res).send();
+    }
   }
 }

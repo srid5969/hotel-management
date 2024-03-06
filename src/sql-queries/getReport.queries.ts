@@ -185,4 +185,36 @@ export const reportSqlQueries = {
     where hotel.id in (${hotelIds})
     `;
   },
+  getFnBRevenuesReport(hotel: string, ty: number, ly: number) {
+    return `SELECT
+    hotel.hotel_name as hotel,
+    lyCvr.totalCov as "coversSold.ly",
+    tyCvr.totalCov as "coversSold.ty",
+    tyCvr.totalAvg as "coversSold.budget",
+    (tyCvr.totalAvg - lyCvr.totalAvg) as "coversSold.var_vs_budget",
+    tyCvr.totalAvg as "coversSold.goly",
+
+    lyCvr.foodCov as "avgRevPerCover.ly",
+    tyCvr.foodCov as "avgRevPerCover.ty",
+    tyCvr.totalAvg as "avgRevPerCover.budget",
+    (tyCvr.totalAvg - lyCvr.totalAvg) as "avgRevPerCover.var_vs_budget",
+    tyCvr.totalAvg as "avgRevPerCover.goly",
+
+    lyCvr.totalCov as "totalRev.ly",
+    tyCvr.totalCov as "totalRev.ty",
+    tyCvr.totalAmd as "totalRev.budget",
+    (tyCvr.tobaccoAvg - lyCvr.tobaccoAvg) as "totalRev.var_vs_budget",
+    tyCvr.totalAvg as "totalRev.goly",
+    CASE WHEN tyCvr.[type]='resident' THEN tyCvr.totalAvg ELSE 0 END as "totalRev.resident",
+    CASE WHEN tyCvr.[type]='non_resident' THEN tyCvr.totalAvg ELSE 0 END as "totalRev.non_resident",
+    1 as "totalRev.pdi"
+FROM
+    hotel_master as hotel
+    INNER JOIN [cover_analysis_masters] as tyCvMaster on hotel.id = tyCvMaster.hotelId and DATEPART(YEAR,tyCvMaster.reportDate) = ${ty}
+    INNER JOIN cover_analysis_reports as tyCvr on tyCvr.analysis = tyCvMaster.id
+    INNER JOIN [cover_analysis_masters] as lyCvMaster on hotel.id = lyCvMaster.hotelId and DATEPART(YEAR,lyCvMaster.reportDate) = ${ly}
+    INNER JOIN cover_analysis_reports as lyCvr on lyCvr.analysis = lyCvMaster.id
+    where hotel.id in (${hotel})
+`;
+  },
 };
