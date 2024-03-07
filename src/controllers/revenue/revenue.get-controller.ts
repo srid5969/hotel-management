@@ -149,7 +149,8 @@ export class RevenueGetController {
       const data: RevenueData[] =
         await RevenueGetController.revenueService.getOverAllRevenueOfHotelByMonth(
           req.query.hotel as string,
-          req.query.month as string
+          req.query.startDate as string,
+          req.query.endDate as string
         );
       const currentYear = getYear(new Date());
       const date = new Date(currentYear, Number(req.query.month) - 1); // Subtract 1 from month to adjust to zero-based index
@@ -215,6 +216,8 @@ export class RevenueGetController {
         'overall-revenue-per-hotel-mtd'
       );
     } catch (error) {
+      console.log(error);
+
       if (error instanceof AppError) return AppError.handle(error, res);
       return new InternalErrorResponse(res).send();
     }
@@ -223,7 +226,9 @@ export class RevenueGetController {
     try {
       const data: RevenueData[] =
         await RevenueGetController.revenueService.getOverAllRevenueOfHotelByYear(
-          req.query.hotel as string
+          req.query.hotel as string,
+          req.query.startDate as string,
+          req.query.endDate as string
         );
       const currentYear = getYear(new Date());
 
@@ -295,7 +300,9 @@ export class RevenueGetController {
   static async getTotalRevenueUnitWise(req: Request, res: Response) {
     try {
       const data = await RevenueGetController.revenueService.getUnitWiseReport(
-        req.query.city as string
+        req.query.city as string,
+        req.query.startDate as string,
+        req.query.endDate as string
       );
       console.log(data, 'data');
 
@@ -318,7 +325,9 @@ export class RevenueGetController {
     res: Response
   ) {
     const data = await RevenueGetController.revenueService.getSegmentWiseReport(
-      req.query.hotel as string
+      req.query.hotel as string,
+      req.query.startDate as string,
+      req.query.endDate as string
     );
     GeneratePdfUsingHTMLAndSendInResponse(
       res,
@@ -335,7 +344,9 @@ export class RevenueGetController {
     res: Response
   ) {
     const data = await RevenueGetController.revenueService.getSourceWiseReport(
-      req.query.hotel as string
+      req.query.hotel as string,
+      req.query.startDate as string,
+      req.query.endDate as string
     );
     GeneratePdfUsingHTMLAndSendInResponse(
       res,
@@ -352,7 +363,9 @@ export class RevenueGetController {
     try {
       const data =
         await RevenueGetController.revenueService.getCityWiseRevenueReport(
-          req.query.city as string
+          req.query.city as string,
+          req.query.startDate as string,
+          req.query.endDate as string
         );
       const html = cityWiseHTMLTemplate(data);
       GeneratePdfUsingHTMLAndSendInResponse(
@@ -369,7 +382,9 @@ export class RevenueGetController {
     try {
       const data =
         await RevenueGetController.revenueService.getHotelRoomsAllRevenue(
-          req.query.hotel as string
+          (req.query?.hotel || null) as string | null,
+          req.query.startDate as string,
+          req.query.endDate as string
         );
       console.log(data);
 
@@ -432,7 +447,9 @@ export class RevenueGetController {
   static async F_and_B_revenue(req: Request, res: Response) {
     try {
       const data = await RevenueGetController.revenueService.getFnBRevenue(
-        req.query.hotel as string
+        req.query.hotel as string,
+        req.query.startDate as string,
+        req.query.endDate as string
       );
       const html = FnBRevenueHtmlTemplate(
         data,

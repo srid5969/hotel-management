@@ -107,34 +107,39 @@ export class RevenueRepository {
 
   public async getOverAllRevenueOfHotelByMonth(
     hotel: string,
-    month: string
+    startDate: string,
+    endDate: string
   ): Promise<RevenueData[]> {
-    const currentYear = getYear(new Date());
     const data = await sequelize.query(
-      reportSqlQueries.getOverAllRevenuePerHotelByMonth(month, hotel, [
-        currentYear - 2,
-        currentYear - 1,
-        currentYear,
-      ]),
+      reportSqlQueries.getOverAllRevenuePerHotelByMonth(
+        startDate,
+        endDate,
+        hotel
+      ),
       {type: QueryTypes.SELECT}
     );
     return data as RevenueData[];
   }
   public async getOverAllRevenueOfHotelByYear(
-    hotel: string
+    hotel: string,
+    startDate: string,
+    endDate: string
   ): Promise<RevenueData[]> {
-    const currentYear = getYear(new Date());
     const data = await sequelize.query(
-      reportSqlQueries.getOverAllRevenuePerHotelByYear(hotel, [
-        currentYear - 2,
-        currentYear - 1,
-        currentYear,
-      ]),
+      reportSqlQueries.getOverAllRevenuePerHotelByYear(
+        hotel,
+        startDate,
+        endDate
+      ),
       {type: QueryTypes.SELECT}
     );
     return data as RevenueData[];
   }
-  public async getUnitWiseReport(cityId: string) {
+  public async getUnitWiseReport(
+    cityId: string,
+    startDate: string,
+    endDate: string
+  ) {
     interface Result {
       year: number;
       type: 'ForeCast' | 'History';
@@ -145,15 +150,14 @@ export class RevenueRepository {
       fnbRev: number;
       total: number;
     }
-    const currentYear = getYear(new Date());
     const [hotels, tyData, lyData] = await Promise.all([
       HotelModel.findAll({where: {CityID: cityId}}),
       sequelize.query(
-        reportSqlQueries.unitWiseReportGetQuery(cityId, currentYear),
+        reportSqlQueries.unitWiseReportGetQuery(cityId, startDate, endDate),
         {type: QueryTypes.SELECT}
       ),
       sequelize.query(
-        reportSqlQueries.unitWiseReportGetQuery(cityId, currentYear - 1),
+        reportSqlQueries.unitWiseReportGetQuery(cityId, startDate, endDate),
         {type: QueryTypes.SELECT}
       ),
     ]);
@@ -217,55 +221,64 @@ export class RevenueRepository {
       };
     });
   }
-  public async getSegmentWiseReport(hotel: string) {
+  public async getSegmentWiseReport(
+    hotel: string,
+    startDate: string,
+    endDate: string
+  ) {
     const data = await sequelize.query(
-      reportSqlQueries.getSegmentWiseReport(hotel),
+      reportSqlQueries.getSegmentWiseReport(hotel, startDate, endDate),
       {type: QueryTypes.SELECT, nest: true}
     );
     return data as MarketSegmentResult[];
   }
-  public async getSourceWiseReport(hotel: string) {
+  public async getSourceWiseReport(
+    hotel: string,
+    startDate: string,
+    endDate: string
+  ) {
     const data = await sequelize.query(
-      reportSqlQueries.getSourceWiseReport(hotel),
+      reportSqlQueries.getSourceWiseReport(hotel, startDate, endDate),
       {type: QueryTypes.SELECT, nest: true}
     );
     return data as SourceWiseRevenueResult[];
   }
-  public async getCityWiseRevenueReport(city: string) {
+  public async getCityWiseRevenueReport(
+    city: string,
+    startDate: string,
+    endDate: string
+  ) {
     const data = await sequelize.query(
-      reportSqlQueries.getCityWiseReport(city),
+      reportSqlQueries.getCityWiseReport(city, startDate, endDate),
       {type: QueryTypes.SELECT, nest: true}
     );
     return data as CityWiseRevenueReportResponseDTO[];
   }
-  public async getHotelRoomsAllRevenue(hotelId: string) {
-    const currentYear = getYear(new Date());
-
+  public async getHotelRoomsAllRevenue(
+    hotelId: string | null,
+    startDate: string,
+    endDate: string
+  ) {
     const data = await sequelize.query(
       reportSqlQueries.getRevenuesOfHotelsByHotelIds(
         hotelId,
-        currentYear,
-        currentYear - 1
+        startDate,
+        endDate
       ),
       {type: QueryTypes.SELECT, nest: true}
     );
     return data as HotelRevenueData[];
   }
-  public async getFnBRevenue(hotelId: string) {
-    const currentYear = getYear(new Date());
-    console.log(
-      reportSqlQueries.getFnBRevenuesReport(
-        hotelId,
-        currentYear,
-        currentYear - 1
-      )
-    );
-
+  public async getFnBRevenue(
+    hotelId: string,
+    startDate: string,
+    endDate: string
+  ) {
     const data = await sequelize.query(
       reportSqlQueries.getFnBRevenuesReport(
         hotelId,
-        currentYear,
-        currentYear - 1
+        startDate,
+        endDate
       ),
       {type: QueryTypes.SELECT, nest: true}
     );

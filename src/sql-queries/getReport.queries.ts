@@ -1,29 +1,35 @@
 export const reportSqlQueries = {
   getOverAllRevenuePerHotelByMonth(
-    month: string,
-    hotel: string,
-    years: number[]
+    startDate: string,
+    endDate: string,
+    hotel: string
   ) {
     return `
-        select 
-        report.avl as availableRooms,
-        report.avl-report.totalOcc as notAvailableRooms,
-        report.occPercent as occupancyPercentage,
-        report.roomRev as roomRevenue,
-        report.fnbRev as foodAndBeverageRevenue,
-        report.otherRev as otherRevenue,
-        report.totalOcc as roomsSold,
-        report.totalOcc as roomsSoldPerDay,
-        report.roomRev +  report.fnbRev+ report.otherRev as totalRevenue,
-        DATEPART(YEAR, report.date) as year,
-        DATEPART(MONTH, report.date) as month
-        from Revenues as report where DATEPART(MONTH, report.date) = ${month} 
-        and report.hotelId='${hotel}' 
-        and report.type='History'
-        and DATEPART(YEAR, report.date) in (${years.join(',')})
-        `;
+        SELECT 
+            report.avl AS availableRooms,
+            report.avl - report.totalOcc AS notAvailableRooms,
+            report.occPercent AS occupancyPercentage,
+            report.roomRev AS roomRevenue,
+            report.fnbRev AS foodAndBeverageRevenue,
+            report.otherRev AS otherRevenue,
+            report.totalOcc AS roomsSold,
+            report.totalOcc AS roomsSoldPerDay,
+            report.roomRev + report.fnbRev + report.otherRev AS totalRevenue,
+            DATEPART(YEAR, report.date) AS year,
+            DATEPART(MONTH, report.date) AS month
+        FROM 
+            Revenues AS report
+        WHERE 
+            report.hotelId = '${hotel}'
+            AND report.type = 'History'
+            AND report.date BETWEEN '${startDate}' AND '${endDate}';
+    `;
   },
-  getOverAllRevenuePerHotelByYear(hotel: string, years: number[]) {
+  getOverAllRevenuePerHotelByYear(
+    hotel: string,
+    startyear: string,
+    endyear: string
+  ) {
     return `
         select 
         report.avl as availableRooms,
@@ -40,10 +46,10 @@ export const reportSqlQueries = {
         from Revenues as report where
         report.hotelId='${hotel}' 
         and report.type='History'
-        and DATEPART(YEAR, report.date) in (${years.join(',')})
+        AND report.date BETWEEN '${startyear}' AND '${endyear}'
         `;
   },
-  unitWiseReportGetQuery(city: string, year: number) {
+  unitWiseReportGetQuery(city: string, statDate: string, endDate: string) {
     return `select 
     DATEPART(YEAR,report.[date]) AS year,
     report.[type] as [type],
@@ -55,10 +61,10 @@ export const reportSqlQueries = {
     report.roomRev+report.otherRev+report.fnbRev as total
    from Revenues as report
    left join hotel_master as hotel on hotel.id=report.hotelId
-   where hotel.CityID='${city}' and DATEPART(YEAR,report.[date])='${year}'
+   where hotel.CityID='${city}' and report.date between '${statDate}' and '${endDate}'
    `;
   },
-  getSegmentWiseReport(hotel: string) {
+  getSegmentWiseReport(hotel: string, statDate: string, endDate: string) {
     return `select
     marketSegment.source as "segment",
 
@@ -87,9 +93,10 @@ export const reportSqlQueries = {
     marketSegment.yod_paxPercent+marketSegment.yod_paxPercent+marketSegment.yod_paxPercent as "totalRevenue.goly"
     from [Statistics] as marketSegment
     where marketSegment.[type]='Market Segment'
-    and marketSegment.hotelId='${hotel}'`;
+    and marketSegment.hotelId='${hotel}'
+    and marketSegment.date between '${statDate}' and '${endDate}'`;
   },
-  getSourceWiseReport(hotel: string) {
+  getSourceWiseReport(hotel: string, statDate: string, endDate: string) {
     return `select
     source_rev.source as "source",
 
@@ -118,9 +125,10 @@ export const reportSqlQueries = {
     source_rev.yod_paxPercent+source_rev.yod_paxPercent+source_rev.yod_paxPercent as "totalRevenue.goly"
     from [Statistics] as source_rev
     where source_rev.[type]='Business Source'
-    and source_rev.hotelId='${hotel}'`;
+    and source_rev.hotelId='${hotel}'
+    and source_rev.date between '${statDate}' and '${endDate}'`;
   },
-  getCityWiseReport(cityID: string) {
+  getCityWiseReport(cityID: string, statDate: string, endDate: string) {
     return `
     select hotel.hotel_name as hotel ,
     hotel.CityName as city,
@@ -136,10 +144,16 @@ export const reportSqlQueries = {
     from hotel_master as hotel
     inner join [Revenues] as revenue on revenue.hotelId=hotel.id
     where hotel.CityID='${cityID}'
+    and revenue.date between '${statDate}' and '${endDate}'
     `;
   },
-  getRevenuesOfHotelsByHotelIds(hotelIds: string, ty: number, ly: number) {
-    return `select hotel.hotel_name as hotel ,
+  getRevenuesOfHotelsByHotelIds(
+    hotelIds: string | null,
+    statDate: string,
+    endDate: string
+  ) {
+    //large data not supported
+    let query = `select top(1000) hotel.hotel_name as hotel ,
     revenue.avl as noOfRooms,
     lyRevenue.roomRev as "roomsAvailable.ly",
     revenue.fitRnt as "roomsAvailable.budget",
@@ -180,12 +194,13 @@ export const reportSqlQueries = {
     revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev+revenue.roomRev as "totalRev.foreign",
     revenue.occPercent+revenue.occPercent+revenue.occPercent+revenue.occPercent+revenue.occPercent as "totalRev.domestic"
     from hotel_master as hotel
-    left join [Revenues] as revenue on revenue.hotelId=hotel.id and DATEPART(YEAR, revenue.date) =${ty}
-    left join [Revenues] as lyRevenue on revenue.hotelId=hotel.id and DATEPART(YEAR, lyRevenue.date) =${ly}
-    where hotel.id in (${hotelIds})
+    left join [Revenues] as revenue on revenue.hotelId=hotel.id and revenue.date >='${statDate}'
+    left join [Revenues] as lyRevenue on revenue.hotelId=hotel.id and revenue.date <='${endDate}'
     `;
+    if (hotelIds) query += ` where hotel.id in (${hotelIds})`;
+    return query;
   },
-  getFnBRevenuesReport(hotel: string, ty: number, ly: number) {
+  getFnBRevenuesReport(hotel: string, startDate:string,endDate:string) {
     return `SELECT
     hotel.hotel_name as hotel,
     lyCvr.totalCov as "coversSold.ly",
@@ -210,9 +225,9 @@ export const reportSqlQueries = {
     1 as "totalRev.pdi"
 FROM
     hotel_master as hotel
-    INNER JOIN [cover_analysis_masters] as tyCvMaster on hotel.id = tyCvMaster.hotelId and DATEPART(YEAR,tyCvMaster.reportDate) = ${ty}
+    INNER JOIN [cover_analysis_masters] as tyCvMaster on hotel.id = tyCvMaster.hotelId and tyCvMaster.reportDate <= '${endDate}'
     INNER JOIN cover_analysis_reports as tyCvr on tyCvr.analysis = tyCvMaster.id
-    INNER JOIN [cover_analysis_masters] as lyCvMaster on hotel.id = lyCvMaster.hotelId and DATEPART(YEAR,lyCvMaster.reportDate) = ${ly}
+    INNER JOIN [cover_analysis_masters] as lyCvMaster on hotel.id = lyCvMaster.hotelId and lyCvMaster.reportDate >= '${startDate}'
     INNER JOIN cover_analysis_reports as lyCvr on lyCvr.analysis = lyCvMaster.id
     where hotel.id in (${hotel})
 `;

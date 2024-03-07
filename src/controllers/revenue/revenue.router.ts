@@ -25,12 +25,12 @@ RevenueRouter.post(
 );
 
 RevenueRouter.get(
-  '/overall-per-hotel/mtd',
+  '/overall-per-hotel-mtd',
   asyncWrapper(RevenueGetController.getOverallRevenuePerHotelMTD)
 );
 
 RevenueRouter.get(
-  '/overall-per-hotel/ytd',
+  '/overall-per-hotel-ytd',
   asyncWrapper(RevenueGetController.getOverallRevenuePerHotelYTD)
 );
 
