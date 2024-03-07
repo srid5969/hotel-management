@@ -300,7 +300,7 @@ export class RevenueGetController {
   static async getTotalRevenueUnitWise(req: Request, res: Response) {
     try {
       const data = await RevenueGetController.revenueService.getUnitWiseReport(
-        req.query.city as string,
+        (req.query.city || null) as string,
         req.query.startDate as string,
         req.query.endDate as string
       );

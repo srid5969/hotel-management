@@ -136,7 +136,7 @@ export class RevenueRepository {
     return data as RevenueData[];
   }
   public async getUnitWiseReport(
-    cityId: string,
+    cityId: string | null,
     startDate: string,
     endDate: string
   ) {
@@ -151,7 +151,7 @@ export class RevenueRepository {
       total: number;
     }
     const [hotels, tyData, lyData] = await Promise.all([
-      HotelModel.findAll({where: {CityID: cityId}}),
+      HotelModel.findAll({where: cityId ? {CityID: cityId} : {}}),
       sequelize.query(
         reportSqlQueries.unitWiseReportGetQuery(cityId, startDate, endDate),
         {type: QueryTypes.SELECT}
@@ -161,8 +161,6 @@ export class RevenueRepository {
         {type: QueryTypes.SELECT}
       ),
     ]);
-    console.log(hotels, tyData, lyData);
-
     return hotels.map(data => {
       const tyHotelRevData: any = tyData.find(
         (t: Result): boolean =>
@@ -275,11 +273,7 @@ export class RevenueRepository {
     endDate: string
   ) {
     const data = await sequelize.query(
-      reportSqlQueries.getFnBRevenuesReport(
-        hotelId,
-        startDate,
-        endDate
-      ),
+      reportSqlQueries.getFnBRevenuesReport(hotelId, startDate, endDate),
       {type: QueryTypes.SELECT, nest: true}
     );
     return data as FnBRevenueResultSingleObjectDTO[];

@@ -50,7 +50,7 @@ export const reportSqlQueries = {
         `;
   },
   unitWiseReportGetQuery(city: string, statDate: string, endDate: string) {
-    return `select 
+    let query = `select 
     DATEPART(YEAR,report.[date]) AS year,
     report.[type] as [type],
     hotel.hotel_name as hotelName,
@@ -61,8 +61,10 @@ export const reportSqlQueries = {
     report.roomRev+report.otherRev+report.fnbRev as total
    from Revenues as report
    left join hotel_master as hotel on hotel.id=report.hotelId
-   where hotel.CityID='${city}' and report.date between '${statDate}' and '${endDate}'
+   where report.date between '${statDate}' and '${endDate}'
    `;
+    if (city) query += `and hotel.CityID='${city}' `;
+    return query;
   },
   getSegmentWiseReport(hotel: string, statDate: string, endDate: string) {
     return `select
@@ -200,7 +202,7 @@ export const reportSqlQueries = {
     if (hotelIds) query += ` where hotel.id in (${hotelIds})`;
     return query;
   },
-  getFnBRevenuesReport(hotel: string, startDate:string,endDate:string) {
+  getFnBRevenuesReport(hotel: string, startDate: string, endDate: string) {
     return `SELECT
     hotel.hotel_name as hotel,
     lyCvr.totalCov as "coversSold.ly",
