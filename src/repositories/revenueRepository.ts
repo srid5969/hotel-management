@@ -267,7 +267,29 @@ export class RevenueRepository {
     );
     return data as HotelRevenueData[];
   }
-  public async getFnBRevenue(
+  public async getFnBTotalRevenue(
+    hotelId: string,
+    startDate: string,
+    endDate: string
+  ) {
+    const data = await sequelize.query(
+      reportSqlQueries.getFnBRevenuesReport(hotelId, startDate, endDate),
+      {type: QueryTypes.SELECT, nest: true}
+    );
+    return data as FnBRevenueResultSingleObjectDTO[];
+  }
+  public async getFnBOutletsRevenue(
+    hotelId: string,
+    startDate: string,
+    endDate: string
+  ) {
+    const data = await sequelize.query(
+      reportSqlQueries.getFnBRevenuesReport(hotelId, startDate, endDate),
+      {type: QueryTypes.SELECT, nest: true}
+    );
+    return data as FnBRevenueResultSingleObjectDTO[];
+  }
+  public async getFnBBanquetsRevenue(
     hotelId: string,
     startDate: string,
     endDate: string

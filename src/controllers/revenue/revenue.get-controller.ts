@@ -444,9 +444,57 @@ export class RevenueGetController {
     }).send();
   }
 
-  static async F_and_B_revenue(req: Request, res: Response) {
+  static async FnBRevenueBanquets(req: Request, res: Response) {
     try {
-      const data = await RevenueGetController.revenueService.getFnBRevenue(
+      const data =
+        await RevenueGetController.revenueService.getFnBBanquetsRevenue(
+          req.query.hotel as string,
+          req.query.startDate as string,
+          req.query.endDate as string
+        );
+      const html = FnBRevenueHtmlTemplate(
+        data,
+        CalculateGrandTotalOfFnBRev(data)
+      );
+      GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        html,
+        'fnb-wise-room-report',
+        'landscape'
+      );
+    } catch (error) {
+      console.log(error);
+
+      return new InternalErrorResponse(res).send();
+    }
+  }
+  static async FnBRevenueOutlets(req: Request, res: Response) {
+    try {
+      const data =
+        await RevenueGetController.revenueService.getFnBOutletsRevenue(
+          req.query.hotel as string,
+          req.query.startDate as string,
+          req.query.endDate as string
+        );
+      const html = FnBRevenueHtmlTemplate(
+        data,
+        CalculateGrandTotalOfFnBRev(data)
+      );
+      GeneratePdfUsingHTMLAndSendInResponse(
+        res,
+        html,
+        'fnb-wise-room-report',
+        'landscape'
+      );
+    } catch (error) {
+      console.log(error);
+
+      return new InternalErrorResponse(res).send();
+    }
+  }
+  static async FnBTotalRevenue(req: Request, res: Response) {
+    try {
+      const data = await RevenueGetController.revenueService.getFnBTotalRevenue(
         req.query.hotel as string,
         req.query.startDate as string,
         req.query.endDate as string
