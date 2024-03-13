@@ -203,7 +203,7 @@ export const reportSqlQueries = {
     return query;
   },
   getFnBRevenuesReport(hotel: string, startDate: string, endDate: string) {
-    return `SELECT
+    return `SELECT top(1000)
     hotel.hotel_name as hotel,
     lyCvr.totalCov as "coversSold.ly",
     tyCvr.totalCov as "coversSold.ty",
